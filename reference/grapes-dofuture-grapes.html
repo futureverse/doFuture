@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">doFuture</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1-9013</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/HenrikBengtsson/doFuture/" class="external-link">
+  <a href="https://github.com/futureverse/doFuture/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
 
   </a>
@@ -138,7 +138,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Loop over a Foreach Expression using Futures</h1>
-    <small class="dont-index">Source: <a href="https://github.com/HenrikBengtsson/doFuture/blob/HEAD/R/dofuture_OP.R" class="external-link"><code>R/dofuture_OP.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/futureverse/doFuture/blob/HEAD/R/dofuture_OP.R" class="external-link"><code>R/dofuture_OP.R</code></a></small>
     <div class="hidden name"><code>grapes-dofuture-grapes.Rd</code></div>
     </div>
 
@@ -169,7 +169,7 @@ and <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This is a replacement for <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></code> of the <span class="pkg">foreach</span> package
+    <p>This is a replacement for <code>%dopar%</code> of the <span class="pkg">foreach</span> package
 that leverages the <span class="pkg">future</span> framework.</p>
 <p>When using <code>%dofuture%</code>:</p><ul><li><p>there is no need to use <code><a href="registerDoFuture.html">registerDoFuture()</a></code></p></li>
 <li><p>there is no need to use <code>%dorng%</code> of the <strong>doRNG</strong> package
@@ -316,16 +316,16 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        y     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1194267</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1194267</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1194266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1194265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1194264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1194260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1194263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1194262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1194261</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1194261</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 2971164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 2971164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 2971162</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 2971166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 2971165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 2971161</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 2971167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 2971163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 2971168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 2971168</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Random number generation</span></span></span>
