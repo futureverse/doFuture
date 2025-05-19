@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2-9022</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2-9026</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,13 +72,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.2-9022" id="version-102-9022">Version 1.0.2-9022<a class="anchor" aria-label="anchor" href="#version-102-9022"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.2-9026" id="version-102-9026">Version 1.0.2-9026<a class="anchor" aria-label="anchor" href="#version-102-9026"></a></h2>
 <div class="section level3">
-<h3 id="new-features-1-0-2-9022">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-2-9022"></a></h3>
+<h3 id="new-features-1-0-2-9026">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-2-9026"></a></h3>
 <ul><li><p><code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> with <code>%dofuture%</code> or <code>%dopar%</code> will now exit early as soon as it detects an error in one of the iterations. It will also exit early if it detects a user interrupt (e.g. Ctrl-C). Remaining iterations are canceled and interrupted if the future backend supports it, releasing compute resources sooner and avoiding having to wait for remaining futures to be resolved.</p></li>
 <li><p>Add support for <code>foreach(..., .verbose = TRUE)</code>, which is part of the official <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> API. When set, detailed debugging information useful for troubleshooting is outputted to standard error through R’s message condition mechanism.</p></li>
 <li><p>Add support for <code>with(registerDoFuture(), { ... })</code> to temporarily use the doFuture adapter.</p></li>
 <li><p>Add <code>registerDoFuture(flavor = "%dofuture%")</code>, which makes the <code>%dopar%</code> infix operator behave as if <code>%dofuture%</code> would have been used. This makes it possible for you to use <code>%dofuture%</code>, even if you do not have the option to update the code that uses <code>%dopar%</code>. For instance, if you use one of the many packages that uses <code>foreach(...) %dopar% { ... }</code> internally, this flavor allows you to effectively make that the same as <code>foreach(...)  %dofuture%    { ... }</code>.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-0-2-9026">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-2-9026"></a></h3>
+<ul><li>
+<code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code> would return an invalid <code>DoPar</code> object if there was no <code>%dopar%</code> registered. Now it returns an <code>DoPar</code> object as if <code><a href="https://rdrr.io/pkg/foreach/man/registerDoSEQ.html" class="external-link">foreach::registerDoSEQ()</a></code> had been called before.</li>
 </ul></div>
 </div>
     <div class="section level2">
