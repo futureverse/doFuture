@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2-9026</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0-9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,11 +145,11 @@ sequence of random numbers are generated <em>given the same initial
 seed / RNG state</em> - this regardless of type of future backend, number of
 workers, and scheduling ("chunking") strategy.</p>
 <p>RNG reproducibility is achieved by pregenerating the random seeds for all
-iterations by using L'Ecuyer-CMRG RNG streams.  In each
+iterations by parallel RNG streams.  In each
 iteration, these seeds are set before evaluating the foreach expression.
 <em>Note, for large number of iterations this may introduce a large overhead.</em></p>
 <p>If <code>seed = TRUE</code>, then <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">.Random.seed</a></code>
-is used if it holds a L'Ecuyer-CMRG RNG seed, otherwise one is created
+is used if it holds a parallel RNG seed, otherwise one is created
 randomly.</p>
 <p>If <code>seed = FALSE</code>, it is expected that none of the foreach iterations
 use random number generation.
@@ -158,9 +158,9 @@ on settings. See <a href="https://future.futureverse.org/reference/future.html" 
 Using <code>seed = NULL</code>, is like <code>seed = FALSE</code> but without the check
 whether random numbers were generated or not.</p>
 <p>As input, <code>seed</code> may also take a fixed initial seed (integer),
-either as a full L'Ecuyer-CMRG RNG seed (vector of 1+6 integers), or
-as a seed generating such a full L'Ecuyer-CMRG seed. This seed will
-be used to generated one L'Ecuyer-CMRG RNG stream for each iteration.</p>
+either as a full parallel RNG seed (vector of 1+6 integers), or
+as a seed generating such a full seed. This seed will
+be used to generated one parallel RNG stream for each iteration.</p>
 <p>An alternative to specifying the <code>seed</code> option via <code>.options.future</code>,
 is to use the <code><a href="https://future.futureverse.org/reference/futureAssign.html" class="external-link">%seed%</a></code> operator.  See
 the examples for an illustration.</p>
@@ -247,16 +247,16 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        y     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1025983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1025983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1025982</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1025985</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1025987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1025989</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1025984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1025986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1025988</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1025988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1678032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1678032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1678029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1678031</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1678035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1678028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1678033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1678034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1678030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1678030</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Random number generation</span></span></span>

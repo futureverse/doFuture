@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2-9026</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0-9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,8 +138,8 @@ unexpectedly generated random numbers without declaring so. There is a
 risk that those random numbers are not statistically sound and the overall
 results might be invalid. To fix this, use '%dorng%' from the 'doRNG'
 package instead of '%dopar%'. This ensures that proper, parallel-safe
-random numbers are produced via the L'Ecuyer-CMRG method. To disable this
-check, set option 'doFuture.rng.onMisuse' to "ignore".
+random numbers are produced. To disable this check, set option
+'doFuture.rng.onMisuse' to "ignore".
 &gt;
 </code></pre><p></p></div>
 <p>To fix this, we use <code>withDoRNG()</code> as:</p>
