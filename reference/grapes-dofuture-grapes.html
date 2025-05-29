@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0-9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0-9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,7 +108,8 @@ that leverages the <span class="pkg">future</span> framework.</p>
 whenever using random numbers in the <code>expr</code> expression)</p></li>
 <li><p>global variables and packages are identified automatically by
 the <span class="pkg">future</span> framework</p></li>
-<li><p>errors are relayed as-is (with <code>%dopar%</code> they are captured and modified)</p></li>
+<li><p>errors are relayed as-is with the default <code>.errorhandling = "stop"</code>,
+whereas with <code>%dopar%</code> they are captured and modified.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="global-variables-and-packages">Global variables and packages<a class="anchor" aria-label="anchor" href="#global-variables-and-packages"></a></h2>
@@ -247,16 +248,16 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        y     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1414836</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1414836</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1414833</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1414838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1414831</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1414835</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1414837</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1414832</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1414834</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1414834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1435805</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1435805</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1435811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1435804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1435808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1435810</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1435806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1435807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1435809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1435809</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Random number generation</span></span></span>
