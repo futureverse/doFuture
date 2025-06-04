@@ -76,7 +76,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>
-<code>foreach(...) %dofuture% { ... }</code> would signal errors, despite using <code>.errorhandling = "pass"</code> or <code>.errorhandling = "remove"</code>. This was originally by design, because all errors should be errors, but have since been convinced it was a design mistake.</li>
+<code>foreach(...) %dofuture% { ... }</code> would signal errors, despite using <code>.errorhandling = "pass"</code> or <code>.errorhandling = "remove"</code>. This was originally by design, because “all errors should be errors”, but I have since reconsidered and concluded it was a design mistake. Now <code>.errorhandling</code> works also with <code>%dofuture%</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
