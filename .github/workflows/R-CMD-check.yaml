@@ -20,8 +20,7 @@ jobs:
           - {os: windows-latest, r: 'release'  }
           - {os: windows-latest, r: 'oldrel'   }
 #          - {os: macOS-latest,   r: 'devel'    }
-          - {os: macOS-latest,   r: 'release', parallelly_version: ed860db, label: 'w/ compatible parallelly' }
-          - {os: macOS-latest,   r: 'release', parallelly_version: ea182e9, label: 'w/ compatible parallelly' }
+          - {os: macOS-latest,   r: 'release', parallelly_version: develop, label: 'w/ parallelly-develop' }
           - {os: macOS-latest,   r: 'release'  }
           - {os: macOS-latest,   r: 'oldrel'   }
 #          - {os: ubuntu-latest,  r: 'devel'    }
