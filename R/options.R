@@ -1,12 +1,14 @@
+#' _WARNING: Note .export and .noexport are DEFUNCT
+#' foreach() does not support argument '.export' and '.noexport' when using %dofuture%. 
+#' Use .options.future = list(globals = structure(..., add = ..., remove= ...)) instead")
+#' _
+
 #' Options used by the doFuture adapter 
 #'
 #' Below are all \R options specific to the \pkg{doFuture} package.
 #' For options controlling futures in general, see
 #' [the options][future::future.options] for the \pkg{future} package.\cr
 #' \cr
-#' _WARNING: Note that the names and the default values of
-#' these options may change in future versions of the package.
-#' Please use with care until further notice._
 #'
 #' \describe{
 #'  \item{\option{doFuture.foreach.export}:}{
