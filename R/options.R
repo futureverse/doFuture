@@ -25,7 +25,7 @@
 #'    `".export-and-automatic"`, but produces a warning if `.export`
 #'    lacks some of the globals that the automatic identification locates,
 #'    which could be helpful feedback to developers using [foreach()] with
-#'    `%dopar%` -- also when using adapters such as **doFuture**.
+#'    `%dopar%` -- also when using adapters such as **doParallel**.
 #' 
 #'    (Default: `".export-and-automatic"`)
 #'  }
