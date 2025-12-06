@@ -30,7 +30,7 @@ The \code{".export-and-automatic-with-warning"} is the same as
 \code{".export-and-automatic"}, but produces a warning if \code{.export}
 lacks some of the globals that the automatic identification locates,
 which could be helpful feedback to developers using \code{\link[foreach:foreach]{foreach::foreach()}} with
-\verb{\%dopar\%} -- also when using adapters such as \strong{doFuture}.
+\verb{\%dopar\%} -- also when using adapters such as \strong{doParallel}.
 
 (Default: \code{".export-and-automatic"})
 }
