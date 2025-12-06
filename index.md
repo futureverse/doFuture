@@ -1,0 +1,136 @@
+# doFuture: Use Foreach to Parallelize via the Future Framework
+
+## Introduction
+
+The **[future](https://future.futureverse.org)** package provides a
+generic API for using futures in R. A future is a simple yet powerful
+mechanism to evaluate an R expression and retrieve its value at some
+point in time. Futures can be resolved in many different ways depending
+on which strategy is used. There are various types of synchronous and
+asynchronous futures to choose from in the
+**[future](https://future.futureverse.org)** package. Additional future
+backends are implemented in other packages. For instance, the
+**[future.batchtools](https://future.batchtools.futureverse.org)**
+package provides futures for *any* type of backend that the
+**[batchtools](https://cran.r-project.org/package=batchtools)** package
+supports. For an introduction to futures in R, please consult the
+vignettes of the **[future](https://future.futureverse.org)** package.
+
+The **[foreach](https://cran.r-project.org/package=foreach)** package
+implements a map-reduce API with functions
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
+[`times()`](https://rdrr.io/pkg/foreach/man/foreach.html) that provides
+us with powerful methods for iterating over one or more sets of elements
+with the option to do it in parallel.
+
+## Two alternatives
+
+The **[doFuture](https://doFuture.futureverse.org)** package provides
+two alternatives for using futures with **foreach**:
+
+1.  `y <- foreach(...) %dofuture% { ... }`
+
+2.  [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md) +
+    `y <- foreach(...) %dopar% { ... }`.
+
+### Alternative 1: `%dofuture%`
+
+The *first alternative* (recommended), which uses `%dofuture%`, avoids
+having to use
+[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md).
+The `%dofuture%` operator provides a more consistent behavior than
+`%dopar%`, e.g. there is a unique set of foreach arguments instead of
+one per possible adapter. Identification of globals, random number
+generation (RNG), and error handling is handled by the future ecosystem,
+just like with other map-reduce solutions such as
+**[future.apply](https://future.apply.futureverse.org)** and
+**[furrr](https://furrr.futureverse.org)**. An example is:
+
+``` r
+
+library(doFuture)
+plan(multisession)
+
+y <- foreach(x = 1:4, y = 1:10) %dofuture% {
+  z <- x + y
+  slow_sqrt(z)
+}
+```
+
+This alternative is the recommended way to let
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
+via the future framework, especially if you start out from scratch.
+
+See
+[`help("%dofuture%", package = "doFuture")`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
+for more details and examples on this approach.
+
+### Alternative 2: `registerDoFuture()` + `%dopar%`
+
+The *second alternative* is based on the traditional **foreach**
+approach where one registers a foreach adapter to be used by `%dopar%`.
+A popular adapter is
+[`doParallel::registerDoParallel()`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html),
+which parallelizes on the local machine using the **parallel** package.
+This package provides
+[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md),
+which parallelizes using the **future** package, meaning any
+future-compliant parallel backend can be used.
+
+An example is:
+
+``` r
+
+library(doFuture)
+registerDoFuture()
+plan(multisession)
+
+y <- foreach(x = 1:4, y = 1:10) %dopar% {
+  z <- x + y
+  slow_sqrt(z)
+}
+```
+
+This alternative is useful if you already have a lot of R code that uses
+`%dopar%` and you just want to switch to using the future framework for
+parallelization. Using
+[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
+is also useful when you wish to use the future framework with packages
+and functions that uses
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
+`%dopar%` internally,
+e.g. **[caret](https://cran.r-project.org/package=caret)**,
+**[plyr](https://cran.r-project.org/package=plyr)**,
+**[NMF](https://cran.r-project.org/package=NMF)**, and
+**[glmnet](https://cran.r-project.org/package=glmnet)**. It can also be
+used to configure the Bioconductor
+**[BiocParallel](https://bioconductor.org/packages/BiocParallel/)**
+package, and any package that rely on it, to parallelize via the future
+framework.
+
+See
+[`help("registerDoFuture", package = "doFuture")`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
+for more details and examples on this approach.
+
+## Installation
+
+R package doFuture is available on
+[CRAN](https://cran.r-project.org/package=doFuture) and can be installed
+in R as:
+
+``` r
+
+install.packages("doFuture")
+```
+
+### Pre-release version
+
+To install the pre-release version that is available in Git branch
+`develop` on GitHub, use:
+
+``` r
+
+remotes::install_github("futureverse/doFuture", ref="develop")
+```
+
+This will install the package from source.

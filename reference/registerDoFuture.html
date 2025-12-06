@@ -33,7 +33,7 @@ of %dopar%, for all the benefits explained in its help page."><!-- Global site t
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2-9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -313,14 +313,6 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/iter.html" class="external-link">iter</a></span><span class="op">(</span><span class="va">B</span>, by <span class="op">=</span> <span class="st">"col"</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="va">cbind</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">A</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">b</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">y1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -353,9 +345,6 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="co">## Reproducible results when using the same RNG seed</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">0xBEEF</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu">my_experiment</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: rngtools</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: rngtools</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: rngtools</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">0xBEEF</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu">my_experiment</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
@@ -398,7 +387,7 @@ registered by other <strong>doNnn</strong> packages.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9007.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9007.</p>
 </div>
 
     </footer></div>

@@ -1,0 +1,291 @@
+# Use the Foreach `%dopar%` Adapter with Futures
+
+The `registerDoFuture()` function makes the
+[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html) operator of
+the foreach package to process foreach iterations via any of the future
+backends supported by the future package, which includes various
+parallel and distributed backends. In other words, *if a computational
+backend is supported via the Future API, it'll be automatically
+available for all functions and packages making using the foreach
+framework.* Neither the developer nor the end user has to change any
+code.
+
+***Recommendation**: If you have the option, use
+[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
+instead of `%dopar%`, for all the benefits explained in its help page.*
+
+## Usage
+
+``` r
+registerDoFuture(flavor = c("%dopar%", "%dofuture%"))
+```
+
+## Arguments
+
+- flavor:
+
+  Control how the adapter should behave. If `"%dopar%"`, it behaves as a
+  classical foreach adapter. If `"%dofuture%"`, it behaves as if
+  [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
+  would have been used instead of `%dopar%`.
+
+## Value
+
+`registerDoFuture()` returns, invisibly, the previously registered
+foreach `%dopar%` backend.
+
+## Parallel backends
+
+To use futures with the foreach package and its
+[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html) operator, use
+`doFuture::registerDoFuture()` to register doFuture to be used as a
+`%dopar%` adapter. After this, `%dopar%` will parallelize with whatever
+future backend is set by
+[`future::plan()`](https://future.futureverse.org/reference/plan.html).
+
+The built-in future backends are always available, e.g.
+[sequential](https://future.futureverse.org/reference/sequential.html)
+(sequential processing),
+[multicore](https://future.futureverse.org/reference/multicore.html)
+(forked processes),
+[multisession](https://future.futureverse.org/reference/multisession.html)
+(background R sessions), and
+[cluster](https://future.futureverse.org/reference/cluster.html)
+(background R sessions on local and remote machines). For example,
+`plan(multisession)` will make `%dopar%` parallelize via R processes
+running in the background on the local machine, and
+`plan(cluster, workers = c("n1", "n2", "n2", "n3"))` will parallelize
+via R processes running on external machines.
+
+Additional backends are provided by other future-compliant packages. For
+example, the future.batchtools package provides support for
+high-performance compute (HPC) cluster schedulers such as SGE, Slurm,
+and TORQUE / PBS. As an illustration, `plan(batchtools_slurm)` will
+parallelize by submitting the foreach iterations as tasks to the Slurm
+scheduler, which in turn will distribute the tasks to one or more
+compute nodes.
+
+## Global variables and packages
+
+Unless running locally in the global environment (= at the R prompt),
+the foreach package requires you do specify what global variables and
+packages need to be available and attached in order for the "foreach"
+expression to be evaluated properly. It is not uncommon to get errors on
+one or missing variables when moving from running a
+`res <- foreach() %dopar% { ... }` statement on the local machine to,
+say, another machine on the same network. The solution to the problem is
+to explicitly export those variables by specifying them in the `.export`
+argument to
+[`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html),
+e.g. `foreach(..., .export = c("mu", "sigma"))`. Likewise, if the
+expression needs specific packages to be attached, they can be listed in
+argument `.packages` of
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html).
+
+When using `registerDoFuture()`, the above becomes less critical,
+because by default the Future API identifies all globals and all
+packages automatically (via static code inspection). This is done
+exactly the same way regardless of future backend. This automatic
+identification of globals and packages is illustrated by the below
+example, which does *not* have specify `.export = c("my_stat")`. This
+works because the future framework detects that function `my_stat()` is
+needed and makes sure it is exported. If you would use, say,
+`cl <- parallel::makeCluster(2)` and
+`doParallel::registerDoParallel(cl)`, you would get a run-time error on
+`Error in { : task 1 failed - \"could not find function "my_stat" ...`.
+
+Having said this, note that, in order for your "foreach" code to work
+everywhere and with other types of foreach adapters as well, you may
+want to make sure that you always specify arguments `.export` and
+`.packages`.
+
+## Load balancing ("chunking")
+
+Whether load balancing ("chunking") should take place or not can be
+controlled by specifying either argument
+`.options.future = list(scheduling = <ratio>)` or
+`.options.future = list(chunk.size = <count>)` to
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html).
+
+The value `chunk.size` specifies the average number of elements
+processed per future ("chunks"). If `+Inf`, then all elements are
+processed in a single future (one worker). If `NULL`, then argument
+`future.scheduling` is used.
+
+The value `scheduling` specifies the average number of futures
+("chunks") that each worker processes. If `0.0`, then a single future is
+used to process all iterations; none of the other workers are not used.
+If `1.0` or `TRUE`, then one future per worker is used. If `2.0`, then
+each worker will process two futures (if there are enough iterations).
+If `+Inf` or `FALSE`, then one future per iteration is used. The default
+value is `scheduling = 1.0`.
+
+The name of [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
+argument `.options.future` follows the naming conventions of the doMC,
+doSNOW, and doParallel packages, *This argument should not be mistaken
+for the R [options of the future
+package](https://future.futureverse.org/reference/zzz-future.options.html)*.
+
+For backward-compatibility reasons with existing foreach code, one may
+also use arguments `.options.multicore = list(preschedule = <logical>)`
+and `.options.snow = list(preschedule = <logical>)` when using doFuture.
+`.options.multicore = list(preschedule = TRUE)` is equivalent to
+`.options.future = list(scheduling = 1.0)` and
+`.options.multicore = list(preschedule = FALSE)` is equivalent to
+`.options.future = list(scheduling = +Inf)`. and analogously for
+`.options.snow`. Argument `.options.future` takes precedence over
+argument `.option.multicore` which takes precedence over argument
+`.option.snow`, when it comes to chunking.
+
+## Random Number Generation (RNG)
+
+The doFuture adapter registered by `registerDoFuture()` does *not*
+itself provide a framework for generating proper random numbers in
+parallel. This is a deliberate design choice based on how the foreach
+ecosystem is set up and to align it with other foreach adapters, e.g.
+**doParallel**. To generate statistically sound parallel RNG, it is
+recommended to use the doRNG package, where the
+[`%dorng%`](https://rdrr.io/pkg/doRNG/man/grapes-dorng-grapes.html)
+operator is used in place of
+[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html). For example,
+
+    y <- foreach(i = 1:3) %dorng% {
+      rnorm(1)
+    }
+
+This works because doRNG is designed to work with any type of foreach
+`%dopar%` adapter including the one provided by doFuture.
+
+If you forget to use `%dorng%` instead of `%dopar%` when the foreach
+iteration generates random numbers, doFuture will detect the mistake and
+produce an informative warning.
+
+## For package developers
+
+Please refrain from modifying the foreach backend inside your package or
+functions, i.e. do not call any `registerNnn()` in your code. Instead,
+leave the control on what backend to use to the end user. This idea is
+part of the core philosophy of the foreach framework.
+
+However, if you think it necessary to register the doFuture backend in a
+function, please make sure to undo your changes when exiting the
+function. This can be achieve by:
+
+
+      with(registerDoFuture(), local = TRUE)
+      ...
+
+This is important, because the end-user might have already registered a
+foreach backend elsewhere for other purposes and will most likely not
+known that calling your function will break their setup. *Remember, your
+package and its functions might be used in a greater context where
+multiple packages and functions are involved and those might also rely
+on the foreach framework, so it is important to avoid stepping on
+others' toes.*
+
+## Reporting on progress
+
+How to report on progress is a frequently asked question, especially in
+long-running tasks and parallel processing. The **foreach** framework
+does *not* have a built-in mechanism for progress reporting(\*).
+
+When using **doFuture**, and the Futureverse in general, for processing,
+the **progressr** package can be used to signal progress updates in a
+near-live fashion. There is special argument related to
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) or
+**doFuture** to achieve this. Instead, one calls a a, so called,
+"progressor" function within each iteration. See the
+[**progressr**](https://cran.r-project.org/package=progressr) package
+and its `vignette(package = "progressr")` for examples.
+
+(\*) The legacy **doSNOW** package uses a special
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
+`.options.doSNOW$progress` that can be used to make a progress update
+each time results from a parallel workers is returned. This approach is
+limited by how chunking works, requires the developer to set that
+argument, and the code becomes incompatible with foreach adaptors
+registered by other **doNnn** packages.
+
+## Examples
+
+``` r
+# \donttest{
+library(iterators)  # iter()
+registerDoFuture()  # (a) tell %dopar% to use the future framework
+plan(multisession)  # (b) parallelize futures on the local machine
+
+
+## Example 1
+A <- matrix(rnorm(100^2), nrow = 100)
+B <- t(A)
+
+y1 <- apply(B, MARGIN = 2L, FUN = function(b) {
+  A %*% b
+})
+
+y2 <- foreach(b = iter(B, by = "col"), .combine = cbind) %dopar% {
+  A %*% b
+}
+stopifnot(all.equal(y2, y1))
+
+
+
+## Example 2 - Chunking (4 elements per future [= worker])
+y3 <- foreach(b = iter(B, by = "col"), .combine = cbind,
+              .options.future = list(chunk.size = 10)) %dopar% {
+  A %*% b
+}
+stopifnot(all.equal(y3, y1))
+
+
+## Example 3 - Simulation with parallel RNG
+library(doRNG)
+#> Loading required package: rngtools
+
+my_stat <- function(x) {
+  median(x)
+}
+
+my_experiment <- function(n, mu = 0.0, sigma = 1.0) {
+  ## Important: use %dorng% whenever random numbers
+  ##            are involved in parallel evaluation
+  foreach(i = 1:n) %dorng% {
+    x <- rnorm(i, mean = mu, sd = sigma)
+    list(mu = mean(x), sigma = sd(x), own = my_stat(x))
+  }
+}
+
+## Reproducible results when using the same RNG seed
+set.seed(0xBEEF)
+y1 <- my_experiment(n = 3)
+
+set.seed(0xBEEF)
+y2 <- my_experiment(n = 3)
+
+stopifnot(identical(y2, y1))
+
+## But only then
+y3 <- my_experiment(n = 3)
+str(y3)
+#> List of 3
+#>  $ :List of 3
+#>   ..$ mu   : num 1.26
+#>   ..$ sigma: num NA
+#>   ..$ own  : num 1.26
+#>  $ :List of 3
+#>   ..$ mu   : num 1.33
+#>   ..$ sigma: num 1.58
+#>   ..$ own  : num 1.33
+#>  $ :List of 3
+#>   ..$ mu   : num -0.247
+#>   ..$ sigma: num 1.99
+#>   ..$ own  : num -0.993
+#>  - attr(*, "rng")=List of 3
+#>   ..$ : int [1:7] 10407 -557965149 646670728 1535601129 -1782995818 -140875233 -2010542636
+#>   ..$ : int [1:7] 10407 1322665455 228081586 690246064 292190646 -1209002294 -964069472
+#>   ..$ : int [1:7] 10407 1930909627 1980809480 -419043334 1761816562 811800279 -442022187
+#>  - attr(*, "doRNG_version")= chr "1.7.4"
+stopifnot(!identical(y3, y1))
+
+# }
+```
