@@ -32,7 +32,7 @@ further notice.*
   some of the globals that the automatic identification locates, which
   could be helpful feedback to developers using
   [`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
-  with `%dopar%` – also when using adapters such as **doFuture**.
+  with `%dopar%` – also when using adapters such as **doParallel**.
 
   (Default: `".export-and-automatic"`)
 
