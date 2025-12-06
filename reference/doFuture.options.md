@@ -14,8 +14,12 @@ further notice.*
 - doFuture.foreach.export::
 
   Specifies to what extent the `.export` argument of
-  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) should be
-  respected or if globals should be automatically identified.
+  [`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html),
+  paired with [`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html),
+  should be respected or if globals should be automatically identified.
+  This is only for `%dopar%` –
+  [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
+  does not support `.export` and `.noexport`.
 
   If `".export"`, then the globals specified by the `.export` argument
   will be used "as is".
@@ -25,10 +29,10 @@ further notice.*
 
   The `".export-and-automatic-with-warning"` is the same as
   `".export-and-automatic"`, but produces a warning if `.export` lacks
-  some of the globals that the automatic identification locates
-
-  - this is helpful feedback to developers using
-    [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html).
+  some of the globals that the automatic identification locates, which
+  could be helpful feedback to developers using
+  [`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
+  with `%dopar%` – also when using adapters such as **doFuture**.
 
   (Default: `".export-and-automatic"`)
 
@@ -39,6 +43,6 @@ further notice.*
 ## Environment variables that set R options
 
 All of the above R doFfuture.\* options can be set by corresponding
-environment variable `R_FOFUTURE_*` *when the doFuture package is
+environment variable `R_DOFUTURE_*` *when the doFuture package is
 loaded*. For example, if `R_DOFUTURE_DEBUG=TRUE`, then option
 doFuture.debug is set to `TRUE` (logical).

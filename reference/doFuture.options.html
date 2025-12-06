@@ -25,7 +25,7 @@ Please use with care until further notice."><!-- Global site tag (gtag.js) - Goo
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2-9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,17 +97,20 @@ Please use with care until further notice.</em></p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <dl><dt><span class="option">doFuture.foreach.export</span>:</dt>
-<dd><p>Specifies to what extent the <code>.export</code> argument of
-<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> should be respected or if globals
-should be automatically identified.</p>
+<dd><p>Specifies to what extent the <code>.export</code> argument of <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code>, paired
+with <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%dopar%</a></code>, should be respected or if globals should be
+automatically identified. This is only for <code>%dopar%</code> – <code><a href="grapes-dofuture-grapes.html">%dofuture%</a></code>
+does not support <code>.export</code> and <code>.noexport</code>.</p>
 <p>If <code>".export"</code>, then the globals specified by the <code>.export</code>
 argument will be used "as is".</p>
 <p>If <code>".export-and-automatic"</code>, then globals specified by
 <code>.export</code> as well as those automatically identified are used.</p>
 <p>The <code>".export-and-automatic-with-warning"</code> is the same as
 <code>".export-and-automatic"</code>, but produces a warning if <code>.export</code>
-lacks some of the globals that the automatic identification locates</p><ul><li><p>this is helpful feedback to developers using <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code>.</p></li>
-</ul><p>(Default: <code>".export-and-automatic"</code>)</p></dd>
+lacks some of the globals that the automatic identification locates,
+which could be helpful feedback to developers using <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with
+<code>%dopar%</code> – also when using adapters such as <strong>doFuture</strong>.</p>
+<p>(Default: <code>".export-and-automatic"</code>)</p></dd>
 
 
 <dt><span class="option">doFuture.debug</span>:</dt>
@@ -121,7 +124,7 @@ generated. (Default: <code>FALSE</code>)</p></dd>
 
 
 <p>All of the above <span style="R">R</span> <span class="option">doFfuture.*</span> options can be set by
-corresponding environment variable <code class="env">R_FOFUTURE_*</code> <em>when the
+corresponding environment variable <code class="env">R_DOFUTURE_*</code> <em>when the
 <span class="pkg">doFuture</span> package is loaded</em>.
 For example, if <code>R_DOFUTURE_DEBUG=TRUE</code>, then option
 <span class="option">doFuture.debug</span> is set to <code>TRUE</code> (logical).</p>
