@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * Attempts to add or ignore globals via `foreach()` argument
+   `.options.globals` was silently ignored.
  
 
 # Version 1.1.2 (2025-07-14)

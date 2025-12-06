@@ -4,9 +4,9 @@
 
 library(doFuture)
 options(
-  parallelly.debug = TRUE,
-  future.debug = TRUE,
-  doFuture.debug = TRUE
+#  parallelly.debug = TRUE,
+#  future.debug = TRUE,
+#  doFuture.debug = TRUE
 )
 
 strategies <- future:::supportedStrategies()
@@ -128,6 +128,50 @@ for (strategy in strategies) {
   z1 <- foreach(f = F, g = G) %dofuture% list(f(), g())
   str(z1)
   stopifnot(identical(z1, z0))
+
+  message("- foreach() - globals are picked up ...")
+  y <- foreach(x = 0) %dofuture% {
+    message(sprintf("Globals: a = %s, b = %s", a, b))
+    y ~ a + b
+  }
+  stopifnot(is.list(y), length(y) == 1L, inherits(y[[1]], "formula"))
+
+  message("- foreach() - .export and .noexport must not be used ...")
+  y <- tryCatch({
+    foreach(x = 0, .export = c("a", "b")) %dofuture% {
+      message(sprintf("Globals: a = %s, b = %s", a, b))
+      y ~ a + b
+    }
+  }, error = identity)
+  stopifnot(inherits(y, "error"))
+  
+  y <- tryCatch({
+    foreach(x = 0, .noexport = c("a", "b")) %dofuture% {
+      message(sprintf("Globals: a = %s, b = %s", a, b))
+      y ~ a + b
+    }
+  }, error = identity)
+  stopifnot(inherits(y, "error"))
+
+  message("- foreach() - globals can be added ...")
+  y <- tryCatch({
+    foreach(x = 0, .options.future = list(globals = structure(TRUE, add = c("a", "b")))) %dofuture% {
+      message(sprintf("Globals: a = %s, b = %s", get("a"), get("b")))
+      y ~ 42
+    }
+  }, error = identity)
+  stopifnot(is.list(y), length(y) == 1L, inherits(y[[1]], "formula"))
+
+  message("- foreach() - globals can be ignored ...")
+  y <- tryCatch({
+    foreach(x = 0, .options.future = list(globals = structure(TRUE, ignore = c("a", "b")))) %dofuture% {
+      message(sprintf("Globals: a = %s, b = %s", a, b))
+      y ~ a + b
+    }
+  }, error = identity)
+  stopifnot(
+    inherits(y, "error") || inherits(plan("next"), c("sequential", "multicore"))
+  )
 
   # Shutdown current plan
   plan(sequential)
