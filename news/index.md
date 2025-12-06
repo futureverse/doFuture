@@ -6,7 +6,7 @@
 
 - Attempts to add or ignore globals via
   [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
-  `.options.globals` was silently ignored.
+  `.options.globals` were silently ignored.
 
 ## Version 1.1.2
 
