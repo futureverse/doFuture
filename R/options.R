@@ -11,9 +11,9 @@
 #' \describe{
 #'  \item{\option{doFuture.foreach.export}:}{
 #'    Specifies to what extent the `.export` argument of [foreach()], paired
-#'    with [`%dopar%`], should be respected or if globals should be
-#'    automatically identified. This is only for `%dopar%` -- [`%dofuture%`]
-#'    does not support `.export` and `.noexport`.
+#'    with \code{\link[foreach:\%dopar\%]{\%dopar\%}}, should be respected or
+#'    if globals should be automatically identified. This is only for
+#'    `%dopar%` -- [`%dofuture%`] does not support `.export` and `.noexport`.
 #' 
 #'    If `".export"`, then the globals specified by the `.export`
 #'    argument will be used "as is".

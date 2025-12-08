@@ -16,9 +16,9 @@ Please use with care until further notice.}
 \describe{
 \item{\option{doFuture.foreach.export}:}{
 Specifies to what extent the \code{.export} argument of \code{\link[foreach:foreach]{foreach::foreach()}}, paired
-with \code{\link{\%dopar\%}}, should be respected or if globals should be
-automatically identified. This is only for \verb{\%dopar\%} -- \code{\link{\%dofuture\%}}
-does not support \code{.export} and \code{.noexport}.
+with \code{\link[foreach:\%dopar\%]{\%dopar\%}}, should be respected or
+if globals should be automatically identified. This is only for
+\verb{\%dopar\%} -- \code{\link{\%dofuture\%}} does not support \code{.export} and \code{.noexport}.
 
 If \code{".export"}, then the globals specified by the \code{.export}
 argument will be used "as is".
