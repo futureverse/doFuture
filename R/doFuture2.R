@@ -273,13 +273,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
 
   globals <- options[["globals"]]
   if (is.null(globals)) globals <- TRUE
-  if (is.logical(globals)) {
-    attr(globals, "add") <- obj$export
-    attr(globals, "ignore") <- obj$noexport
-  } else {
-    attr(globals, "add") <- c(attr(globals, "add", exact = TRUE), obj$export)
-    attr(globals, "ignore") <- c(attr(globals, "ignore", exact = TRUE), obj$noexport)
-  }
   
   packages <- c(options[["packages"]], obj$packages)
   

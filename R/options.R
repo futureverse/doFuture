@@ -10,22 +10,24 @@
 #'
 #' \describe{
 #'  \item{\option{doFuture.foreach.export}:}{
-#'    Specifies to what extent the \code{.export} argument of
-#'    \code{\link[foreach]{foreach}()} should be respected or if globals
-#'    should be automatically identified.
+#'    Specifies to what extent the `.export` argument of [foreach()], paired
+#'    with \code{\link[foreach:\%dopar\%]{\%dopar\%}}, should be respected or
+#'    if globals should be automatically identified. This is only for
+#'    `%dopar%` -- [`%dofuture%`] does not support `.export` and `.noexport`.
 #' 
-#'    If \code{".export"}, then the globals specified by the \code{.export}
+#'    If `".export"`, then the globals specified by the `.export`
 #'    argument will be used "as is".
 #' 
-#'    If \code{".export-and-automatic"}, then globals specified by
-#'    \code{.export} as well as those automatically identified are used.
+#'    If `".export-and-automatic"`, then globals specified by
+#'    `.export` as well as those automatically identified are used.
 #' 
-#'    The \code{".export-and-automatic-with-warning"} is the same as
-#'    \code{".export-and-automatic"}, but produces a warning if \code{.export}
-#'    lacks some of the globals that the automatic identification locates
-#'    - this is helpful feedback to developers using \code{foreach()}.
+#'    The `".export-and-automatic-with-warning"` is the same as
+#'    `".export-and-automatic"`, but produces a warning if `.export`
+#'    lacks some of the globals that the automatic identification locates,
+#'    which could be helpful feedback to developers using [foreach()] with
+#'    `%dopar%` -- also when using adapters such as **doParallel**.
 #' 
-#'    (Default: \code{".export-and-automatic"})
+#'    (Default: `".export-and-automatic"`)
 #'  }
 #'
 #'  \item{\option{doFuture.debug}:}{If `TRUE`, extensive debug messages are
@@ -34,7 +36,7 @@
 #'
 #' @section Environment variables that set R options:
 #' All of the above \R \option{doFfuture.*} options can be set by
-#' corresponding environment variable \env{R_FOFUTURE_*} _when the
+#' corresponding environment variable \env{R_DOFUTURE_*} _when the
 #' \pkg{doFuture} package is loaded_.
 #' For example, if `R_DOFUTURE_DEBUG=TRUE`, then option
 #' \option{doFuture.debug} is set to `TRUE` (logical).

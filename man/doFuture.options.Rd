@@ -15,9 +15,10 @@ Please use with care until further notice.}
 \details{
 \describe{
 \item{\option{doFuture.foreach.export}:}{
-Specifies to what extent the \code{.export} argument of
-\code{\link[foreach]{foreach}()} should be respected or if globals
-should be automatically identified.
+Specifies to what extent the \code{.export} argument of \code{\link[foreach:foreach]{foreach::foreach()}}, paired
+with \code{\link[foreach:\%dopar\%]{\%dopar\%}}, should be respected or
+if globals should be automatically identified. This is only for
+\verb{\%dopar\%} -- \code{\link{\%dofuture\%}} does not support \code{.export} and \code{.noexport}.
 
 If \code{".export"}, then the globals specified by the \code{.export}
 argument will be used "as is".
@@ -27,10 +28,9 @@ If \code{".export-and-automatic"}, then globals specified by
 
 The \code{".export-and-automatic-with-warning"} is the same as
 \code{".export-and-automatic"}, but produces a warning if \code{.export}
-lacks some of the globals that the automatic identification locates
-\itemize{
-\item this is helpful feedback to developers using \code{foreach()}.
-}
+lacks some of the globals that the automatic identification locates,
+which could be helpful feedback to developers using \code{\link[foreach:foreach]{foreach::foreach()}} with
+\verb{\%dopar\%} -- also when using adapters such as \strong{doParallel}.
 
 (Default: \code{".export-and-automatic"})
 }
@@ -42,7 +42,7 @@ generated. (Default: \code{FALSE})}
 \section{Environment variables that set R options}{
 
 All of the above \R \option{doFfuture.*} options can be set by
-corresponding environment variable \env{R_FOFUTURE_*} \emph{when the
+corresponding environment variable \env{R_DOFUTURE_*} \emph{when the
 \pkg{doFuture} package is loaded}.
 For example, if \code{R_DOFUTURE_DEBUG=TRUE}, then option
 \option{doFuture.debug} is set to \code{TRUE} (logical).

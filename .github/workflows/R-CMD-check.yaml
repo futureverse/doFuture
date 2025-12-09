@@ -20,8 +20,6 @@ jobs:
           - {os: windows-latest, r: 'release'  }
           - {os: windows-latest, r: 'oldrel'   }
 #          - {os: macOS-latest,   r: 'devel'    }
-          - {os: macOS-latest,   r: 'release', parallelly_version: ed860db, label: 'w/ compatible parallelly' }
-          - {os: macOS-latest,   r: 'release', parallelly_version: ea182e9, label: 'w/ compatible parallelly' }
           - {os: macOS-latest,   r: 'release'  }
           - {os: macOS-latest,   r: 'oldrel'   }
 #          - {os: ubuntu-latest,  r: 'devel'    }
@@ -33,9 +31,7 @@ jobs:
           - {os: ubuntu-latest,  r: 'release'  , plan: multicore,    label: 'w/ multicore'    }
           - {os: ubuntu-latest,  r: 'release'  , plan: multisession, label: 'w/ multisession' }
           - {os: windows-latest,  r: 'release', future_version: develop, label: 'w/ future-develop' }
-          - {os: windows-latest,  r: 'release', globals_version: develop, future_version: develop, label: 'w/ future-develop' }
           - {os: ubuntu-latest,  r: 'release', future_version: develop, label: 'w/ future-develop' }
-          - {os: ubuntu-latest,  r: 'release', globals_version: develop, future_version: develop, label: 'w/ future-develop' }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
