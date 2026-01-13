@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3-9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -194,11 +194,11 @@ example,</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://doFuture.futureverse.org">"doFuture"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/registerDoFuture.html">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"BiocParallel"</span><span class="op">)</span></span>
-<span><span class="fu">register</span><span class="op">(</span><span class="fu">DoparParam</span><span class="op">(</span><span class="op">)</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">"BiocParallel"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/DoparParam-class.html" class="external-link">DoparParam</a></span><span class="op">(</span><span class="op">)</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fl">0.10</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">bplapply</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mean</span>, trim <span class="op">=</span> <span class="va">cutoff</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/bplapply.html" class="external-link">bplapply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mean</span>, trim <span class="op">=</span> <span class="va">cutoff</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="dofuture-takes-care-of-exports-and-packages-automatically">doFuture takes care of exports and packages automatically<a class="anchor" aria-label="anchor" href="#dofuture-takes-care-of-exports-and-packages-automatically"></a>
@@ -324,7 +324,7 @@ doFuture alternative
 <tr style="vertical-align: top;">
 <td>
 <pre><code class="r"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"doMC"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/doMC/man/registerDoMC.html" class="external-link">registerDoMC</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">registerDoMC</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </td>
 <td>
 <pre><code class="r"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://doFuture.futureverse.org">"doFuture"</a></span><span class="op">)</span></span>
@@ -370,8 +370,8 @@ N/A
 <tr style="vertical-align: top;">
 <td>
 <pre><code class="r"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"doMPI"</span><span class="op">)</span></span>
-<span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/doMPI/man/startMPIcluster.html" class="external-link">startMPIcluster</a></span><span class="op">(</span>count <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/doMPI/man/registerDoMPI.html" class="external-link">registerDoMPI</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></code></pre>
+<span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">startMPIcluster</span><span class="op">(</span>count <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu">registerDoMPI</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></code></pre>
 </td>
 <td>
 <pre><code class="r"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://doFuture.futureverse.org">"doFuture"</a></span><span class="op">)</span></span>
@@ -408,8 +408,8 @@ PBS.
 <tr style="vertical-align: top;">
 <td>
 <pre><code class="r"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"doRedis"</span><span class="op">)</span></span>
-<span><span class="fu">registerDoRedis</span><span class="op">(</span><span class="st">"jobs"</span><span class="op">)</span></span>
-<span><span class="fu">startLocalWorkers</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4</span>, queue <span class="op">=</span> <span class="st">"jobs"</span><span class="op">)</span></span></code></pre>
+<span><span class="fu"><a href="https://rdrr.io/pkg/doRedis/man/registerDoRedis.html" class="external-link">registerDoRedis</a></span><span class="op">(</span><span class="st">"jobs"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/doRedis/man/startLocalWorkers.html" class="external-link">startLocalWorkers</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4</span>, queue <span class="op">=</span> <span class="st">"jobs"</span><span class="op">)</span></span></code></pre>
 </td>
 <td>
 N/A. There is currently no known Redis-based future backend and

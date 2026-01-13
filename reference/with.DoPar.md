@@ -37,7 +37,7 @@ with(data, expr, ..., local = FALSE, envir = parent.frame())
 
 ## Value
 
-Invisibly, the value of `expr` if `local = FALSE`, other NULL.
+The value of `expr` if `local = FALSE`, otherwise NULL invisibly.
 
 ## Examples
 
@@ -45,6 +45,15 @@ Invisibly, the value of `expr` if `local = FALSE`, other NULL.
 with(registerDoFuture(), {
   y <- foreach(x = 1:3) %dopar% { x^2 }
 })
+#> [[1]]
+#> [1] 1
+#> 
+#> [[2]]
+#> [1] 4
+#> 
+#> [[3]]
+#> [1] 9
+#> 
 
 a_fcn_in_a_pkg <- function(xs) {
   foreach(x = xs) %dopar% { x^2 }
@@ -53,6 +62,15 @@ a_fcn_in_a_pkg <- function(xs) {
 with(registerDoFuture(flavor = "%dofuture%"), {
   y <- a_fcn_in_a_pkg(1:3)
 })
+#> [[1]]
+#> [1] 1
+#> 
+#> [[2]]
+#> [1] 4
+#> 
+#> [[3]]
+#> [1] 9
+#> 
 
 
 my_fcn <- function(xs) {

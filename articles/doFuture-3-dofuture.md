@@ -11,7 +11,6 @@ called `%dofuture%` that ties more directly into the
 example,
 
 ``` r
-
 library(doFuture)
 plan(multisession)
 
@@ -69,7 +68,6 @@ numbers in parallel in the same way they are generated in, for instance,
 `.options.future = list(seed = TRUE)`. For example,
 
 ``` r
-
 y <- foreach(i = 1:3, .options.future = list(seed = TRUE)) %dofuture% {
   rnorm(1)
 }
@@ -79,7 +77,6 @@ An alternative to specifying the `seed` option via `.options.future`, is
 to use the `%seed%` operator.
 
 ``` r
-
 y <- foreach(i = 1:3) %dofuture% {
   rnorm(1)
 } %seed% TRUE
@@ -98,7 +95,6 @@ controlled by specifying either argument
 example,
 
 ``` r
-
 y <- foreach(x = 1:10, .options.future = list(scheduling = 2.0)) %dofuture% {
   slow_fcn(x)
 }

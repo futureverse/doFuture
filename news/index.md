@@ -1,6 +1,14 @@
 # Changelog
 
+## Version (development version)
+
+### Significant Changes
+
+- `with(..., local = FALSE)` for `DoPar` no longer returns invisibly.
+
 ## Version 1.1.3
+
+CRAN release: 2025-12-09
 
 ### Bug Fixes
 
@@ -491,8 +499,10 @@ CRAN release: 2017-03-14
 
 - Now the package tests **future.batchtools** with **foreach** by
   itself, in combination with **plyr** (`parallel = TRUE`) as well as
-  with `BiocParallel::bplapply()` and friends. Similar tests are already
-  done using **future.BatchJobs**.
+  with
+  [`BiocParallel::bplapply()`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html)
+  and friends. Similar tests are already done using
+  **future.BatchJobs**.
 
 - Added test for `foreach::times() %dopar% { ... }`. Especially, it is
   now tested that global variables are properly identified. Note that

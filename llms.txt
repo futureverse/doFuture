@@ -47,7 +47,6 @@ just like with other map-reduce solutions such as
 **[furrr](https://furrr.futureverse.org)**. An example is:
 
 ``` r
-
 library(doFuture)
 plan(multisession)
 
@@ -80,7 +79,6 @@ future-compliant parallel backend can be used.
 An example is:
 
 ``` r
-
 library(doFuture)
 registerDoFuture()
 plan(multisession)
@@ -119,7 +117,6 @@ R package doFuture is available on
 in R as:
 
 ``` r
-
 install.packages("doFuture")
 ```
 
@@ -129,7 +126,6 @@ To install the pre-release version that is available in Git branch
 `develop` on GitHub, use:
 
 ``` r
-
 remotes::install_github("futureverse/doFuture", ref="develop")
 ```
 
