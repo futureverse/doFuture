@@ -1,6 +1,8 @@
 # Version (development version)
 
- * ...
+## Significant Changes
+
+ * `with(..., local = FALSE)` for `DoPar` no longer returns invisibly.
 
 
 # Version 1.1.3 (2025-12-08)
