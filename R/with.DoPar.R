@@ -41,6 +41,7 @@ with.DoPar <- function(data, expr, ..., local = FALSE, envir = parent.frame()) {
     invisible(NULL)
   } else {
     on.exit(undoDoPar())
-    eval(expr, envir = envir, enclos = baseenv())
+    res <- withVisible(eval(expr, envir = envir, enclos = baseenv()))
+    if (res[["visible"]]) res[["value"]] else invisible(res[["value"]])
   }
 }

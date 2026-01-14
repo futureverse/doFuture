@@ -2,7 +2,8 @@
 
 ## Significant Changes
 
- * `with(..., local = FALSE)` for `DoPar` no longer returns invisibly.
+ * `with(..., expr, local = FALSE)` for `DoPar` now returns invisibly
+   if `expr` does so, otherwise not.
 
 
 # Version 1.1.3 (2025-12-08)
