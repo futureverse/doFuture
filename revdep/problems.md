@@ -132,195 +132,6 @@ Run `revdepcheck::revdep_details(, "mikropml")` for more info
       All declared Imports should be used.
     ```
 
-# modeltime
-
-<details>
-
-* Version: 1.3.2
-* GitHub: https://github.com/business-science/modeltime
-* Source code: https://github.com/cran/modeltime
-* Date/Publication: 2025-08-28 23:40:09 UTC
-* Number of recursive dependencies: 237
-
-Run `revdepcheck::revdep_details(, "modeltime")` for more info
-
-</details>
-
-## In both
-
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 50 lines of output:
-        'test-algo-seasonal_decomp_ets.R:10:5',
-        'test-algo-seasonal_reg_tbats.R:20:5', 'test-algo-seasonal_reg_tbats.R:35:5',
-        'test-algo-seasonal_reg_tbats.R:93:5', 'test-algo-temporal_hierarchy.R:8:5',
-        'test-algo-window_reg.R:24:5', 'test-algo-window_reg.R:69:5',
-        'test-algo-window_reg.R:100:5', 'test-algo-window_reg.R:153:5',
-        'test-algo-window_reg.R:206:5', 'test-algo-window_reg.R:241:5',
-    ...
-       5. │   └─parsnip:::xy_xy(...)
-       6. │     └─parsnip:::eval_mod(...)
-       7. │       └─rlang::eval_tidy(e, env = envir, ...)
-       8. └─modeltime::prophet_xgboost_fit_impl(...)
-       9.   └─modeltime::xgboost_predict(fit_xgboost, newdata = xreg_tbl)
-      
-      [ FAIL 1 | WARN 0 | SKIP 80 | PASS 0 ]
-      Error:
-      ! Test failures.
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... ERROR
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘getting-started-with-modeltime.Rmd’ using rmarkdown
-    
-    Quitting from getting-started-with-modeltime.Rmd:162-171 [unnamed-chunk-9]
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    <error/rlang_error>
-    Error in `switch()`:
-    ! EXPR must be a length 1 vector
-    ---
-    Backtrace:
-    ...
-    
-    Error: processing vignette 'getting-started-with-modeltime.Rmd' failed with diagnostics:
-    EXPR must be a length 1 vector
-    --- failed re-building ‘getting-started-with-modeltime.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘getting-started-with-modeltime.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# pareg
-
-<details>
-
-* Version: 1.8.0
-* GitHub: https://github.com/cbg-ethz/pareg
-* Source code: https://github.com/cran/pareg
-* Date/Publication: 2024-04-30
-* Number of recursive dependencies: 323
-
-Run `revdepcheck::revdep_details(, "pareg")` for more info
-
-</details>
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘pareg-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: as.data.frame.pareg
-    > ### Title: as.data.frame for an object of class 'pareg'.
-    > ### Aliases: as.data.frame.pareg
-    > 
-    > ### ** Examples
-    > 
-    > df_genes <- data.frame(
-    ...
-        Found existing installation: pip 25.0.1
-        Uninstalling pip-25.0.1:
-          Successfully uninstalled pip-25.0.1
-    Successfully installed pip-25.3 setuptools-80.9.0 wheel-0.45.1
-    Installing packages: 'tensorflow==2.10.0', 'tensorflow-probability==0.14.0'
-    + /c4/home/henrik/.cache/R/basilisk/1.22.0/pareg/1.8.0/pareg/bin/python -m pip install --upgrade --no-user 'tensorflow==2.10.0' 'tensorflow-probability==0.14.0'
-    ERROR: Could not find a version that satisfies the requirement tensorflow==2.10.0 (from versions: 2.16.0rc0, 2.16.1, 2.16.2, 2.17.0rc0, 2.17.0rc1, 2.17.0, 2.17.1, 2.18.0rc0, 2.18.0rc1, 2.18.0rc2, 2.18.0, 2.18.1, 2.19.0rc0, 2.19.0, 2.19.1, 2.20.0rc0, 2.20.0)
-    ERROR: No matching distribution found for tensorflow==2.10.0
-    Error: Error installing package(s): "'tensorflow==2.10.0'", "'tensorflow-probability==0.14.0'"
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(pareg)
-      Loading required package: tensorflow
-      Loading required package: tfprobability
-      
-      
-    ...
-          Found existing installation: pip 25.0.1
-          Uninstalling pip-25.0.1:
-            Successfully uninstalled pip-25.0.1
-      Successfully installed pip-25.3 setuptools-80.9.0 wheel-0.45.1
-      Installing packages: 'tensorflow==2.10.0', 'tensorflow-probability==0.14.0'
-      + /c4/home/henrik/.cache/R/basilisk/1.22.0/pareg/1.8.0/pareg/bin/python -m pip install --upgrade --no-user 'tensorflow==2.10.0' 'tensorflow-probability==0.14.0'
-      ERROR: Could not find a version that satisfies the requirement tensorflow==2.10.0 (from versions: 2.16.0rc0, 2.16.1, 2.16.2, 2.17.0rc0, 2.17.0rc1, 2.17.0, 2.17.1, 2.18.0rc0, 2.18.0rc1, 2.18.0rc2, 2.18.0, 2.18.1, 2.19.0rc0, 2.19.0, 2.19.1, 2.20.0rc0, 2.20.0)
-      ERROR: No matching distribution found for tensorflow==2.10.0
-      Error: Error installing package(s): "'tensorflow==2.10.0'", "'tensorflow-probability==0.14.0'"
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... ERROR
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘pareg.Rmd’ using rmarkdown
-    The magick package is required to crop "/scratch/henrik/revdep/doFuture/checks/pareg/new/pareg.Rcheck/vign_test/pareg/vignettes/pareg_files/figure-html/unnamed-chunk-4-1.png" but not available.
-    The magick package is required to crop "/scratch/henrik/revdep/doFuture/checks/pareg/new/pareg.Rcheck/vign_test/pareg/vignettes/pareg_files/figure-html/unnamed-chunk-5-1.png" but not available.
-    Requirement already satisfied: pip in /c4/home/henrik/.cache/R/basilisk/1.22.0/pareg/1.8.0/pareg/lib/python3.12/site-packages (25.0.1)
-    Collecting pip
-      Using cached pip-25.3-py3-none-any.whl.metadata (4.7 kB)
-    Collecting wheel
-      Using cached wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
-    Collecting setuptools
-    ...
-    --- re-building ‘pathway_similarities.Rmd’ using rmarkdown
-    The magick package is required to crop "/scratch/henrik/revdep/doFuture/checks/pareg/new/pareg.Rcheck/vign_test/pareg/vignettes/pathway_similarities_files/figure-html/unnamed-chunk-2-1.png" but not available.
-    The magick package is required to crop "/scratch/henrik/revdep/doFuture/checks/pareg/new/pareg.Rcheck/vign_test/pareg/vignettes/pathway_similarities_files/figure-html/unnamed-chunk-3-1.png" but not available.
-    --- finished re-building ‘pathway_similarities.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘pareg.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-*   checking for portable file names ... NOTE
-    ```
-    Found the following non-portable file paths:
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_ablation_study/config.yaml
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_ablation_study/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_dispersion_fitting/config.yaml
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_dispersion_fitting/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_real_datasets/config.yaml
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_real_datasets/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_regularization_effect/config.yaml
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_regularization_effect/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_regularization_parameter/config.yaml
-    ...
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_response_distribution/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_similarity_measures/config.yaml
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_similarity_measures/params.csv
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/workflow/scripts/compare_rocauc_vs_loss.R
-      pareg/inst/scripts/synthetic_benchmark/resources/multi_config_workflow/config_regularization_parameter
-    
-    Tarballs are only required to store paths of up to 100 bytes and cannot
-    store those of more than 256 bytes, with restrictions including to 100
-    bytes for the final component.
-    See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking whether package ‘pareg’ can be installed ... NOTE
-    ```
-    Found the following notes/warnings:
-      Non-staged installation was used
-    See ‘/scratch/henrik/revdep/doFuture/checks/pareg/new/pareg.Rcheck/00install.out’ for details.
-    ```
-
 # sparrpowR
 
 <details>
@@ -423,28 +234,6 @@ Run `revdepcheck::revdep_details(, "survstan")` for more info
       All declared Imports should be used.
     ```
 
-# tglkmeans
-
-<details>
-
-* Version: 0.5.5
-* GitHub: https://github.com/tanaylab/tglkmeans
-* Source code: https://github.com/cran/tglkmeans
-* Date/Publication: 2024-05-15 08:40:02 UTC
-* Number of recursive dependencies: 85
-
-Run `revdepcheck::revdep_details(, "tglkmeans")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘doRNG’
-      All declared Imports should be used.
-    ```
-
 # vmeasur
 
 <details>
@@ -472,11 +261,11 @@ Run `revdepcheck::revdep_details(, "vmeasur")` for more info
 
 <details>
 
-* Version: 1.8-1
+* Version: 2.0
 * GitHub: NA
 * Source code: https://github.com/cran/WeightedCluster
-* Date/Publication: 2024-12-10 22:00:02 UTC
-* Number of recursive dependencies: 72
+* Date/Publication: 2025-12-10 08:40:02 UTC
+* Number of recursive dependencies: 91
 
 Run `revdepcheck::revdep_details(, "WeightedCluster")` for more info
 
