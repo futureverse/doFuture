@@ -1,3 +1,8 @@
+# Version (development version)
+
+ * ...
+ 
+
 # Version 1.2.0 (2026-01-14)
 
 ## Significant Changes
