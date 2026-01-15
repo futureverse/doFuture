@@ -1,3 +1,11 @@
+# Version 1.2.0 (2026-01-14)
+
+## Significant Changes
+
+ * `with(..., expr, local = FALSE)` for `DoPar` now returns invisibly
+   if `expr` does so, otherwise not.
+
+
 # Version 1.1.3 (2025-12-08)
 
 ## Bug Fixes
