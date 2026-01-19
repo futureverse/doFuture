@@ -70,9 +70,9 @@ For further details and instructions, see
 
 ## Random Number Generation (RNG)
 
-The `%dofuture%` uses the future ecosystem to generate proper random
-numbers in parallel in the same way they are generated in, for instance,
-future.apply. For this to work, you need to specify
+The `%dofuture%` operator uses the future ecosystem to generate proper
+random numbers in parallel in the same way they are generated in, for
+instance, future.apply. For this to work, you need to specify
 `.options.future = list(seed = TRUE)`. For example,
 
     y <- foreach(i = 1:3, .options.future = list(seed = TRUE)) %dofuture% {
@@ -80,7 +80,7 @@ future.apply. For this to work, you need to specify
     }
 
 Unless `seed` is `FALSE` or `NULL`, this guarantees that the exact same
-sequence of random numbers are generated *given the same initial seed /
+sequence of random numbers is generated *given the same initial seed /
 RNG state* - this regardless of type of future backend, number of
 workers, and scheduling ("chunking") strategy.
 
@@ -95,14 +95,14 @@ a parallel RNG seed, otherwise one is created randomly.
 
 If `seed = FALSE`, it is expected that none of the foreach iterations
 use random number generation. If they do, then an informative warning or
-error is produces depending on settings. See
+error is produced depending on settings. See
 [future::future](https://future.futureverse.org/reference/future.html)
-for more details. Using `seed = NULL`, is like `seed = FALSE` but
-without the check whether random numbers were generated or not.
+for more details. Using `seed = NULL` is like `seed = FALSE` but without
+the check whether random numbers were generated or not.
 
 As input, `seed` may also take a fixed initial seed (integer), either as
 a full parallel RNG seed (vector of 1+6 integers), or as a seed
-generating such a full seed. This seed will be used to generated one
+generating such a full seed. This seed will be used to generate one
 parallel RNG stream for each iteration.
 
 An alternative to specifying the `seed` option via `.options.future`, is
@@ -128,10 +128,10 @@ processed in a single future (one worker). If `NULL`, then argument
 
 The value `scheduling` specifies the average number of futures
 ("chunks") that each worker processes. If `0.0`, then a single future is
-used to process all iterations; none of the other workers are not used.
-If `1.0` or `TRUE`, then one future per worker is used. If `2.0`, then
-each worker will process two futures (if there are enough iterations).
-If `+Inf` or `FALSE`, then one future per iteration is used. The default
+used to process all iterations; none of the other workers are used. If
+`1.0` or `TRUE`, then one future per worker is used. If `2.0`, then each
+worker will process two futures (if there are enough iterations). If
+`+Inf` or `FALSE`, then one future per iteration is used. The default
 value is `scheduling = 1.0`.
 
 For further details and instructions, see
@@ -140,9 +140,9 @@ For further details and instructions, see
 ## Control processing order of iterations
 
 Attribute `ordering` of `chunk.size` or `scheduling` can be used to
-control the ordering the elements are iterated over, which only affects
-the processing order and *not* the order values are returned. This
-attribute can take the following values:
+control the ordering of the elements are iterated over, which only
+affects the processing order and *not* the order values are returned.
+This attribute can take the following values:
 
 - index vector - an numeric vector of length `nX`.
 
@@ -173,9 +173,9 @@ does *not* have a built-in mechanism for progress reporting(\*).
 
 When using **doFuture**, and the Futureverse in general, for processing,
 the **progressr** package can be used to signal progress updates in a
-near-live fashion. There is special argument related to
+near-live fashion. There is no special argument related to
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) or
-**doFuture** to achieve this. Instead, one calls a a, so called,
+**doFuture** to achieve this. Instead, one calls a, so called,
 "progressor" function within each iteration. See the
 [**progressr**](https://cran.r-project.org/package=progressr) package
 and its `vignette(package = "progressr")` for examples.
@@ -183,7 +183,7 @@ and its `vignette(package = "progressr")` for examples.
 (\*) The legacy **doSNOW** package uses a special
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
 `.options.doSNOW$progress` that can be used to make a progress update
-each time results from a parallel workers is returned. This approach is
+each time results from a parallel worker are returned. This approach is
 limited by how chunking works, requires the developer to set that
 argument, and the code becomes incompatible with foreach adaptors
 registered by other **doNnn** packages.
@@ -198,18 +198,10 @@ y <- foreach(x = 1:10, .combine = rbind) %dofuture% {
   y <- sqrt(x)
   data.frame(x = x, y = y, pid = Sys.getpid())
 }
+#> Warning: Caught FutureLaunchError. Canceling all iterations ...
+#> Error: future::evalFuture() failed on hb-x1-2023 (pid 2734335) at 2026-01-19T10:34:28. Using package 'future' v1.69.0.9002. Possible other reasons: Failed to attach one or more packages: there is no package called ‘future.apply’ [future <unnamed>; on 3eef20e64dfe16b457bde6889e99e068@hb-x1-2023<2734335>]
 print(y)
-#>     x        y     pid
-#> 1   1 1.000000 1045030
-#> 2   2 1.414214 1045030
-#> 3   3 1.732051 1045027
-#> 4   4 2.000000 1045032
-#> 5   5 2.236068 1045026
-#> 6   6 2.449490 1045031
-#> 7   7 2.645751 1045029
-#> 8   8 2.828427 1045028
-#> 9   9 3.000000 1045033
-#> 10 10 3.162278 1045033
+#> Error: object 'y' not found
 
 
 ## Random number generation
@@ -237,6 +229,7 @@ y <- foreach(i = 1:3, .combine = rbind) %:%
        foreach(j = 3:5, .combine = rbind, .options.future = list(seed = TRUE)) %dofuture% {
   data.frame(i = i, j = j, random = runif(n = 1L)) 
 }
+#> Warning: [FUTURE BACKEND FAILURE]: Caught FutureLaunchError with error message: future::evalFuture() failed on hb-x1-2023 (pid 2734335) at 2026-01-19T10:34:28. Using package 'future' v1.69.0.9002. Possible other reasons: Failed to attach one or more packages: there is no package called ‘future.apply’ [future <unnamed>; on 3eef20e64dfe16b457bde6889e99e068@hb-x1-2023<2734335>]
 print(y)
 #>   i j     random
 #> 1 1 3 0.45395001

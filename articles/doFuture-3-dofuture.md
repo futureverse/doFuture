@@ -34,7 +34,8 @@ When you use `%dofuture%`,
 - global variables and packages are identified automatically by the
   **future** framework
 
-- errors are relayed as-is (with `%dopar%` they captured and modified)
+- errors are relayed as-is (with `%dopar%` they are captured and
+  modified)
 
 This makes `foreach(...) %dofuture% { ... }` more in line with how
 sibling packages **future.apply** and **furrr** work.

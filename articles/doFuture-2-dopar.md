@@ -26,10 +26,10 @@ names(y) <- colnames(mtcars)
 
 ## Futures bring foreach to the HPC cluster
 
-To do the same on high-performance computing (HPC) cluster, the
+To do the same on a high-performance computing (HPC) cluster, the
 **[future.batchtools](https://cran.r-project.org/package=future.batchtools)**
 package can be used. Assuming batchtools has been configured correctly,
-then following foreach iterations will be submitted to the HPC job
+then the following foreach iterations will be submitted to the HPC job
 scheduler and distributed for evaluation on the compute nodes.
 
 ``` r
@@ -145,7 +145,7 @@ y <- my_mean()
 
 In contrast, when using the `%dopar%` adapter of **doFuture**, all of
 the **[future](https://cran.r-project.org/package=future)** machinery
-comes in to play including automatic handling of global variables, e.g.
+comes into play including automatic handling of global variables, e.g.
 
 ``` r
 library("doFuture")
@@ -190,16 +190,16 @@ ext <- foreach(file = c("abc.txt", "def.log")) %dopar% file_ext(file)
 Having said all this, in order to write foreach code that works
 everywhere, it is better to be conservative and not assume that all end
 users will use a **doFuture** backend. Because of this, it is still
-recommended to explicitly specify all objects that need to be export
+recommended to explicitly specify all objects that need to be exported
 whenever using the foreach API. The **doFuture** framework can help you
 identify what should go into the `.export` argument. By setting
 `options(doFuture.foreach.export = ".export-and-automatic-with-warning")`,
-**doFuture** will in warn if it finds globals not listed in `.export`
-and produce an informative warning message suggesting that those should
-be added. To assert that argument `.export` is correct, test the code
-with `options(doFuture.foreach.export = ".export")`, which will disable
+**doFuture** will warn if it finds globals not listed in `.export` and
+produce an informative warning message suggesting that those should be
+added. To assert that argument `.export` is correct, test the code with
+`options(doFuture.foreach.export = ".export")`, which will disable
 automatic identification of globals such that only the globals specified
-by the `.export` argument is used.
+by the `.export` argument are used.
 
 ## doFuture replaces existing doNnn packages
 

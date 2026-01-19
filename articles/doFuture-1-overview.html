@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0-9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,7 +115,7 @@ Bengtsson</h4>
 <p>The <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> package
 provides mechanisms for using the <strong>foreach</strong> package
 together with the <strong>future</strong> package such that
-<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> parallelizes via
+<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> parallelize via
 <em>any</em> future backend.</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -202,15 +202,15 @@ backend can be used.</p>
 uses <code>%dopar%</code> and you just want to switch to using the
 future framework for parallelization. Using
 <code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code> is also useful when you wish to use the
-future framework with packages and functions that uses
+future framework with packages and functions that use
 <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code>%dopar%</code> internally,
 e.g. <strong><a href="https://cran.r-project.org/package=caret" class="external-link">caret</a></strong>,
 <strong><a href="https://cran.r-project.org/package=plyr" class="external-link">plyr</a></strong>,
 <strong><a href="https://cran.r-project.org/package=NMF" class="external-link">NMF</a></strong>, and
 <strong><a href="https://cran.r-project.org/package=glmnet" class="external-link">glmnet</a></strong>. It
 can also be used to configure the Bioconductor <strong><a href="https://bioconductor.org/packages/BiocParallel/" class="external-link">BiocParallel</a></strong>
-package, and any package that rely on it, to parallelize via the future
-framework.</p>
+package, and any package that relies on it, to parallelize via the
+future framework.</p>
 <p>See <code><a href="../reference/registerDoFuture.html">help("registerDoFuture", package = "doFuture")</a></code> for
 more details and examples on this approach.</p>
 </div>

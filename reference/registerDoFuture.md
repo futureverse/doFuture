@@ -6,7 +6,7 @@ the foreach package to process foreach iterations via any of the future
 backends supported by the future package, which includes various
 parallel and distributed backends. In other words, *if a computational
 backend is supported via the Future API, it'll be automatically
-available for all functions and packages making using the foreach
+available for all functions and packages making use of the foreach
 framework.* Neither the developer nor the end user has to change any
 code.
 
@@ -68,10 +68,10 @@ compute nodes.
 ## Global variables and packages
 
 Unless running locally in the global environment (= at the R prompt),
-the foreach package requires you do specify what global variables and
+the foreach package requires you to specify what global variables and
 packages need to be available and attached in order for the "foreach"
 expression to be evaluated properly. It is not uncommon to get errors on
-one or missing variables when moving from running a
+one or more missing variables when moving from running a
 `res <- foreach() %dopar% { ... }` statement on the local machine to,
 say, another machine on the same network. The solution to the problem is
 to explicitly export those variables by specifying them in the `.export`
@@ -87,7 +87,7 @@ because by default the Future API identifies all globals and all
 packages automatically (via static code inspection). This is done
 exactly the same way regardless of future backend. This automatic
 identification of globals and packages is illustrated by the below
-example, which does *not* have specify `.export = c("my_stat")`. This
+example, which does *not* have to specify `.export = c("my_stat")`. This
 works because the future framework detects that function `my_stat()` is
 needed and makes sure it is exported. If you would use, say,
 `cl <- parallel::makeCluster(2)` and
@@ -114,10 +114,10 @@ processed in a single future (one worker). If `NULL`, then argument
 
 The value `scheduling` specifies the average number of futures
 ("chunks") that each worker processes. If `0.0`, then a single future is
-used to process all iterations; none of the other workers are not used.
-If `1.0` or `TRUE`, then one future per worker is used. If `2.0`, then
-each worker will process two futures (if there are enough iterations).
-If `+Inf` or `FALSE`, then one future per iteration is used. The default
+used to process all iterations; none of the other workers are used. If
+`1.0` or `TRUE`, then one future per worker is used. If `2.0`, then each
+worker will process two futures (if there are enough iterations). If
+`+Inf` or `FALSE`, then one future per iteration is used. The default
 value is `scheduling = 1.0`.
 
 The name of [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
@@ -169,14 +169,14 @@ part of the core philosophy of the foreach framework.
 
 However, if you think it necessary to register the doFuture backend in a
 function, please make sure to undo your changes when exiting the
-function. This can be achieve by:
+function. This can be achieved by:
 
       with(registerDoFuture(), local = TRUE)
       ...
 
 This is important, because the end-user might have already registered a
 foreach backend elsewhere for other purposes and will most likely not
-known that calling your function will break their setup. *Remember, your
+know that calling your function will break their setup. *Remember, your
 package and its functions might be used in a greater context where
 multiple packages and functions are involved and those might also rely
 on the foreach framework, so it is important to avoid stepping on
@@ -190,9 +190,9 @@ does *not* have a built-in mechanism for progress reporting(\*).
 
 When using **doFuture**, and the Futureverse in general, for processing,
 the **progressr** package can be used to signal progress updates in a
-near-live fashion. There is special argument related to
+near-live fashion. There is no special argument related to
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) or
-**doFuture** to achieve this. Instead, one calls a a, so called,
+**doFuture** to achieve this. Instead, one calls a, so called,
 "progressor" function within each iteration. See the
 [**progressr**](https://cran.r-project.org/package=progressr) package
 and its `vignette(package = "progressr")` for examples.
@@ -200,7 +200,7 @@ and its `vignette(package = "progressr")` for examples.
 (\*) The legacy **doSNOW** package uses a special
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
 `.options.doSNOW$progress` that can be used to make a progress update
-each time results from a parallel workers is returned. This approach is
+each time results from a parallel worker are returned. This approach is
 limited by how chunking works, requires the developer to set that
 argument, and the code becomes incompatible with foreach adaptors
 registered by other **doNnn** packages.

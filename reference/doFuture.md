@@ -68,7 +68,7 @@ This alternative is useful if you already have a lot of R code that uses
 parallelization. Using
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
 is also useful when you wish to use the future framework with packages
-and functions that uses
+and functions that use
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
 `%dopar%` internally, e.g.
 **[caret](https://cran.r-project.org/package=caret)**,
@@ -77,8 +77,8 @@ and functions that uses
 **[glmnet](https://cran.r-project.org/package=glmnet)**. It can also be
 used to configure the Bioconductor
 **[BiocParallel](https://bioconductor.org/packages/BiocParallel/)**
-package, and any package that rely on it, to parallelize via the future
-framework.
+package, and any package that relies on it, to parallelize via the
+future framework.
 
 See
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0-9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.2.0" id="version-120">Version 1.2.0<a class="anchor" aria-label="anchor" href="#version-120"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<ul><li>…</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="version-120">Version 1.2.0<a class="anchor" aria-label="anchor" href="#version-120"></a></h2><p class="text-muted">CRAN release: 2026-01-15</p>
 <div class="section level3">
 <h3 id="significant-changes-1-2-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-2-0"></a></h3>
 <ul><li>
@@ -163,7 +167,7 @@
 <h2 class="pkg-version" data-toc-text="0.12.0" id="version-0120">Version 0.12.0<a class="anchor" aria-label="anchor" href="#version-0120"></a></h2><p class="text-muted">CRAN release: 2021-01-04</p>
 <div class="section level3">
 <h3 id="new-features-0-12-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
-<ul><li><p>Now <code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code> returns the previously set foreach backend, making it possible to reset the the foreach backend to the previous settings.</p></li>
+<ul><li><p>Now <code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code> returns the previously set foreach backend, making it possible to reset the foreach backend to the previous settings.</p></li>
 <li><p>Now <strong>doFuture</strong> recognizes when it is called via the <strong>BiocParallel</strong> package in which case it skips the check whether or not RNG was used by mistake.</p></li>
 <li><p>Add option <code>doFuture.rng.onMisuse</code> which can be used to temporarily override option <code>future.rng.onMisuse</code> when the <strong>doFuture</strong> adaptor is running.</p></li>
 <li><p>Add option <code>doFuture.workarounds</code>, which can be set by environment variable <code>R_DOFUTURE_WORKAROUNDS</code> when the package is loaded.</p></li>
@@ -314,7 +318,7 @@
 <h2 class="pkg-version" data-toc-text="0.5.0" id="version-050">Version 0.5.0<a class="anchor" aria-label="anchor" href="#version-050"></a></h2><p class="text-muted">CRAN release: 2017-04-01</p>
 <div class="section level3">
 <h3 id="new-features-0-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
-<ul><li>Added <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> option to control whether scheduling (“chunking”) should take place or not, and if so, how granular it should be. This is specified as <code>foreach(..., .options.future =    list(scheduling = &lt;value&gt;))</code>. With <code>scheduling = 1.0</code> (or equivalently <code>scheduling = TRUE</code>), the the elements (iterations) will be split up in equally sized chunks such that each backend worker will process exactly one chunk. With <code>scheduling = Inf</code> (or equivalently <code>scheduling = FALSE</code>), chunking is disabled, i.e. each worker process exactly one element at the time. If <code>scheduling =    0.0</code>, then a single workers processes all elements (and the other workers will not be used). If <code>2.0</code>, then each worker will process two chunks, and so on. If above option is not set, then <code>.options.multicore = list(preschedule = &lt;logical&gt;))</code> which is defined by <strong>doParallel</strong>, is used to mean scheduling = preschedule. If that is not set, then <code>scheduling = 1.0</code> is used by default.</li>
+<ul><li>Added <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> option to control whether scheduling (“chunking”) should take place or not, and if so, how granular it should be. This is specified as <code>foreach(..., .options.future =    list(scheduling = &lt;value&gt;))</code>. With <code>scheduling = 1.0</code> (or equivalently <code>scheduling = TRUE</code>), the elements (iterations) will be split up in equally sized chunks such that each backend worker will process exactly one chunk. With <code>scheduling = Inf</code> (or equivalently <code>scheduling = FALSE</code>), chunking is disabled, i.e. each worker process exactly one element at the time. If <code>scheduling =    0.0</code>, then a single workers processes all elements (and the other workers will not be used). If <code>2.0</code>, then each worker will process two chunks, and so on. If above option is not set, then <code>.options.multicore = list(preschedule = &lt;logical&gt;))</code> which is defined by <strong>doParallel</strong>, is used to mean scheduling = preschedule. If that is not set, then <code>scheduling = 1.0</code> is used by default.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="software-quality-0-5-0">Software Quality<a class="anchor" aria-label="anchor" href="#software-quality-0-5-0"></a></h3>
@@ -323,14 +327,14 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-5-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
 <ul><li><p>Using a nested <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> call would incorrectly produce an error on not being able to locate the iterator variable of the inner-most <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> as a global variable.</p></li>
-<li><p>If a <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> call would result in an error, the error thrown would report on “object ‘expr’ not found” and not the actually error message.</p></li>
+<li><p>If a <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> call would result in an error, the error thrown would report on “object ‘expr’ not found” and not the actual error message.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="version-040">Version 0.4.0<a class="anchor" aria-label="anchor" href="#version-040"></a></h2><p class="text-muted">CRAN release: 2017-03-14</p>
 <div class="section level3">
 <h3 id="significant-changes-0-4-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-0-4-0"></a></h3>
-<ul><li>SPEED / LOAD BALANCING: The <strong>doFuture</strong> <code>%dopar%</code> backend now processes all elements in chunks such that each backend worker will process a subset of data at once (and only once). This significantly speeds up processing time when iterating over a large number of elements that each has short a processing time.</li>
+<ul><li>SPEED / LOAD BALANCING: The <strong>doFuture</strong> <code>%dopar%</code> backend now processes all elements in chunks such that each backend worker will process a subset of data at once (and only once). This significantly speeds up processing time when iterating over a large number of elements that each has a short processing time.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="globals-0-4-0">Globals<a class="anchor" aria-label="anchor" href="#globals-0-4-0"></a></h3>

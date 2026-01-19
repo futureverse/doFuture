@@ -1,6 +1,12 @@
 # Changelog
 
+## Version (development version)
+
+- …
+
 ## Version 1.2.0
+
+CRAN release: 2026-01-15
 
 ### Significant Changes
 
@@ -168,7 +174,7 @@ CRAN release: 2021-01-04
 - Now
   [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
   returns the previously set foreach backend, making it possible to
-  reset the the foreach backend to the previous settings.
+  reset the foreach backend to the previous settings.
 
 - Now **doFuture** recognizes when it is called via the **BiocParallel**
   package in which case it skips the check whether or not RNG was used
@@ -442,11 +448,11 @@ CRAN release: 2017-04-01
   option to control whether scheduling (“chunking”) should take place or
   not, and if so, how granular it should be. This is specified as
   `foreach(..., .options.future = list(scheduling = <value>))`. With
-  `scheduling = 1.0` (or equivalently `scheduling = TRUE`), the the
-  elements (iterations) will be split up in equally sized chunks such
-  that each backend worker will process exactly one chunk. With
-  `scheduling = Inf` (or equivalently `scheduling = FALSE`), chunking is
-  disabled, i.e. each worker process exactly one element at the time. If
+  `scheduling = 1.0` (or equivalently `scheduling = TRUE`), the elements
+  (iterations) will be split up in equally sized chunks such that each
+  backend worker will process exactly one chunk. With `scheduling = Inf`
+  (or equivalently `scheduling = FALSE`), chunking is disabled,
+  i.e. each worker process exactly one element at the time. If
   `scheduling = 0.0`, then a single workers processes all elements (and
   the other workers will not be used). If `2.0`, then each worker will
   process two chunks, and so on. If above option is not set, then
@@ -477,7 +483,7 @@ CRAN release: 2017-04-01
 
 - If a [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) call
   would result in an error, the error thrown would report on “object
-  ‘expr’ not found” and not the actually error message.
+  ‘expr’ not found” and not the actual error message.
 
 ## Version 0.4.0
 
@@ -489,7 +495,7 @@ CRAN release: 2017-03-14
   processes all elements in chunks such that each backend worker will
   process a subset of data at once (and only once). This significantly
   speeds up processing time when iterating over a large number of
-  elements that each has short a processing time.
+  elements that each has a short processing time.
 
 ### Globals
 

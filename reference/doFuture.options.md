@@ -42,7 +42,7 @@ further notice.*
 
 ## Environment variables that set R options
 
-All of the above R doFfuture.\* options can be set by corresponding
+All of the above R doFuture.\* options can be set by corresponding
 environment variable `R_DOFUTURE_*` *when the doFuture package is
 loaded*. For example, if `R_DOFUTURE_DEBUG=TRUE`, then option
 doFuture.debug is set to `TRUE` (logical).

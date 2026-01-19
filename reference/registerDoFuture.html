@@ -6,7 +6,7 @@ the future backends supported by the future package, which
 includes various parallel and distributed backends.
 In other words, if a computational backend is supported via
 the Future API, it'll be automatically available for all functions
-and packages making using the foreach framework.
+and packages making use of the foreach framework.
 Neither the developer nor the end user has to change any code.
 Recommendation: If you have the option, use %dofuture% instead
 of %dopar%, for all the benefits explained in its help page."><meta property="og:description" content="The registerDoFuture() function makes the
@@ -16,7 +16,7 @@ the future backends supported by the future package, which
 includes various parallel and distributed backends.
 In other words, if a computational backend is supported via
 the Future API, it'll be automatically available for all functions
-and packages making using the foreach framework.
+and packages making use of the foreach framework.
 Neither the developer nor the end user has to change any code.
 Recommendation: If you have the option, use %dofuture% instead
 of %dopar%, for all the benefits explained in its help page."><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-SB3EQSD9FR"></script><script>
@@ -33,7 +33,7 @@ of %dopar%, for all the benefits explained in its help page."><!-- Global site t
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0-9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@ the future backends supported by the <span class="pkg">future</span> package, wh
 includes various parallel and distributed backends.
 In other words, <em>if a computational backend is supported via
 the Future API, it'll be automatically available for all functions
-and packages making using the <span class="pkg">foreach</span> framework.</em>
+and packages making use of the <span class="pkg">foreach</span> framework.</em>
 Neither the developer nor the end user has to change any code.</p>
 <p><em><strong>Recommendation</strong>: If you have the option, use <code><a href="grapes-dofuture-grapes.html">%dofuture%</a></code> instead
 of <code>%dopar%</code>, for all the benefits explained in its help page.</em></p>
@@ -162,10 +162,10 @@ or more compute nodes.</p>
 
 
 <p>Unless running locally in the global environment (= at the <span style="R">R</span> prompt),
-the <span class="pkg">foreach</span> package requires you do specify what global variables
+the <span class="pkg">foreach</span> package requires you to specify what global variables
 and packages need to be available and attached in order for the
 "foreach" expression to be evaluated properly.  It is not uncommon to
-get errors on one or missing variables when moving from running a
+get errors on one or more missing variables when moving from running a
 <code>res &lt;- foreach() %dopar% { ... }</code> statement on the local machine
 to, say, another machine on the same network.  The solution to the
 problem is to explicitly export those variables by specifying them in
@@ -178,7 +178,7 @@ critical, because by default the Future API identifies all globals and
 all packages automatically (via static code inspection).  This is done
 exactly the same way regardless of future backend.
 This automatic identification of globals and packages is illustrated
-by the below example, which does <em>not</em> have specify
+by the below example, which does <em>not</em> have to specify
 <code>.export = c("my_stat")</code>.  This works because the future framework
 detects that function <code>my_stat()</code> is needed and makes sure it is
 exported.  If you would use, say, <code>cl &lt;- parallel::makeCluster(2)</code>
@@ -205,7 +205,7 @@ If <code>NULL</code>, then argument <code>future.scheduling</code> is used.</p>
 <p>The value <code>scheduling</code> specifies the average number of futures
 ("chunks") that each worker processes.
 If <code>0.0</code>, then a single future is used to process all iterations;
-none of the other workers are not used.
+none of the other workers are used.
 If <code>1.0</code> or <code>TRUE</code>, then one future per worker is used.
 If <code>2.0</code>, then each worker will process two futures (if there are
 enough iterations).
@@ -258,13 +258,13 @@ leave the control on what backend to use to the end user.  This idea is
 part of the core philosophy of the <span class="pkg">foreach</span> framework.</p>
 <p>However, if you think it necessary to register the <span class="pkg">doFuture</span> backend
 in a function, please make sure to undo your changes when exiting the
-function. This can be achieve by:</p>
+function. This can be achieved by:</p>
 <div class="sourceCode"><pre><code><span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="../reference/registerDoFuture.html">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="va">...</span></span></code></pre></div>
 
 <p>This is important, because the end-user might have already registered a
-foreach backend elsewhere for other purposes and will most likely not known
+foreach backend elsewhere for other purposes and will most likely not know
 that calling your function will break their setup.
 <em>Remember, your package and its functions might be used in a greater
 context where multiple packages and functions are involved and those might
@@ -281,14 +281,14 @@ framework does <em>not</em> have a built-in mechanism for progress
 reporting(*).</p>
 <p>When using <strong>doFuture</strong>, and the Futureverse in general, for
 processing, the <strong>progressr</strong> package can be used to signal progress
-updates in a near-live fashion.  There is special argument related to
-<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> or <strong>doFuture</strong> to achieve this. Instead, one calls a
-a, so called, "progressor" function within each iteration.  See
+updates in a near-live fashion.  There is no special argument related to
+<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> or <strong>doFuture</strong> to achieve this. Instead, one calls a,
+so called, "progressor" function within each iteration.  See
 the <a href="https://cran.r-project.org/package=progressr" class="external-link"><strong>progressr</strong></a>
 package and its <code>vignette(package = "progressr")</code> for examples.</p>
 <p>(*) The legacy <strong>doSNOW</strong> package uses a special <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument
 <code>.options.doSNOW$progress</code> that can be used to make a progress update
-each time results from a parallel workers is returned. This approach
+each time results from a parallel worker are returned. This approach
 is limited by how chunking works, requires the developer to set that
 argument, and the code becomes incompatible with foreach adaptors
 registered by other <strong>doNnn</strong> packages.</p>

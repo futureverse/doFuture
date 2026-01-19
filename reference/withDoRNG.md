@@ -38,7 +38,7 @@ random numbers are not statistically sound, e.g. they might be
 correlated. For what it is worth, the **doFuture** adapter, which is set
 by
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md),
-detects when **doRNG** is forgotten, and produced an informative warning
+detects when **doRNG** is forgotten, and produces an informative warning
 reminding us to use **doRNG**.
 
 If you do not have control over the foreach code, you can use

@@ -14,7 +14,7 @@ with(data, expr, ..., local = FALSE, envir = parent.frame())
 
 - data:
 
-  The foreach \`%dopar% adapter to use temporarily.
+  The foreach `%dopar%` adapter to use temporarily.
 
 - expr:
 
