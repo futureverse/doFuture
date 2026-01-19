@@ -24,7 +24,7 @@ the future backends supported by the \pkg{future} package, which
 includes various parallel and distributed backends.
 In other words, \emph{if a computational backend is supported via
 the Future API, it'll be automatically available for all functions
-and packages making using the \pkg{foreach} framework.}
+and packages making use of the \pkg{foreach} framework.}
 Neither the developer nor the end user has to change any code.
 
 \emph{\strong{Recommendation}: If you have the option, use \code{\link{\%dofuture\%}} instead
@@ -64,10 +64,10 @@ or more compute nodes.
 \section{Global variables and packages}{
 
 Unless running locally in the global environment (= at the \R prompt),
-the \pkg{foreach} package requires you do specify what global variables
+the \pkg{foreach} package requires you to specify what global variables
 and packages need to be available and attached in order for the
 "foreach" expression to be evaluated properly.  It is not uncommon to
-get errors on one or missing variables when moving from running a
+get errors on one or more missing variables when moving from running a
 \code{res <- foreach() \%dopar\% { ... }} statement on the local machine
 to, say, another machine on the same network.  The solution to the
 problem is to explicitly export those variables by specifying them in
@@ -81,7 +81,7 @@ critical, because by default the Future API identifies all globals and
 all packages automatically (via static code inspection).  This is done
 exactly the same way regardless of future backend.
 This automatic identification of globals and packages is illustrated
-by the below example, which does \emph{not} have specify
+by the below example, which does \emph{not} have to specify
 \code{.export = c("my_stat")}.  This works because the future framework
 detects that function \code{my_stat()} is needed and makes sure it is
 exported.  If you would use, say, \code{cl <- parallel::makeCluster(2)}
@@ -110,7 +110,7 @@ If \code{NULL}, then argument \code{future.scheduling} is used.
 The value \code{scheduling} specifies the average number of futures
 ("chunks") that each worker processes.
 If \code{0.0}, then a single future is used to process all iterations;
-none of the other workers are not used.
+none of the other workers are used.
 If \code{1.0} or \code{TRUE}, then one future per worker is used.
 If \code{2.0}, then each worker will process two futures (if there are
 enough iterations).
@@ -168,7 +168,7 @@ part of the core philosophy of the \pkg{foreach} framework.
 
 However, if you think it necessary to register the \pkg{doFuture} backend
 in a function, please make sure to undo your changes when exiting the
-function. This can be achieve by:
+function. This can be achieved by:
 
 \preformatted{
   with(registerDoFuture(), local = TRUE)
@@ -176,7 +176,7 @@ function. This can be achieve by:
 }
 
 This is important, because the end-user might have already registered a
-foreach backend elsewhere for other purposes and will most likely not known
+foreach backend elsewhere for other purposes and will most likely not know
 that calling your function will break their setup.
 \emph{Remember, your package and its functions might be used in a greater
 context where multiple packages and functions are involved and those might
@@ -193,15 +193,15 @@ reporting(*).
 
 When using \strong{doFuture}, and the Futureverse in general, for
 processing, the \strong{progressr} package can be used to signal progress
-updates in a near-live fashion.  There is special argument related to
-\code{foreach()} or \strong{doFuture} to achieve this. Instead, one calls a
-a, so called, "progressor" function within each iteration.  See
+updates in a near-live fashion.  There is no special argument related to
+\code{foreach()} or \strong{doFuture} to achieve this. Instead, one calls a,
+so called, "progressor" function within each iteration.  See
 the \href{https://cran.r-project.org/package=progressr}{\strong{progressr}}
 package and its \code{vignette(package = "progressr")} for examples.
 
 (*) The legacy \strong{doSNOW} package uses a special \code{foreach()} argument
 \code{.options.doSNOW$progress} that can be used to make a progress update
-each time results from a parallel workers is returned. This approach
+each time results from a parallel worker are returned. This approach
 is limited by how chunking works, requires the developer to set that
 argument, and the code becomes incompatible with foreach adaptors
 registered by other \strong{doNnn} packages.

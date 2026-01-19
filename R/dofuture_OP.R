@@ -46,7 +46,7 @@
 #'
 #'
 #' @section Random Number Generation (RNG):
-#' The `%dofuture%` uses the future ecosystem to generate proper random
+#' The `%dofuture%` operator uses the future ecosystem to generate proper random
 #' numbers in parallel in the same way they are generated in, for instance,
 #' \pkg{future.apply}. For this to work, you need to specify
 #' `.options.future = list(seed = TRUE)`.  For example,
@@ -58,7 +58,7 @@
 #' ```
 #'
 #' Unless `seed` is `FALSE` or `NULL`, this guarantees that the exact same
-#' sequence of random numbers are generated _given the same initial
+#' sequence of random numbers is generated _given the same initial
 #' seed / RNG state_ - this regardless of type of future backend, number of
 #' workers, and scheduling ("chunking") strategy.
 #' 
@@ -73,15 +73,15 @@
 #'
 #' If `seed = FALSE`, it is expected that none of the foreach iterations
 #' use random number generation.
-#' If they do, then an informative warning or error is produces depending
+#' If they do, then an informative warning or error is produced depending
 #' on settings. See [future::future] for more details.
-#' Using `seed = NULL`, is like `seed = FALSE` but without the check
+#' Using `seed = NULL` is like `seed = FALSE` but without the check
 #' whether random numbers were generated or not.
 #'
 #' As input, `seed` may also take a fixed initial seed (integer),
 #' either as a full parallel RNG seed (vector of 1+6 integers), or
 #' as a seed generating such a full seed. This seed will
-#' be used to generated one parallel RNG stream for each iteration.
+#' be used to generate one parallel RNG stream for each iteration.
 #'
 #' An alternative to specifying the `seed` option via `.options.future`,
 #' is to use the \code{\link[future:%seed%]{%seed%}} operator.  See
@@ -105,7 +105,7 @@
 #' The value `scheduling` specifies the average number of futures
 #' ("chunks") that each worker processes.
 #' If `0.0`, then a single future is used to process all iterations;
-#' none of the other workers are not used.
+#' none of the other workers are used.
 #' If `1.0` or `TRUE`, then one future per worker is used.
 #' If `2.0`, then each worker will process two futures (if there are
 #' enough iterations).
@@ -118,7 +118,7 @@
 #'
 #' @section Control processing order of iterations:
 #' Attribute `ordering` of `chunk.size` or `scheduling` can be used to
-#' control the ordering the elements are iterated over, which only affects
+#' control the ordering of the elements are iterated over, which only affects
 #' the processing order and _not_ the order values are returned.
 #' This attribute can take the following values:
 #'
@@ -151,15 +151,15 @@
 #'
 #' When using **doFuture**, and the Futureverse in general, for
 #' processing, the **progressr** package can be used to signal progress
-#' updates in a near-live fashion.  There is special argument related to
-#' `foreach()` or **doFuture** to achieve this. Instead, one calls a
-#' a, so called, "progressor" function within each iteration.  See
+#' updates in a near-live fashion.  There is no special argument related to
+#' `foreach()` or **doFuture** to achieve this. Instead, one calls a,
+#' so called, "progressor" function within each iteration.  See
 #' the [**progressr**](https://cran.r-project.org/package=progressr)
 #' package and its `vignette(package = "progressr")` for examples.
 #'
 #' (*) The legacy **doSNOW** package uses a special `foreach()` argument
 #' `.options.doSNOW$progress` that can be used to make a progress update
-#' each time results from a parallel workers is returned. This approach
+#' each time results from a parallel worker are returned. This approach
 #' is limited by how chunking works, requires the developer to set that
 #' argument, and the code becomes incompatible with foreach adaptors
 #' registered by other **doNnn** packages.

@@ -149,7 +149,7 @@
 ## New Features
 
  * Now `registerDoFuture()` returns the previously set foreach
-   backend, making it possible to reset the the foreach backend to the
+   backend, making it possible to reset the foreach backend to the
    previous settings.
 
  * Now **doFuture** recognizes when it is called via the
@@ -409,7 +409,7 @@
    should take place or not, and if so, how granular it should be.
    This is specified as `foreach(..., .options.future =
    list(scheduling = <value>))`.  With `scheduling = 1.0` (or
-   equivalently `scheduling = TRUE`), the the elements (iterations)
+   equivalently `scheduling = TRUE`), the elements (iterations)
    will be split up in equally sized chunks such that each backend
    worker will process exactly one chunk.  With `scheduling = Inf` (or
    equivalently `scheduling = FALSE`), chunking is disabled, i.e. each
@@ -442,7 +442,7 @@
    `foreach()` as a global variable.
 
  * If a `foreach()` call would result in an error, the error thrown
-   would report on "object 'expr' not found" and not the actually
+   would report on "object 'expr' not found" and not the actual
    error message.
 
 
@@ -454,7 +454,7 @@
    processes all elements in chunks such that each backend worker will
    process a subset of data at once (and only once).  This
    significantly speeds up processing time when iterating over a large
-   number of elements that each has short a processing time.
+   number of elements that each has a short processing time.
   
 ## Globals
 

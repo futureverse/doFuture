@@ -1,6 +1,6 @@
 #' Evaluate an Expression using a Temporarily Registered Foreach `%dopar%` Adapter
 #'
-#' @param data The foreach `%dopar% adapter to use temporarily.
+#' @param data The foreach `%dopar%` adapter to use temporarily.
 #'
 #' @param expr The R expression to be evaluated.
 #'

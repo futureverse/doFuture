@@ -93,7 +93,7 @@ getGlobalsAndPackages_doFuture <- function(expr, envir, export = NULL, noexport 
     rm(list = "globals2")
   }
 
-  ## At this point a globals should be resolved and we should know
+  ## At this point globals should be resolved and we should know
   ## their total size.
   
   ## Also make sure we've got our in-house '...future.x_ii' covered.
