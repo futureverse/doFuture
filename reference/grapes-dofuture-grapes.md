@@ -198,10 +198,18 @@ y <- foreach(x = 1:10, .combine = rbind) %dofuture% {
   y <- sqrt(x)
   data.frame(x = x, y = y, pid = Sys.getpid())
 }
-#> Warning: Caught FutureLaunchError. Canceling all iterations ...
-#> Error: future::evalFuture() failed on hb-x1-2023 (pid 2734335) at 2026-01-19T10:34:28. Using package 'future' v1.69.0.9002. Possible other reasons: Failed to attach one or more packages: there is no package called ‘future.apply’ [future <unnamed>; on 3eef20e64dfe16b457bde6889e99e068@hb-x1-2023<2734335>]
 print(y)
-#> Error: object 'y' not found
+#>     x        y     pid
+#> 1   1 1.000000 2746749
+#> 2   2 1.414214 2746749
+#> 3   3 1.732051 2746748
+#> 4   4 2.000000 2746744
+#> 5   5 2.236068 2746746
+#> 6   6 2.449490 2746742
+#> 7   7 2.645751 2746747
+#> 8   8 2.828427 2746743
+#> 9   9 3.000000 2746745
+#> 10 10 3.162278 2746745
 
 
 ## Random number generation
@@ -229,7 +237,6 @@ y <- foreach(i = 1:3, .combine = rbind) %:%
        foreach(j = 3:5, .combine = rbind, .options.future = list(seed = TRUE)) %dofuture% {
   data.frame(i = i, j = j, random = runif(n = 1L)) 
 }
-#> Warning: [FUTURE BACKEND FAILURE]: Caught FutureLaunchError with error message: future::evalFuture() failed on hb-x1-2023 (pid 2734335) at 2026-01-19T10:34:28. Using package 'future' v1.69.0.9002. Possible other reasons: Failed to attach one or more packages: there is no package called ‘future.apply’ [future <unnamed>; on 3eef20e64dfe16b457bde6889e99e068@hb-x1-2023<2734335>]
 print(y)
 #>   i j     random
 #> 1 1 3 0.45395001
