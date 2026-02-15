@@ -162,7 +162,9 @@ function(obj, expr, envir, data) {   #nolint
   for (name in names(opts)) {
     options[[name]] <- opts[[name]]
   }
-  options(future.disposable = NULL)
+  if (!identical(attr(opts, "dispose"), FALSE)) {
+    options(future.disposable = NULL)
+  }
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
