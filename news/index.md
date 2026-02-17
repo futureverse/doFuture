@@ -2,7 +2,10 @@
 
 ## Version (development version)
 
-- …
+### Bug Fixes
+
+- `with(registerDoFuture(), expr, local = FALSE)` would not respect
+  visibility of the evaluated expression `expr`.
 
 ## Version 1.2.0
 
