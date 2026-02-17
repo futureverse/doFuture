@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * `with(registerDoFuture(), expr, local = FALSE)` would evaluate
+   `expr` in the current R process rather than on parallel workers.
  
 
 # Version 1.2.0 (2026-01-14)
