@@ -64,10 +64,10 @@ This alternative is useful if you already have a lot of R code that
 uses \verb{\%dopar\%} and you just want to switch to using the future
 framework for parallelization.  Using \code{registerDoFuture()} is also
 useful when you wish to use the future framework with packages and
-functions that uses \code{foreach()} and \verb{\%dopar\%} internally,
+functions that use \code{foreach()} and \verb{\%dopar\%} internally,
 e.g. \strong{\href{https://cran.r-project.org/package=caret}{caret}}, \strong{\href{https://cran.r-project.org/package=plyr}{plyr}}, \strong{\href{https://cran.r-project.org/package=NMF}{NMF}}, and \strong{\href{https://cran.r-project.org/package=glmnet}{glmnet}}.  It can
 also be used to configure the Bioconductor \strong{\href{https://bioconductor.org/packages/BiocParallel/}{BiocParallel}} package,
-and any package that rely on it, to parallelize via the future
+and any package that relies on it, to parallelize via the future
 framework.
 
 See \code{\link[=registerDoFuture]{registerDoFuture()}} for more details and examples on this approach.

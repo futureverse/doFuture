@@ -41,7 +41,7 @@ generated. (Default: \code{FALSE})}
 }
 \section{Environment variables that set R options}{
 
-All of the above \R \option{doFfuture.*} options can be set by
+All of the above \R \option{doFuture.*} options can be set by
 corresponding environment variable \env{R_DOFUTURE_*} \emph{when the
 \pkg{doFuture} package is loaded}.
 For example, if \code{R_DOFUTURE_DEBUG=TRUE}, then option

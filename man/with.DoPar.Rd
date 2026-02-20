@@ -7,7 +7,7 @@
 \method{with}{DoPar}(data, expr, ..., local = FALSE, envir = parent.frame())
 }
 \arguments{
-\item{data}{The foreach `\%dopar\% adapter to use temporarily.}
+\item{data}{The foreach \verb{\%dopar\%} adapter to use temporarily.}
 
 \item{expr}{The R expression to be evaluated.}
 

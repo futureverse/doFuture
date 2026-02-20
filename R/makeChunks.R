@@ -20,13 +20,13 @@
 #'
 #' @section Control processing order of elements:
 #' Attribute `ordering` of `future.chunk.size` or `future.scheduling` can
-#' be used to control the ordering the elements are iterated over, which
-#' only affects the processing order _not_ the order values are returned.
+#' be used to control the ordering of the elements are iterated over, which
+#' only affects the processing order _not_ the order in which values are returned.
 #' This attribute can take the following values:
-#' * index vector - an numeric vector of length `nbrOfElements` specifying
+#' * index vector - a numeric vector of length `nbrOfElements` specifying
 #'                  how elements are remapped
-#' * function     - an function taking one argument which is called as
-#'                  `ordering(nbrOfElements)` and which much return an
+#' * function     - a function taking one argument which is called as
+#'                  `ordering(nbrOfElements)` and which must return an
 #'                  index vector of length `nbrOfElements`, e.g.
 #'                  `function(n) rev(seq_len(n))` for reverse ordering.
 #' * `"random"`   - this will randomize the ordering via random index

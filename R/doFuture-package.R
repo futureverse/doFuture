@@ -2,7 +2,7 @@
 #'
 #' The \pkg{doFuture} package provides mechanisms for using the
 #' \pkg{foreach} package together with the \pkg{future} package
-#' such that `foreach()` parallelizes via _any_ future backend.
+#' such that `foreach()` parallelizes via *any* future backend.
 #'
 #' @section Usage:
 #' There are two alternative ways to use this package:
@@ -59,10 +59,10 @@
 #' uses `%dopar%` and you just want to switch to using the future
 #' framework for parallelization.  Using `registerDoFuture()` is also
 #' useful when you wish to use the future framework with packages and
-#' functions that uses `foreach()` and `%dopar%` internally,
+#' functions that use `foreach()` and `%dopar%` internally,
 #' e.g. **[caret]**, **[plyr]**, **[NMF]**, and **[glmnet]**.  It can
 #' also be used to configure the Bioconductor **[BiocParallel]** package,
-#' and any package that rely on it, to parallelize via the future
+#' and any package that relies on it, to parallelize via the future
 #' framework.
 #'
 #' See [registerDoFuture()] for more details and examples on this approach.

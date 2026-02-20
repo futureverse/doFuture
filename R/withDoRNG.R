@@ -17,7 +17,7 @@
 #' foreach adapter.  If neither is done, then there is a risk that the
 #' random numbers are not statistically sound, e.g. they might be correlated.
 #' For what it is worth, the **doFuture** adapter, which is set by
-#' [`registerDoFuture()`], detects when **doRNG** is forgotten, and produced
+#' [`registerDoFuture()`], detects when **doRNG** is forgotten, and produces
 #' an informative warning reminding us to use **doRNG**.
 #'
 #' If you do not have control over the foreach code, you can use

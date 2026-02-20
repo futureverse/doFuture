@@ -1,6 +1,6 @@
 #' Evaluate an Expression using a Temporarily Registered Foreach `%dopar%` Adapter
 #'
-#' @param data The foreach `%dopar% adapter to use temporarily.
+#' @param data The foreach `%dopar%` adapter to use temporarily.
 #'
 #' @param expr The R expression to be evaluated.
 #'
@@ -27,7 +27,6 @@ with.DoPar <- function(data, expr, ..., local = FALSE, envir = parent.frame()) {
   ## It won't work with doParallel::registerDoParallel(), because it does not
   ## return the previous adapter. Only registerDoFuture() does that.
   oldDoPar <- data
-  
 
   undoDoPar <- function() {
     do.call(setDoPar, args = oldDoPar)
@@ -40,6 +39,7 @@ with.DoPar <- function(data, expr, ..., local = FALSE, envir = parent.frame()) {
     do.call(base::on.exit, args = args, envir = envir)
     invisible(NULL)
   } else {
+    expr <- substitute(expr)
     on.exit(undoDoPar())
     res <- withVisible(eval(expr, envir = envir, enclos = baseenv()))
     if (res[["visible"]]) res[["value"]] else invisible(res[["value"]])

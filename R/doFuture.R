@@ -119,7 +119,7 @@ function(obj, expr, envir, data) {   #nolint
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  ## 3. Indentify globals and packages
+  ## 3. Identify globals and packages
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   if (debug) mdebug_push("Identifying globals and packages ...")
   
@@ -135,7 +135,7 @@ function(obj, expr, envir, data) {   #nolint
   scanForGlobals <- gp$scanForGlobals
   rm(list = "gp")
   
-  ## Have the future backend/framework handle also the required 'doFuture'
+  ## Have the future backend/framework also handle the required 'doFuture'
   ## package.  That way we will get a more informative error message in
   ## case it is missing.
   packages <- c("doFuture", packages)
@@ -159,10 +159,14 @@ function(obj, expr, envir, data) {   #nolint
   
   ## Support %globals%, %packages%, ...
   opts <- getOption("future.disposable", NULL)
-  for (name in names(opts)) {
-    options[[name]] <- opts[[name]]
+  if (length(opts) > 0) {
+    for (name in names(opts)) {
+      options[[name]] <- opts[[name]]
+    }
+    if (!identical(attr(opts, "dispose"), FALSE)) {
+      options(future.disposable = NULL)
+    }
   }
-  options(future.disposable = NULL)
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -274,7 +278,7 @@ function(obj, expr, envir, data) {   #nolint
   ## 7. Reproducible RNG
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Produce a warning if random numbers are used by mistake, that is,
-  ## if the RNG state is updated without having request to use parallel RNG.
+  ## if the RNG state is updated without having requested to use parallel RNG.
   seed <- FALSE
 
   ## SPECIAL CASES: If parallel RNG is taken care of by another package
@@ -482,7 +486,7 @@ function(obj, expr, envir, data) {   #nolint
     chunk_summary <- sprintf("%d chunks with %s elements",
                              chunk_sizes, names(chunk_sizes))
     chunk_summary <- paste(chunk_summary, collapse = ", ")
-    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results from %d chunks in to a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(chunk_sizes), chunk_summary)
+    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results from %d chunks into a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(chunk_sizes), chunk_summary)
     if (debug) {
       mdebug(msg)
       mprint(chunk_sizes)
@@ -502,7 +506,7 @@ function(obj, expr, envir, data) {   #nolint
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  ## 10. Accumlate results
+  ## 10. Accumulate results
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Combine results (and identify errors)
   ## NOTE: This is adopted from foreach:::doSEQ()
