@@ -159,11 +159,13 @@ function(obj, expr, envir, data) {   #nolint
   
   ## Support %globals%, %packages%, ...
   opts <- getOption("future.disposable", NULL)
-  for (name in names(opts)) {
-    options[[name]] <- opts[[name]]
-  }
-  if (!identical(attr(opts, "dispose"), FALSE)) {
-    options(future.disposable = NULL)
+  if (length(opts) > 0) {
+    for (name in names(opts)) {
+      options[[name]] <- opts[[name]]
+    }
+    if (!identical(attr(opts, "dispose"), FALSE)) {
+      options(future.disposable = NULL)
+    }
   }
 
 
