@@ -118,6 +118,13 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
                        future.chunk.size = chunk.size)
   if (debug) mdebugf("Number of chunks: %d", length(chunks))
 
+  ## Process elements in a custom order?
+  ordering <- attr(chunks, "ordering")
+  if (!is.null(ordering)) {
+    if (debug) mdebugf("Index remapping (attribute 'ordering'): [n = %d] %s", length(ordering), hpaste(ordering))
+    chunks <- lapply(chunks, FUN = function(idxs) .subset(ordering, idxs))
+  }
+
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 3. Prepare for creating futures
@@ -594,6 +601,17 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
     stop(ex)
   }
   values <- values2 <- results <- NULL
+
+  ## Were elements processed in a custom order?
+  if (length(results2) > 1L && !is.null(ordering)) {
+    invOrdering <- vector(mode(ordering), length = nX)
+    idx <- 1:nX
+    invOrdering[.subset(ordering, idx)] <- idx
+    rm(list = c("ordering", "idx"))
+    if (debug) mdebugf("Reverse index remapping (attribute 'ordering'): [n = %d] %s", length(invOrdering), hpaste(invOrdering))
+    results2 <- .subset(results2, invOrdering)
+    rm(list = c("invOrdering"))
+  }
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

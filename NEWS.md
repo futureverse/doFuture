@@ -2,6 +2,9 @@
 
 ## Bug Fixes
 
+ * Attribute `ordering` of `foreach()` argument `.options.future =
+   list(scheduling = ...)` was ignored. Same for `chunk.size`.
+
  * `foreach()` argument `.options.future = list(label = ...)` was
    ignored.
 

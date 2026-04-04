@@ -213,6 +213,13 @@ function(obj, expr, envir, data) {   #nolint
                        future.chunk.size = chunk.size)
   if (debug) mdebugf("Number of chunks: %d", length(chunks))
 
+  ## Process elements in a custom order?
+  ordering <- attr(chunks, "ordering")
+  if (!is.null(ordering)) {
+    if (debug) mdebugf("Index remapping (attribute 'ordering'): [n = %d] %s", length(ordering), hpaste(ordering))
+    chunks <- lapply(chunks, FUN = function(idxs) .subset(ordering, idxs))
+  }
+
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 6. Prepare for creating futures
@@ -509,6 +516,18 @@ function(obj, expr, envir, data) {   #nolint
   }
   results <- results2
   rm(list = "results2")
+
+  ## Were elements processed in a custom order?
+  if (length(results) > 1L && !is.null(ordering)) {
+    nX <- length(results)
+    invOrdering <- vector(mode(ordering), length = nX)
+    idx <- 1:nX
+    invOrdering[.subset(ordering, idx)] <- idx
+    rm(list = c("ordering", "idx"))
+    if (debug) mdebugf("Reverse index remapping (attribute 'ordering'): [n = %d] %s", length(invOrdering), hpaste(invOrdering))
+    results <- .subset(results, invOrdering)
+    rm(list = c("invOrdering"))
+  }
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
