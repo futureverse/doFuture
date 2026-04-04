@@ -374,6 +374,8 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     label <- "doFuture2-%s"
   } else {
     stopifnot(length(label) == 1L, is.character(label))
+    ## WORKAROUND: futurize (== 0.3.0) tweak
+    if (label == "fz:foreach::%:%-%d") label <- "fz:foreach::%%:%%-%d"
   }
   labels <- sprintf(label, seq_len(nchunks))
   fs <- tryCatch({
