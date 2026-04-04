@@ -376,7 +376,8 @@ function(obj, expr, envir, data) {   #nolint
       }
   
       rm(list = "args_list_ii")
-      
+
+      if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
       if (!is.null(globals.maxSize.adjusted)) {
         globals_ii <- c(globals_ii, ...future.globals.maxSize = globals.maxSize)
       }
@@ -390,7 +391,7 @@ function(obj, expr, envir, data) {   #nolint
       ## Not needed anymore
       rm(list = c("chunk", "globals_ii", "packages_ii"))
   
-      if (debug) mdebug_pop()
+      if (debug) mdebug_pop() ## "Chunk #%d of %d ..."
     } ## for (ii ...)
 
     fs
