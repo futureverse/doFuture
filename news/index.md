@@ -1,5 +1,12 @@
 # Changelog
 
+## Version (development version)
+
+### Bug Fixes
+
+- [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
+  `.options.future = list(label = ...)` was ignored.
+
 ## Version 1.2.1
 
 CRAN release: 2026-02-20
@@ -26,7 +33,7 @@ CRAN release: 2025-12-09
 
 - Attempts to add or ignore globals via
   [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
-  `.options.globals` were silently ignored.
+  `.options.future = list(globals = ...)` were silently ignored.
 
 ## Version 1.1.2
 

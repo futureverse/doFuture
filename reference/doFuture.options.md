@@ -3,8 +3,8 @@
 Below are all R options specific to the doFuture package. For options
 controlling futures in general, see [the
 options](https://future.futureverse.org/reference/zzz-future.options.html)
-for the future package.  
-  
+for the future package.\
+\
 *WARNING: Note that the names and the default values of these options
 may change in future versions of the package. Please use with care until
 further notice.*

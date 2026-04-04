@@ -13,6 +13,7 @@ Below is an example showing how to make `%dopar%` work with
 parallel using background R process.
 
 ``` r
+
 library("doFuture")
 registerDoFuture()
 plan(multisession)
@@ -33,6 +34,7 @@ then the following foreach iterations will be submitted to the HPC job
 scheduler and distributed for evaluation on the compute nodes.
 
 ``` r
+
 library("doFuture")
 registerDoFuture()
 plan(future.batchtools::batchtools_slurm)
@@ -55,6 +57,7 @@ processing including multicore, multisession, MPI, ad hoc clusters and
 HPC job schedulers. For example,
 
 ``` r
+
 library("doFuture")
 registerDoFuture()
 plan(multisession)
@@ -84,6 +87,7 @@ that with **[doFuture](https://cran.r-project.org/package=doFuture)**,
 **BiocParallel** supports any type of future. For example,
 
 ``` r
+
 library("doFuture")
 registerDoFuture()
 plan(multisession)
@@ -104,6 +108,7 @@ from within a function, you do need to export globals explicitly. For
 example, although global `cutoff` is properly exported when we do
 
 ``` r
+
 library("doParallel")
 registerDoParallel(parallel::makeCluster(2))
 
@@ -117,6 +122,7 @@ names(y) <- colnames(mtcars)
 it falls short as soon as we try to do the same from within a function:
 
 ``` r
+
 my_mean <- function() {
   y <- foreach(x = mtcars) %dopar% {
     mean(x, trim = cutoff)
@@ -132,6 +138,7 @@ x <- my_mean()
 The solution is to explicitly export global variables, e.g.
 
 ``` r
+
 my_mean <- function() {
   y <- foreach(x = mtcars, .export = "cutoff") %dopar% {
     mean(x, trim = cutoff)
@@ -148,6 +155,7 @@ the **[future](https://cran.r-project.org/package=future)** machinery
 comes into play including automatic handling of global variables, e.g.
 
 ``` r
+
 library("doFuture")
 registerDoFuture()
 plan(multisession, workers = 2)
@@ -170,6 +178,7 @@ packages that need to be attached are also automatically taken care of,
 e.g.
 
 ``` r
+
 registerDoFuture()
 library("tools")
 ext <- foreach(file = c("abc.txt", "def.log")) %dopar% file_ext(file)
@@ -180,6 +189,7 @@ unlist(ext)
 whereas
 
 ``` r
+
 registerDoParallel(parallel::makeCluster(2))
 library("tools")
 ext <- foreach(file = c("abc.txt", "def.log")) %dopar% file_ext(file)

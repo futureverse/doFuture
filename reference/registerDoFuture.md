@@ -171,6 +171,7 @@ However, if you think it necessary to register the doFuture backend in a
 function, please make sure to undo your changes when exiting the
 function. This can be achieved by:
 
+
       with(registerDoFuture(), local = TRUE)
       ...
 

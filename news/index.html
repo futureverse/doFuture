@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1-9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
     <li><a class="dropdown-item" href="../articles/doFuture-2-dopar.html">Foreach Iteration using Futures via %dopar%</a></li>
     <li><a class="dropdown-item" href="../articles/doFuture-3-dofuture.html">Foreach Iteration using Futures via %dofuture%</a></li>
   </ul></li>
-<li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="active nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://www.futureverse.org/"><span class="fa fas fa-home"></span></a></li>
@@ -72,6 +72,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.future = list(label = ...)</code> was ignored.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.1" id="version-121">Version 1.2.1<a class="anchor" aria-label="anchor" href="#version-121"></a></h2><p class="text-muted">CRAN release: 2026-02-20</p>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-1"></a></h3>
@@ -91,7 +99,7 @@
 <h2 class="pkg-version" data-toc-text="1.1.3" id="version-113">Version 1.1.3<a class="anchor" aria-label="anchor" href="#version-113"></a></h2><p class="text-muted">CRAN release: 2025-12-09</p>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-3">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-3"></a></h3>
-<ul><li>Attempts to add or ignore globals via <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.globals</code> were silently ignored.</li>
+<ul><li>Attempts to add or ignore globals via <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.future = list(globals = ...)</code> were silently ignored.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -117,7 +125,7 @@
 <ul><li><p><code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> with <code>%dofuture%</code> or <code>%dopar%</code> will now exit early as soon as it detects an error in one of the iterations. It will also exit early if it detects a user interrupt (e.g. Ctrl-C). Remaining iterations are canceled and interrupted if the future backend supports it, releasing compute resources sooner and avoiding having to wait for remaining futures to be resolved.</p></li>
 <li><p>Add support for <code>foreach(..., .verbose = TRUE)</code>, which is part of the official <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> API. When set, detailed debugging information useful for troubleshooting is outputted to standard error through R’s message condition mechanism.</p></li>
 <li><p>Add support for <code>with(registerDoFuture(), { ... })</code> to temporarily use the doFuture adapter. Can also be used as <code>with(registerDoFuture(), local = TRUE)</code> to temporarily register it within a function.</p></li>
-<li><p>Add <code>registerDoFuture(flavor = "%dofuture%")</code>, which makes the <code>%dopar%</code> infix operator behave as if <code>%dofuture%</code> would have been used. This makes it possible for you to use <code>%dofuture%</code>, even if you do not have the option to update the code that uses <code>%dopar%</code>. For instance, if you use one of the many packages that uses <code>foreach(...) %dopar% { ... }</code> internally, this flavor allows you to effectively make that the same as <code>foreach(...)  %dofuture%    { ... }</code>.</p></li>
+<li><p>Add <code>registerDoFuture(flavor = "%dofuture%")</code>, which makes the <code>%dopar%</code> infix operator behave as if <code>%dofuture%</code> would have been used. This makes it possible for you to use <code>%dofuture%</code>, even if you do not have the option to update the code that uses <code>%dopar%</code>. For instance, if you use one of the many packages that uses <code>foreach(...) %dopar% { ... }</code> internally, this flavor allows you to effectively make that the same as <code>foreach(...)  %dofuture% { ... }</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
@@ -143,8 +151,8 @@
 <h2 class="pkg-version" data-toc-text="1.0.0" id="version-100">Version 1.0.0<a class="anchor" aria-label="anchor" href="#version-100"></a></h2><p class="text-muted">CRAN release: 2023-03-24</p>
 <div class="section level3">
 <h3 id="new-features-1-0-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
-<ul><li><p>Add <code>%dofuture%</code> operator, which can be used like <code>%dopar%</code>, but without the need for <code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code>, e.g. <code>y &lt;- foreach(x =    1:3) %dofuture% { slow_fcn(x) }</code>. One advantage, contrary to using <code>%dopar%</code>, is that a developer then has full control on <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code>; with <code>%dopar%</code> the exact behavior depends also on what <code>%dopar%</code> adapter the user has registered. Another advantage is that <code>%dofuture%</code> can hand over random number generation, identification of globals, and error handling to the future ecosystem, which result in a more predictable and concise behavior, similar to that provided by <strong>future.apply</strong> and <strong>furrr</strong>.</p></li>
-<li><p>Now <strong>future</strong> operators such as <code>%stdout%</code> and <code>%conditions%</code> can be used to control the corresponding <code>options.future</code> arguments, e.g. <code>y &lt;- foreach(i = 1:3) %dopar% { my_fun(i) } %stdout% FALSE</code> is the same as <code>y &lt;- foreach(i = 1:3, .options.future = list(stdout    = FALSE)) %dopar% { my_fun(i) }</code>.</p></li>
+<ul><li><p>Add <code>%dofuture%</code> operator, which can be used like <code>%dopar%</code>, but without the need for <code><a href="../reference/registerDoFuture.html">registerDoFuture()</a></code>, e.g. <code>y &lt;- foreach(x = 1:3) %dofuture% { slow_fcn(x) }</code>. One advantage, contrary to using <code>%dopar%</code>, is that a developer then has full control on <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code>; with <code>%dopar%</code> the exact behavior depends also on what <code>%dopar%</code> adapter the user has registered. Another advantage is that <code>%dofuture%</code> can hand over random number generation, identification of globals, and error handling to the future ecosystem, which result in a more predictable and concise behavior, similar to that provided by <strong>future.apply</strong> and <strong>furrr</strong>.</p></li>
+<li><p>Now <strong>future</strong> operators such as <code>%stdout%</code> and <code>%conditions%</code> can be used to control the corresponding <code>options.future</code> arguments, e.g. <code>y &lt;- foreach(i = 1:3) %dopar% { my_fun(i) } %stdout% FALSE</code> is the same as <code>y &lt;- foreach(i = 1:3, .options.future = list(stdout = FALSE)) %dopar% { my_fun(i) }</code>.</p></li>
 <li><p>Add <code><a href="../reference/withDoRNG.html">withDoRNG()</a></code> for evaluating a foreach <code>%dopar%</code> expression with <code><a href="https://rdrr.io/pkg/doRNG/man/registerDoRNG.html" class="external-link">doRNG::registerDoRNG()</a></code> temporarily set.</p></li>
 </ul></div>
 </div>
@@ -182,7 +190,7 @@
 <h2 class="pkg-version" data-toc-text="0.11.0" id="version-0110">Version 0.11.0<a class="anchor" aria-label="anchor" href="#version-0110"></a></h2><p class="text-muted">CRAN release: 2020-12-12</p>
 <div class="section level3">
 <h3 id="new-features-0-11-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-11-0"></a></h3>
-<ul><li><p><code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.snow = list(preschedule =    &lt;logical&gt;)</code> is now acknowledged as a fallback to analogous argument <code>.options.multicore</code> - two arguments defined by the <strong>doMC</strong> and the <strong>doSNOW</strong> packages and also used by the <strong>doParallel</strong> package. As before, argument <code>.options.future</code> will always take precedence if <code>list(scheduling = &lt;logical&gt;/&lt;numeric&gt;)</code> or <code>list(chunk.size = &lt;integer&gt;)</code> is given.</p></li>
+<ul><li><p><code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.snow = list(preschedule = &lt;logical&gt;)</code> is now acknowledged as a fallback to analogous argument <code>.options.multicore</code> - two arguments defined by the <strong>doMC</strong> and the <strong>doSNOW</strong> packages and also used by the <strong>doParallel</strong> package. As before, argument <code>.options.future</code> will always take precedence if <code>list(scheduling = &lt;logical&gt;/&lt;numeric&gt;)</code> or <code>list(chunk.size = &lt;integer&gt;)</code> is given.</p></li>
 <li><p>Warnings and errors produced when using the RNG without using <code>%dorng%</code> of the <strong>doRNG</strong> package are now tailored to the <strong>doFuture</strong> package.</p></li>
 </ul></div>
 <div class="section level3">
@@ -249,8 +257,8 @@
 <h2 class="pkg-version" data-toc-text="0.8.0" id="version-080">Version 0.8.0<a class="anchor" aria-label="anchor" href="#version-080"></a></h2><p class="text-muted">CRAN release: 2019-03-17</p>
 <div class="section level3">
 <h3 id="new-features-0-8-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h3>
-<ul><li><p>The <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.future</code> (a named list) can already be used to control whether “chunking” should take place or not, and if so, how much, e.g. <code>.options.future = list(scheduling =    2.0))</code>. As an alternative to <code>scheduling</code>, this can now be specified by <code>chunk.size</code> - the number of elements processed per future (“chunk”). In R 3.5.0, the <strong>parallel</strong> package introduced argument <code>chunk.size</code>.</p></li>
-<li><p>Elements can be processed in random order by setting attribute <code>ordering</code> of <code>.options.future</code> elements <code>chunk.size</code> or <code>scheduling</code>, e.g. <code>.options.future = list(chunk.size =    structure(TRUE, ordering = "random"))</code>. This improve load balancing in cases where there is a correlation between processing time and ordering of the elements. Note that the order of the returned values is not affected when randomizing the processing order.</p></li>
+<ul><li><p>The <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.future</code> (a named list) can already be used to control whether “chunking” should take place or not, and if so, how much, e.g. <code>.options.future = list(scheduling = 2.0))</code>. As an alternative to <code>scheduling</code>, this can now be specified by <code>chunk.size</code> - the number of elements processed per future (“chunk”). In R 3.5.0, the <strong>parallel</strong> package introduced argument <code>chunk.size</code>.</p></li>
+<li><p>Elements can be processed in random order by setting attribute <code>ordering</code> of <code>.options.future</code> elements <code>chunk.size</code> or <code>scheduling</code>, e.g. <code>.options.future = list(chunk.size = structure(TRUE, ordering = "random"))</code>. This improve load balancing in cases where there is a correlation between processing time and ordering of the elements. Note that the order of the returned values is not affected when randomizing the processing order.</p></li>
 <li><p>Passing argument <code>.options.future = list(stdout = ...)</code> can be used to to control how standard output should be relayed. See <code><a href="https://future.futureverse.org/reference/Future-class.html" class="external-link">?future::Future</a></code> for further details. Analogously, <code>.options.future = list(conditions = ...)</code> can be used to control how messages and warnings are relayed, if at all.</p></li>
 <li><p>Debug messages are now prepended with a timestamp.</p></li>
 </ul></div>
@@ -322,7 +330,7 @@
 <h2 class="pkg-version" data-toc-text="0.5.0" id="version-050">Version 0.5.0<a class="anchor" aria-label="anchor" href="#version-050"></a></h2><p class="text-muted">CRAN release: 2017-04-01</p>
 <div class="section level3">
 <h3 id="new-features-0-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
-<ul><li>Added <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> option to control whether scheduling (“chunking”) should take place or not, and if so, how granular it should be. This is specified as <code>foreach(..., .options.future =    list(scheduling = &lt;value&gt;))</code>. With <code>scheduling = 1.0</code> (or equivalently <code>scheduling = TRUE</code>), the elements (iterations) will be split up in equally sized chunks such that each backend worker will process exactly one chunk. With <code>scheduling = Inf</code> (or equivalently <code>scheduling = FALSE</code>), chunking is disabled, i.e. each worker process exactly one element at the time. If <code>scheduling =    0.0</code>, then a single workers processes all elements (and the other workers will not be used). If <code>2.0</code>, then each worker will process two chunks, and so on. If above option is not set, then <code>.options.multicore = list(preschedule = &lt;logical&gt;))</code> which is defined by <strong>doParallel</strong>, is used to mean scheduling = preschedule. If that is not set, then <code>scheduling = 1.0</code> is used by default.</li>
+<ul><li>Added <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> option to control whether scheduling (“chunking”) should take place or not, and if so, how granular it should be. This is specified as <code>foreach(..., .options.future = list(scheduling = &lt;value&gt;))</code>. With <code>scheduling = 1.0</code> (or equivalently <code>scheduling = TRUE</code>), the elements (iterations) will be split up in equally sized chunks such that each backend worker will process exactly one chunk. With <code>scheduling = Inf</code> (or equivalently <code>scheduling = FALSE</code>), chunking is disabled, i.e. each worker process exactly one element at the time. If <code>scheduling = 0.0</code>, then a single workers processes all elements (and the other workers will not be used). If <code>2.0</code>, then each worker will process two chunks, and so on. If above option is not set, then <code>.options.multicore = list(preschedule = &lt;logical&gt;))</code> which is defined by <strong>doParallel</strong>, is used to mean scheduling = preschedule. If that is not set, then <code>scheduling = 1.0</code> is used by default.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="software-quality-0-5-0">Software Quality<a class="anchor" aria-label="anchor" href="#software-quality-0-5-0"></a></h3>

@@ -54,6 +54,7 @@ just like with other map-reduce solutions such as
 **[furrr](https://furrr.futureverse.org)**. An example is:
 
 ``` r
+
 library(doFuture)
 plan(multisession)
 
@@ -86,6 +87,7 @@ future-compliant parallel backend can be used.
 An example is:
 
 ``` r
+
 library(doFuture)
 registerDoFuture()
 plan(multisession)
