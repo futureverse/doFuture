@@ -4,6 +4,11 @@
 
 ### Bug Fixes
 
+- Attribute `ordering` of
+  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
+  `.options.future = list(scheduling = ...)` was ignored. Same for
+  `chunk.size`.
+
 - [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) argument
   `.options.future = list(label = ...)` was ignored.
 
