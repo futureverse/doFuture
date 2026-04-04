@@ -311,7 +311,13 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 8. Creating futures
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  labels <- sprintf("doFuture-%s", seq_len(nchunks))
+  label <- options[["label"]]
+  if (is.null(label)) {
+    label <- "doFuture2-%s"
+  } else {
+    stopifnot(length(label) == 1L, is.character(label))
+  }
+  labels <- sprintf(label, seq_len(nchunks))
   fs <- tryCatch({
     if (debug) {
       mdebugf_push("Launching %d futures (chunks) ...", nchunks)

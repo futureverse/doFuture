@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * `foreach()` argument `.options.future = list(label = ...)` was
+   ignored.
 
 
 # Version 1.2.1 (2026-02-19)
@@ -24,7 +27,7 @@
 ## Bug Fixes
 
  * Attempts to add or ignore globals via `foreach()` argument
-   `.options.globals` were silently ignored.
+   `.options.future = list(globals = ...)` were silently ignored.
  
 
 # Version 1.1.2 (2025-07-14)
