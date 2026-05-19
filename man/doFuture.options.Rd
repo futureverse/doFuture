@@ -6,7 +6,7 @@
 \description{
 Below are all \R options specific to the \pkg{doFuture} package.
 For options controlling futures in general, see
-\link[future:zzz-future.options]{the options} for the \pkg{future} package.\cr
+\link[future:future.options]{the options} for the \pkg{future} package.\cr
 \cr
 \emph{WARNING: Note that the names and the default values of
 these options may change in future versions of the package.
@@ -15,7 +15,7 @@ Please use with care until further notice.}
 \details{
 \describe{
 \item{\option{doFuture.foreach.export}:}{
-Specifies to what extent the \code{.export} argument of \code{\link[foreach:foreach]{foreach::foreach()}}, paired
+Specifies to what extent the \code{.export} argument of \code{\link[foreach:foreach]{foreach()}}, paired
 with \code{\link[foreach:\%dopar\%]{\%dopar\%}}, should be respected or
 if globals should be automatically identified. This is only for
 \verb{\%dopar\%} -- \code{\link{\%dofuture\%}} does not support \code{.export} and \code{.noexport}.
@@ -29,7 +29,7 @@ If \code{".export-and-automatic"}, then globals specified by
 The \code{".export-and-automatic-with-warning"} is the same as
 \code{".export-and-automatic"}, but produces a warning if \code{.export}
 lacks some of the globals that the automatic identification locates,
-which could be helpful feedback to developers using \code{\link[foreach:foreach]{foreach::foreach()}} with
+which could be helpful feedback to developers using \code{\link[foreach:foreach]{foreach()}} with
 \verb{\%dopar\%} -- also when using adapters such as \strong{doParallel}.
 
 (Default: \code{".export-and-automatic"})
