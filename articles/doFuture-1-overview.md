@@ -5,7 +5,7 @@ mechanisms for using the **foreach** package together with the
 **future** package such that
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
 [`times()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
-via *any* future backend.
+via *any* [future backend](https://www.futureverse.org/backends.html).
 
 ## Introduction
 
@@ -30,28 +30,24 @@ implements a map-reduce API with functions
 us with powerful methods for iterating over one or more sets of elements
 with the option to do it in parallel.
 
-## Two alternatives
+## Three alternatives
 
 The **[doFuture](https://doFuture.futureverse.org)** package provides
-two alternatives for using futures with **foreach**:
+three alternatives for using futures with **foreach**:
 
-1.  `y <- foreach(...) %dofuture% { ... }`
+1.  `y <- foreach(...) %do% { ... } |> futurize()`
 
-2.  [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md) +
+2.  `y <- foreach(...) %dofuture% { ... }`
+
+3.  [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md) +
     `y <- foreach(...) %dopar% { ... }`.
 
-### Alternative 1: `%dofuture%`
+### Alternative 1: `futurize()` (recommended)
 
-The *first alternative* (recommended), which uses `%dofuture%`, avoids
-having to use
-[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md).
-The `%dofuture%` operator provides a more consistent behavior than
-`%dopar%`, e.g. there is a unique set of foreach arguments instead of
-one per possible adapter. Identification of globals, random number
-generation (RNG), and error handling is handled by the future ecosystem,
-just like with other map-reduce solutions such as
-**[future.apply](https://future.apply.futureverse.org)** and
-**[furrr](https://furrr.futureverse.org)**. An example is:
+The *first alternative* (recommended) uses
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+of the **[futurize](https://futurize.futureverse.org)** package. An
+example is:
 
 ``` r
 
@@ -64,19 +60,66 @@ y <- foreach(x = 1:4, y = 1:10) %dofuture% {
 }
 ```
 
-This alternative is the recommended way to let
+This alternative is the recommended and most clean way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
-via the future framework, especially if you start out from scratch.
+via the future framework, especially if you start out from scratch. All
+you need to remember is to pipe it to
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+and, yes, it is correct to use `%do%` here. In addition to
+`multisession`, parallelization can be done via any compliant [future
+backend](https://www.futureverse.org/backends.html). Identification of
+globals, random number generation (RNG), and error handling is handled
+the same way as elsewhere in the future ecosystem. We recommend to use
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+because it is consistent with how we parallelize
+[`lapply()`](https://rdrr.io/r/base/lapply.html) and
+[`purrr::map()`](https://purrr.tidyverse.org/reference/map.html) using
+**futurize**. With
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+you do not have to explicitly load **doFuture** - instead **doFuture**
+will serve
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+under the hood.
+
+See
+[`help("futurize", package = "futurize")`](https://futurize.futureverse.org/reference/futurize.html)
+for more details and examples on this approach.
+
+### Alternative 2: `%dofuture%`
+
+The *second alternative* (formely recommended), which uses `%dofuture%`,
+avoids having to use
+[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md).
+The `%dofuture%` operator provides a more consistent behavior than
+`%dopar%`, e.g. there is a unique set of foreach arguments instead of
+one per possible adapter. An example is:
+
+``` r
+
+library(doFuture)
+plan(multisession)
+
+y <- foreach(x = 1:4, y = 1:10) %dofuture% {
+  z <- x + y
+  slow_sqrt(z)
+}
+```
+
+This alternative was the recommended way to let
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
+via the future framework, but now we recommend using
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+instead, especially if you start out from scratch.
 
 See
 [`help("%dofuture%", package = "doFuture")`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
 for more details and examples on this approach.
 
-### Alternative 2: `registerDoFuture()` + `%dopar%`
+### Alternative 3: `registerDoFuture()` + `%dopar%`
 
-The *second alternative* is based on the traditional **foreach**
-approach where one registers a foreach adapter to be used by `%dopar%`.
-A popular adapter is
+The *third alternative* is based on the traditional **foreach** approach
+where one registers a foreach adapter to be used by `%dopar%`. A popular
+adapter is
 [`doParallel::registerDoParallel()`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html),
 which parallelizes on the local machine using the **parallel** package.
 This package provides
@@ -105,15 +148,9 @@ parallelization. Using
 is also useful when you wish to use the future framework with packages
 and functions that use
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
-`%dopar%` internally,
-e.g. **[caret](https://cran.r-project.org/package=caret)**,
-**[plyr](https://cran.r-project.org/package=plyr)**,
-**[NMF](https://cran.r-project.org/package=NMF)**, and
-**[glmnet](https://cran.r-project.org/package=glmnet)**. It can also be
-used to configure the Bioconductor
-**[BiocParallel](https://bioconductor.org/packages/BiocParallel/)**
-package, and any package that relies on it, to parallelize via the
-future framework.
+`%dopar%` internally, but still do not support
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+e.g. **[NMF](https://cran.r-project.org/package=NMF)**.
 
 See
 [`help("registerDoFuture", package = "doFuture")`](https://doFuture.futureverse.org/reference/registerDoFuture.md)

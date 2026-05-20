@@ -14,10 +14,10 @@ further notice.*
 - doFuture.foreach.export::
 
   Specifies to what extent the `.export` argument of
-  [`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html),
-  paired with [`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html),
-  should be respected or if globals should be automatically identified.
-  This is only for `%dopar%` –
+  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html), paired
+  with [`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html), should
+  be respected or if globals should be automatically identified. This is
+  only for `%dopar%` –
   [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
   does not support `.export` and `.noexport`.
 
@@ -31,8 +31,8 @@ further notice.*
   `".export-and-automatic"`, but produces a warning if `.export` lacks
   some of the globals that the automatic identification locates, which
   could be helpful feedback to developers using
-  [`foreach::foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
-  with `%dopar%` – also when using adapters such as **doParallel**.
+  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) with
+  `%dopar%` – also when using adapters such as **doParallel**.
 
   (Default: `".export-and-automatic"`)
 

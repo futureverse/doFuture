@@ -3,30 +3,52 @@
 The doFuture package provides mechanisms for using the foreach package
 together with the future package such that
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelizes
-via *any* future backend.
+via *any* future backend. There are three alternative ways to use this
+package:
 
-## Usage
+1.  `y <- foreach(...) %do% { ... } |> futurize()`
 
-There are two alternative ways to use this package:
+2.  `y <- foreach(...) %dofuture% { ... }`
 
-1.  `y <- foreach(...) %dofuture% { ... }`
-
-2.  `y <- foreach(...) %dopar% { ... }` with
+3.  `y <- foreach(...) %dopar% { ... }` with
     [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
 
-The *first alternative* (recommended), which uses
+## foreach() with %do% and futurize() (recommended)
+
+The *first alternative* (recommended) uses `futurize()` of the
+[futurize](https://cran.r-project.org/package=futurize) package. An
+example is:
+
+    library(futurize)
+    plan(multisession)
+
+    y <- foreach(x = 1:4, y = 1:10) %do% {
+      z <- x + y
+      slow_sqrt(z)
+    } |> futurize()
+
+This alternative is the recommended and most clean way to let
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
+via the future framework if you start out from scratch. All you need to
+remember is to pipe it to `futurize()`, and, yes, it is correct to use
+`%do%` here. In addition to `multisession`, parallelization can be done
+via any of the compliant [future
+backends](https://www.futureverse.org/backends.html). Identification of
+globals, random number generation (RNG), and error handling is handled
+the same way as elsewhere in the future ecosystem. We recommend to use
+`futurize()`, because it is consistent with how we parallelize
+[`lapply()`](https://rdrr.io/r/base/lapply.html) and
+[`purrr::map()`](https://purrr.tidyverse.org/reference/map.html) using
+**futurize**. With `futurize()`, you do not have to explicitly load
+**doFuture** - instead **doFuture** will serve `futurize()` under the
+hood.
+
+## foreach() with %dofuture%
+
+The *second alternative* (formerly recommended), which uses
 [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md),
-avoids having to use
-[`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md).
-The
-[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
-operator provides a more consistent behavior than `%dopar%`, e.g. there
-is a unique set of foreach arguments instead of one per possible
-adapter. Identification of globals, random number generation (RNG), and
-error handling is handled by the future ecosystem, just like with other
-map-reduce solutions such as
-**[future.apply](https://cran.r-project.org/package=future.apply)** and
-**[furrr](https://cran.r-project.org/package=furrr)**. An example is:
+is what `futurize()` does automatically under the hood, and they are
+effectively the same. An example is:
 
     library(doFuture)
     plan(multisession)
@@ -36,23 +58,22 @@ map-reduce solutions such as
       slow_sqrt(z)
     }
 
-This alternative is the recommended way to let
+This alternative is the formerly recommended way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
-via the future framework if you start out from scratch.
-
-See
+via the future framework if you start out from scratch, but we now
+recommend `futurize()` because it keeps the code neater. See
 [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
 for more details and examples on this approach.
 
-The *second alternative* is based on the traditional **foreach**
-approach where one registers a foreach adapter to be used by `%dopar%`.
-A popular adapter is
-[`doParallel::registerDoParallel()`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html),
-which parallelizes on the local machine using the **parallel** package.
-This package provides
+## foreach() with %dopar% and registerDoFuture()
+
+The *third alternative* is based on the traditional **foreach** approach
+where one registers a foreach adapter to be used by `%dopar%`. Contrary
+to above two approaches, you must not forget to register a foreach
+adapter in order parallelize. This package provides
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md),
-which parallelizes using the **future** package, meaning any
-future-compliant parallel backend can be used. An example is:
+which causes \`%dopar% to parallelize via the future framework. An
+example is:
 
     library(doFuture)
     registerDoFuture()
@@ -70,17 +91,8 @@ parallelization. Using
 is also useful when you wish to use the future framework with packages
 and functions that use
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
-`%dopar%` internally, e.g.
-**[caret](https://cran.r-project.org/package=caret)**,
-**[plyr](https://cran.r-project.org/package=plyr)**,
-**[NMF](https://cran.r-project.org/package=NMF)**, and
-**[glmnet](https://cran.r-project.org/package=glmnet)**. It can also be
-used to configure the Bioconductor
-**[BiocParallel](https://bioconductor.org/packages/BiocParallel/)**
-package, and any package that relies on it, to parallelize via the
-future framework.
-
-See
+`%dopar%` internally, but does not yet support the `futurize()`
+approach, e.g. **[NMF](https://cran.r-project.org/package=NMF)**. See
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
 for more details and examples on this approach.
 
@@ -98,3 +110,8 @@ Useful links:
 
 **Maintainer**: Henrik Bengtsson <henrikb@braju.com>
 ([ORCID](https://orcid.org/0000-0002-7579-5165)) \[copyright holder\]
+
+Authors:
+
+- Henrik Bengtsson <henrikb@braju.com>
+  ([ORCID](https://orcid.org/0000-0002-7579-5165)) \[copyright holder\]
