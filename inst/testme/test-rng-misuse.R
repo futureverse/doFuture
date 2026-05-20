@@ -28,4 +28,25 @@ res <- withCallingHandlers({
   invokeRestart("muffleWarning")
 })
 
+
+# Test doFuture.rng.onMisuse = "ignore"
+message("- doFuture.rng.onMisuse = 'ignore' ...")
+options(doFuture.rng.onMisuse = "ignore")
+res <- foreach(i = 1:3, .options.future = list(seed = FALSE)) %dofuture% {
+  runif(1)
+}
+# Should not have warned
+
+# Test doFuture.rng.onMisuse = "error"
+message("- doFuture.rng.onMisuse = 'error' ...")
+options(doFuture.rng.onMisuse = "error")
+res <- tryCatch({
+  foreach(i = 1:3, .options.future = list(seed = FALSE)) %dofuture% {
+    runif(1)
+  }
+}, error = identity)
+stopifnot(inherits(res, "error"))
+message("Caught expected error: ", res$message)
+
+
 message("*** RNG misuse ... DONE")

@@ -5,6 +5,8 @@ plan(sequential)
 
 message("*** globals.maxSize adjustment ...")
 
+options(doFuture.debug = TRUE)
+
 # Set a limit
 limit <- 1024^2
 options(future.globals.maxSize = limit)
