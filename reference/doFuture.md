@@ -15,9 +15,10 @@ package:
 
 ## foreach() with %do% and futurize() (recommended)
 
-The *first alternative* (recommended) uses `futurize()` of the
-[futurize](https://cran.r-project.org/package=futurize) package. An
-example is:
+The *first alternative* (recommended) uses
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+of the [futurize](https://cran.r-project.org/package=futurize) package.
+An example is:
 
     library(futurize)
     plan(multisession)
@@ -30,25 +31,33 @@ example is:
 This alternative is the recommended and most clean way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
 via the future framework if you start out from scratch. All you need to
-remember is to pipe it to `futurize()`, and, yes, it is correct to use
-`%do%` here. In addition to `multisession`, parallelization can be done
-via any of the compliant [future
-backends](https://www.futureverse.org/backends.html). Identification of
-globals, random number generation (RNG), and error handling is handled
-the same way as elsewhere in the future ecosystem. We recommend to use
-`futurize()`, because it is consistent with how we parallelize
+remember is to pipe it to
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+and, yes, it is correct to use `%do%` here. In addition to
+`multisession`, parallelization can be done via any of the compliant
+[future backends](https://www.futureverse.org/backends.html).
+Identification of globals, random number generation (RNG), and error
+handling is handled the same way as elsewhere in the future ecosystem.
+We recommend to use
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+because it is consistent with how we parallelize
 [`lapply()`](https://rdrr.io/r/base/lapply.html) and
 [`purrr::map()`](https://purrr.tidyverse.org/reference/map.html) using
-**futurize**. With `futurize()`, you do not have to explicitly load
-**doFuture** - instead **doFuture** will serve `futurize()` under the
-hood.
+**futurize**. With
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html),
+you do not have to explicitly load **doFuture** - instead **doFuture**
+will serve
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+under the hood.
 
 ## foreach() with %dofuture%
 
 The *second alternative* (formerly recommended), which uses
 [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md),
-is what `futurize()` does automatically under the hood, and they are
-effectively the same. An example is:
+is what
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+does automatically under the hood, and they are effectively the same. An
+example is:
 
     library(doFuture)
     plan(multisession)
@@ -61,7 +70,9 @@ effectively the same. An example is:
 This alternative is the formerly recommended way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
 via the future framework if you start out from scratch, but we now
-recommend `futurize()` because it keeps the code neater. See
+recommend
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
+because it keeps the code neater. See
 [`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)
 for more details and examples on this approach.
 
@@ -91,7 +102,8 @@ parallelization. Using
 is also useful when you wish to use the future framework with packages
 and functions that use
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
-`%dopar%` internally, but does not yet support the `futurize()`
+`%dopar%` internally, but does not yet support the
+[`futurize()`](https://futurize.futureverse.org/reference/futurize.html)
 approach, e.g. **[NMF](https://cran.r-project.org/package=NMF)**. See
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md)
 for more details and examples on this approach.

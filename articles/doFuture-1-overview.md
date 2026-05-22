@@ -1,39 +1,47 @@
 # doFuture: An Overview on using Foreach to Parallelize via the Future Framework
 
-The **[doFuture](https://doFuture.futureverse.org)** package provides
-mechanisms for using the **foreach** package together with the
-**future** package such that
-[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
-[`times()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
-via *any* [future backend](https://www.futureverse.org/backends.html).
+## TL;DR
+
+To run [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) in
+parallel, install R packages
+**[doFuture](https://doFuture.futureverse.org)** and
+**[futurize](https://futurize.futureverse.org)**, and call:
+
+``` r
+
+library(futurize)
+plan(multisession)
+
+y <- foreach(x = 1:4, y = 1:10) %do% {
+  z <- x + y
+  slow_sqrt(z)
+} |> futurize()
+```
+
+That’s it - easy!
 
 ## Introduction
+
+The **[foreach](https://cran.r-project.org/package=foreach)** package
+implements a map-reduce API with functions
+[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
+[`times()`](https://rdrr.io/pkg/foreach/man/foreach.html) that provide
+us with powerful methods for iterating over one or more sets of elements
+with options to do it in parallel.
 
 The **[future](https://future.futureverse.org)** package provides a
 generic API for using futures in R. A future is a simple yet powerful
 mechanism to evaluate an R expression and retrieve its value at some
 point in time. Futures can be resolved in many different ways depending
-on which strategy is used. There are various types of synchronous and
-asynchronous futures to choose from in the
-**[future](https://future.futureverse.org)** package. Additional future
-backends are implemented in other packages. For instance, the
-**[future.batchtools](https://future.batchtools.futureverse.org)**
-package provides futures for *any* type of backend that the
-**[batchtools](https://cran.r-project.org/package=batchtools)** package
-supports. For an introduction to futures in R, please consult the
-vignettes of the **[future](https://future.futureverse.org)** package.
+on which strategy is used. You can resolve them sequential, in parallel
+on your local computer, on remove computers, in the cloud, on a
+high-performance compute (HPC) cluster, or via any [future
+backend](https://www.futureverse.org/backends.html) available.
 
-The **[foreach](https://cran.r-project.org/package=foreach)** package
-implements a map-reduce API with functions
-[`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) and
-[`times()`](https://rdrr.io/pkg/foreach/man/foreach.html) that provides
-us with powerful methods for iterating over one or more sets of elements
-with the option to do it in parallel.
-
-## Three alternatives
-
-The **[doFuture](https://doFuture.futureverse.org)** package provides
-three alternatives for using futures with **foreach**:
+The **[doFuture](https://doFuture.futureverse.org)** package provides a
+bridge between **foreach** and the **future** parallelization framework.
+Specifically, the **doFuture** package provides three alternatives for
+using futures with **foreach**:
 
 1.  `y <- foreach(...) %do% { ... } |> futurize()`
 
@@ -51,13 +59,13 @@ example is:
 
 ``` r
 
-library(doFuture)
+library(futurize)
 plan(multisession)
 
-y <- foreach(x = 1:4, y = 1:10) %dofuture% {
+y <- foreach(x = 1:4, y = 1:10) %do% {
   z <- x + y
   slow_sqrt(z)
-}
+} |> futurize()
 ```
 
 This alternative is the recommended and most clean way to let

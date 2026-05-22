@@ -29,7 +29,7 @@ y &amp;lt;- foreach(...) %dopar% { ... } with registerDoFuture()
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1-9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1-9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@ There are three alternative ways to use this package:</p><ol><li><p><code>y &lt;
     <h2 id="foreach-with-do-and-futurize-recommended-">foreach() with %do% and futurize() (recommended)<a class="anchor" aria-label="anchor" href="#foreach-with-do-and-futurize-recommended-"></a></h2>
 
 
-<p>The <em>first alternative</em> (recommended) uses <code>futurize()</code> of the
+<p>The <em>first alternative</em> (recommended) uses <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> of the
 <a href="https://cran.r-project.org/package=futurize" class="external-link"><span class="pkg">futurize</span></a> package.
 An example is:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://futurize.futureverse.org" class="external-link">futurize</a></span><span class="op">)</span></span>
@@ -115,23 +115,23 @@ An example is:</p>
 <span><span class="op">}</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>This alternative is the recommended and most clean way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code>
 parallelize via the future framework if you start out from scratch.
-All you need to remember is to pipe it to <code>futurize()</code>, and, yes, it is
+All you need to remember is to pipe it to <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, and, yes, it is
 correct to use <code>%do%</code> here.
 In addition to <code>multisession</code>, parallelization can be done via any of
 the compliant <a href="https://www.futureverse.org/backends.html" class="external-link">future backends</a>.
 Identification of globals, random number generation (RNG), and error
 handling is handled the same way as elsewhere in the future ecosystem.
-We recommend to use <code>futurize()</code>, because it is consistent with how we
+We recommend to use <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, because it is consistent with how we
 parallelize <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> and <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> using <strong>futurize</strong>.
-With <code>futurize()</code>, you do not have to explicitly load <strong>doFuture</strong> -
-instead <strong>doFuture</strong> will serve <code>futurize()</code> under the hood.</p>
+With <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, you do not have to explicitly load <strong>doFuture</strong> -
+instead <strong>doFuture</strong> will serve <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> under the hood.</p>
     </div>
     <div class="section level2">
     <h2 id="foreach-with-dofuture-">foreach() with %dofuture%<a class="anchor" aria-label="anchor" href="#foreach-with-dofuture-"></a></h2>
 
 
 <p>The <em>second alternative</em> (formerly recommended), which uses
-<code><a href="grapes-dofuture-grapes.html">%dofuture%</a></code>, is what <code>futurize()</code> does automatically under the hood,
+<code><a href="grapes-dofuture-grapes.html">%dofuture%</a></code>, is what <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> does automatically under the hood,
 and they are effectively the same.
 An example is:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://doFuture.futureverse.org">doFuture</a></span><span class="op">)</span></span>
@@ -143,7 +143,7 @@ An example is:</p>
 <span><span class="op">}</span></span></code></pre><p></p></div>
 <p>This alternative is the formerly recommended way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code>
 parallelize via the future framework if you start out from scratch,
-but we now recommend <code>futurize()</code> because it keeps the code neater.
+but we now recommend <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> because it keeps the code neater.
 See <code><a href="grapes-dofuture-grapes.html">%dofuture%</a></code> for more details and examples on this approach.</p>
     </div>
     <div class="section level2">
@@ -170,7 +170,7 @@ uses <code>%dopar%</code> and you just want to switch to using the future
 framework for parallelization.  Using <code><a href="registerDoFuture.html">registerDoFuture()</a></code> is also
 useful when you wish to use the future framework with packages and
 functions that use <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code>%dopar%</code> internally, but does not
-yet support the <code>futurize()</code> approach, e.g. <strong><a href="https://cran.r-project.org/package=NMF" class="external-link">NMF</a></strong>.
+yet support the <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> approach, e.g. <strong><a href="https://cran.r-project.org/package=NMF" class="external-link">NMF</a></strong>.
 See <code><a href="registerDoFuture.html">registerDoFuture()</a></code> for more details and examples on this approach.</p>
     </div>
     <div class="section level2">

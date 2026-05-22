@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1-9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1-9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,15 +103,25 @@
 <div class="page-header"><h1 id="dofuture-use-foreach-to-parallelize-via-the-future-framework">doFuture: Use Foreach to Parallelize via the Future Framework<a class="anchor" aria-label="anchor" href="#dofuture-use-foreach-to-parallelize-via-the-future-framework"></a>
 </h1></div>
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="tldr">TL;DR<a class="anchor" aria-label="anchor" href="#tldr"></a>
 </h2>
-<p>The <strong><a href="https://future.futureverse.org" class="external-link">future</a></strong> package provides a generic API for using futures in R. A future is a simple yet powerful mechanism to evaluate an R expression and retrieve its value at some point in time. Futures can be resolved in many different ways depending on which strategy is used. There are various types of synchronous and asynchronous futures to choose from in the <strong><a href="https://future.futureverse.org" class="external-link">future</a></strong> package. Additional future backends are implemented in other packages. For instance, the <strong><a href="https://future.batchtools.futureverse.org" class="external-link">future.batchtools</a></strong> package provides futures for <em>any</em> type of backend that the <strong><a href="https://cran.r-project.org/package=batchtools" class="external-link">batchtools</a></strong> package supports. For an introduction to futures in R, please consult the vignettes of the <strong><a href="https://future.futureverse.org" class="external-link">future</a></strong> package.</p>
-<p>The <strong><a href="https://cran.r-project.org/package=foreach" class="external-link">foreach</a></strong> package implements a map-reduce API with functions <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> that provides us with powerful methods for iterating over one or more sets of elements with the option to do it in parallel.</p>
+<p>To run <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> in parallel, install R packages <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> and <strong><a href="https://futurize.futureverse.org" class="external-link">futurize</a></strong>, and call:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://futurize.futureverse.org" class="external-link">futurize</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">foreach</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%do%</span> <span class="op">{</span></span>
+<span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span>  <span class="fu">slow_sqrt</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>That’s it - easy!</p>
 </div>
 <div class="section level2">
-<h2 id="three-alternatives">Three alternatives<a class="anchor" aria-label="anchor" href="#three-alternatives"></a>
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> package provides three alternatives for using futures with <strong>foreach</strong>:</p>
+<p>The <strong><a href="https://cran.r-project.org/package=foreach" class="external-link">foreach</a></strong> package implements a map-reduce API with functions <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> that provide us with powerful methods for iterating over one or more sets of elements with options to do it in parallel.</p>
+<p>The <strong><a href="https://future.futureverse.org" class="external-link">future</a></strong> package provides a generic API for using futures in R. A future is a simple yet powerful mechanism to evaluate an R expression and retrieve its value at some point in time. Futures can be resolved in many different ways depending on which strategy is used. You can resolve them sequential, in parallel on your local computer, on remove computers, in the cloud, on a high-performance compute (HPC) cluster, or via any <a href="https://www.futureverse.org/backends.html" class="external-link">future backend</a> available.</p>
+<p>The <strong><a href="https://doFuture.futureverse.org">doFuture</a></strong> package provides a bridge between <strong>foreach</strong> and the <strong>future</strong> parallelization framework. Specifically, the <strong>doFuture</strong> package provides three alternatives for using futures with <strong>foreach</strong>:</p>
 <ol style="list-style-type: decimal">
 <li><p><code>y &lt;- foreach(...) %do% { ... } |&gt; futurize()</code></p></li>
 <li><p><code>y &lt;- foreach(...) %dofuture% { ... }</code></p></li>
@@ -120,16 +130,16 @@
 <div class="section level3">
 <h3 id="alternative-1-futurize-recommended">Alternative 1: <code>futurize()</code> (recommended)<a class="anchor" aria-label="anchor" href="#alternative-1-futurize-recommended"></a>
 </h3>
-<p>The <em>first alternative</em> (recommended) uses <code>futurize()</code> of the <strong><a href="https://futurize.futureverse.org" class="external-link">futurize</a></strong> package. An example is:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://doFuture.futureverse.org">doFuture</a></span><span class="op">)</span></span>
+<p>The <em>first alternative</em> (recommended) uses <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> of the <strong><a href="https://futurize.futureverse.org" class="external-link">futurize</a></strong> package. An example is:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://futurize.futureverse.org" class="external-link">futurize</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/grapes-dofuture-grapes.html">%dofuture%</a></span> <span class="op">{</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">foreach</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%do%</span> <span class="op">{</span></span>
 <span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
 <span>  <span class="fu">slow_sqrt</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>This alternative is the recommended and most clean way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> parallelize via the future framework, especially if you start out from scratch. All you need to remember is to pipe it to <code>futurize()</code>, and, yes, it is correct to use <code>%do%</code> here. In addition to <code>multisession</code>, parallelization can be done via any compliant <a href="https://www.futureverse.org/backends.html" class="external-link">future backend</a>. Identification of globals, random number generation (RNG), and error handling is handled the same way as elsewhere in the future ecosystem. We recommend to use <code>futurize()</code>, because it is consistent with how we parallelize <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> and <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> using <strong>futurize</strong>. With <code>futurize()</code>, you do not have to explicitly load <strong>doFuture</strong> - instead <strong>doFuture</strong> will serve <code>futurize()</code> under the hood.</p>
+<span><span class="op">}</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This alternative is the recommended and most clean way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> parallelize via the future framework, especially if you start out from scratch. All you need to remember is to pipe it to <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, and, yes, it is correct to use <code>%do%</code> here. In addition to <code>multisession</code>, parallelization can be done via any compliant <a href="https://www.futureverse.org/backends.html" class="external-link">future backend</a>. Identification of globals, random number generation (RNG), and error handling is handled the same way as elsewhere in the future ecosystem. We recommend to use <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, because it is consistent with how we parallelize <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> and <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> using <strong>futurize</strong>. With <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, you do not have to explicitly load <strong>doFuture</strong> - instead <strong>doFuture</strong> will serve <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> under the hood.</p>
 <p>See <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">help("futurize", package = "futurize")</a></code> for more details and examples on this approach.</p>
 </div>
 <div class="section level3">
@@ -137,7 +147,7 @@
 <a class="anchor" aria-label="anchor" href="#alternative-2-dofuture"></a>
 </h3>
 <p>The <em>second alternative</em> (formely recommended), which uses <code>%dofuture%</code>, avoids having to use <code><a href="reference/registerDoFuture.html">registerDoFuture()</a></code>. The <code>%dofuture%</code> operator provides a more consistent behavior than <code>%dopar%</code>, e.g. there is a unique set of foreach arguments instead of one per possible adapter. An example is:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://doFuture.futureverse.org">doFuture</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
 <span></span>
@@ -145,7 +155,7 @@
 <span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
 <span>  <span class="fu">slow_sqrt</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>This alternative was the recommended way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> parallelize via the future framework, but now we recommend using <code>futurize()</code> instead, especially if you start out from scratch.</p>
+<p>This alternative was the recommended way to let <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> parallelize via the future framework, but now we recommend using <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code> instead, especially if you start out from scratch.</p>
 <p>See <code><a href="reference/grapes-dofuture-grapes.html">help("%dofuture%", package = "doFuture")</a></code> for more details and examples on this approach.</p>
 </div>
 <div class="section level3">
@@ -154,7 +164,7 @@
 </h3>
 <p>The <em>third alternative</em> is based on the traditional <strong>foreach</strong> approach where one registers a foreach adapter to be used by <code>%dopar%</code>. A popular adapter is <code><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">doParallel::registerDoParallel()</a></code>, which parallelizes on the local machine using the <strong>parallel</strong> package. This package provides <code><a href="reference/registerDoFuture.html">registerDoFuture()</a></code>, which parallelizes using the <strong>future</strong> package, meaning any future-compliant parallel backend can be used.</p>
 <p>An example is:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://doFuture.futureverse.org">doFuture</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/registerDoFuture.html">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
@@ -163,7 +173,7 @@
 <span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
 <span>  <span class="fu">slow_sqrt</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>This alternative is useful if you already have a lot of R code that uses <code>%dopar%</code> and you just want to switch to using the future framework for parallelization. Using <code><a href="reference/registerDoFuture.html">registerDoFuture()</a></code> is also useful when you wish to use the future framework with packages and functions that use <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code>%dopar%</code> internally, but still do not support <code>futurize()</code>, e.g. <strong><a href="https://cran.r-project.org/package=NMF" class="external-link">NMF</a></strong>.</p>
+<p>This alternative is useful if you already have a lot of R code that uses <code>%dopar%</code> and you just want to switch to using the future framework for parallelization. Using <code><a href="reference/registerDoFuture.html">registerDoFuture()</a></code> is also useful when you wish to use the future framework with packages and functions that use <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> and <code>%dopar%</code> internally, but still do not support <code><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize()</a></code>, e.g. <strong><a href="https://cran.r-project.org/package=NMF" class="external-link">NMF</a></strong>.</p>
 <p>See <code><a href="reference/registerDoFuture.html">help("registerDoFuture", package = "doFuture")</a></code> for more details and examples on this approach.</p>
 </div>
 </div>
@@ -171,13 +181,13 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>R package doFuture is available on <a href="https://cran.r-project.org/package=doFuture" class="external-link">CRAN</a> and can be installed in R as:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"doFuture"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pre-release-version">Pre-release version<a class="anchor" aria-label="anchor" href="#pre-release-version"></a>
 </h3>
 <p>To install the pre-release version that is available in Git branch <code>develop</code> on GitHub, use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"futureverse/doFuture"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></span></code></pre></div>
 <p>This will install the package from source.</p>
 </div>
