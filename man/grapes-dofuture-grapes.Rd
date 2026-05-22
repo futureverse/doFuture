@@ -8,7 +8,7 @@ foreach \%dofuture\% expr
 }
 \arguments{
 \item{foreach}{A \code{foreach} object created by \code{\link[foreach:foreach]{foreach::foreach()}}
-and \code{\link[foreach:foreach]{foreach::times()}}.}
+and \code{\link[foreach:times]{foreach::times()}}.}
 
 \item{expr}{An R expression.}
 }

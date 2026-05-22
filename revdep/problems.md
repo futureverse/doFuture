@@ -48,21 +48,6 @@ Run `revdepcheck::revdep_details(, "GeDS")` for more info
      See ‘/scratch/henrik/revdep/doFuture/checks/GeDS/new/GeDS.Rcheck/00install.out’ for details.
      ```
 
-# ldsr (0.0.2)
-
-* GitHub: <https://github.com/ntthung/ldsr>
-* Email: <mailto:ntthung@gmail.com>
-* GitHub mirror: <https://github.com/cran/ldsr>
-
-Run `revdepcheck::revdep_details(, "ldsr")` for more info
-
-## In both
-
-*   checking C++ specification ... NOTE
-     ```
-       Specified C++11: please drop specification unless essential
-     ```
-
 # mikropml (1.7.0)
 
 * GitHub: <https://github.com/SchlossLab/mikropml>
@@ -77,46 +62,6 @@ Run `revdepcheck::revdep_details(, "mikropml")` for more info
      ```
      Namespace in Imports field not imported from: ‘methods’
        All declared Imports should be used.
-     ```
-
-# oncomsm (0.1.4)
-
-* GitHub: <https://github.com/Boehringer-Ingelheim/oncomsm>
-* Email: <mailto:kevin.kunzmann@boehringer-ingelheim.com>
-* GitHub mirror: <https://github.com/cran/oncomsm>
-
-Run `revdepcheck::revdep_details(, "oncomsm")` for more info
-
-## In both
-
-*   checking re-building of vignette outputs ... ERROR
-     ```
-     ...
-      4. ├─dplyr::filter(., to != "stable")
-      5. ├─dplyr::summarize(...)
-      6. ├─dplyr:::summarise.grouped_df(., dt = t - lag(t), from = lag(state), to = state, .groups = "drop")
-      7. │ └─dplyr:::summarise_cols(.data, dplyr_quosures(...), by, "summarise")
-      8. │   └─base::withCallingHandlers(...)
-      9. └─dplyr:::dplyr_internal_error(...)
-     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     
-     Error: processing vignette 'oncomsm.Rmd' failed with diagnostics:
-     ℹ In argument: `dt = t - lag(t)`.
-     ℹ In group 1: `iter = 1`, `group_id = "A"`, `subject_id = "ID00827488"`.
-     Caused by error:
-     ! `dt` must be size 1, not 3.
-     ℹ To return more or less than 1 row per group, use `reframe()`.
-     --- failed re-building ‘oncomsm.Rmd’
-     
-     --- re-building ‘prior-choice.Rmd’ using rmarkdown
-     [WARNING] Deprecated: --highlight-style. Use --syntax-highlighting instead.
-     --- finished re-building ‘prior-choice.Rmd’
-     
-     SUMMARY: processing the following file failed:
-       ‘oncomsm.Rmd’
-     
-     Error: Vignette re-building failed.
-     Execution halted
      ```
 
 # sparrpowR (0.2.9)

@@ -213,6 +213,13 @@ function(obj, expr, envir, data) {   #nolint
                        future.chunk.size = chunk.size)
   if (debug) mdebugf("Number of chunks: %d", length(chunks))
 
+  ## Process elements in a custom order?
+  ordering <- attr(chunks, "ordering")
+  if (!is.null(ordering)) {
+    if (debug) mdebugf("Index remapping (attribute 'ordering'): [n = %d] %s", length(ordering), hpaste(ordering))
+    chunks <- lapply(chunks, FUN = function(idxs) .subset(ordering, idxs))
+  }
+
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 6. Prepare for creating futures
@@ -311,7 +318,13 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 8. Creating futures
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  labels <- sprintf("doFuture-%s", seq_len(nchunks))
+  label <- options[["label"]]
+  if (is.null(label)) {
+    label <- "doFuture2-%s"
+  } else {
+    stopifnot(length(label) == 1L, is.character(label))
+  }
+  labels <- sprintf(label, seq_len(nchunks))
   fs <- tryCatch({
     if (debug) {
       mdebugf_push("Launching %d futures (chunks) ...", nchunks)
@@ -363,7 +376,8 @@ function(obj, expr, envir, data) {   #nolint
       }
   
       rm(list = "args_list_ii")
-      
+
+      if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
       if (!is.null(globals.maxSize.adjusted)) {
         globals_ii <- c(globals_ii, ...future.globals.maxSize = globals.maxSize)
       }
@@ -377,7 +391,7 @@ function(obj, expr, envir, data) {   #nolint
       ## Not needed anymore
       rm(list = c("chunk", "globals_ii", "packages_ii"))
   
-      if (debug) mdebug_pop()
+      if (debug) mdebug_pop() ## "Chunk #%d of %d ..."
     } ## for (ii ...)
 
     fs
@@ -503,6 +517,18 @@ function(obj, expr, envir, data) {   #nolint
   }
   results <- results2
   rm(list = "results2")
+
+  ## Were elements processed in a custom order?
+  if (length(results) > 1L && !is.null(ordering)) {
+    nX <- length(results)
+    invOrdering <- vector(mode(ordering), length = nX)
+    idx <- 1:nX
+    invOrdering[.subset(ordering, idx)] <- idx
+    rm(list = c("ordering", "idx"))
+    if (debug) mdebugf("Reverse index remapping (attribute 'ordering'): [n = %d] %s", length(invOrdering), hpaste(invOrdering))
+    results <- .subset(results, invOrdering)
+    rm(list = c("invOrdering"))
+  }
 
 
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
