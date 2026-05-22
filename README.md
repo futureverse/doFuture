@@ -27,9 +27,9 @@ That's it - easy!
 ## Introduction
 
 The **[foreach]** package implements a map-reduce API with functions
-`foreach()` and `times()` that provides us with powerful methods for
-iterating over one or more sets of elements with the option to do it
-in parallel.
+`foreach()` and `times()` that provide us with powerful methods for
+iterating over one or more sets of elements with options to do it in
+parallel.
 
 The **[future]** package provides a generic API for using futures in
 R.  A future is a simple yet powerful mechanism to evaluate an R

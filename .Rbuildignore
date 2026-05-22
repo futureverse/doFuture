@@ -1,4 +1,4 @@
-^[.][^a].*/
+^[.][a-z].*/
 ^docs/
 ^incl/
 ^pkgdown/
@@ -11,3 +11,4 @@
 ^Makefile$
 ^.*[.]tar[.]gz$
 ^[.]pre-commit-config.yaml$
+
