@@ -535,7 +535,9 @@ function(obj, expr, envir, data) {   #nolint
   ## 10. Accumulate results
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Combine results (and identify errors)
-  ## NOTE: This is adopted from foreach:::doSEQ()
+  ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+  ## which is licensed under the Apache License 2.0
+  ## (copyright holder: Microsoft; author: Steve Weston)
   if (debug) mdebug_push("Accumulating results ...")
   tryCatch({
     if (verbose) {
@@ -561,7 +563,9 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   if (debug) mdebug_push("Handling errors ...")
   ## throw an error or return the combined results
-  ## NOTE: This is adopted from foreach:::doSEQ()
+  ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+  ## which is licensed under the Apache License 2.0
+  ## (copyright holder: Microsoft; author: Steve Weston)
   error_handling <- obj$errorHandling
   if (debug) {
     mdebugf("Processing errors (handler = %s)", sQuote(error_handling))

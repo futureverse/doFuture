@@ -620,7 +620,9 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
   ## 10. Accumulate results
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Combine results (and identify errors)
-  ## NOTE: This is adopted from foreach:::doSEQ()
+  ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+  ## which is licensed under the Apache License 2.0
+  ## (copyright holder: Microsoft; author: Steve Weston)
   if (debug) mdebug_push("Accumulating results ...")
   tryCatch({
     if (verbose) {
@@ -657,7 +659,9 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
     } else {  
       ## ... or as traditionally with %dopar%, which throws an error
       ## or return the combined results
-      ## NOTE: This is adopted from foreach:::doSEQ()
+      ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+      ## which is licensed under the Apache License 2.0
+      ## (copyright holder: Microsoft; author: Steve Weston)
       if (debug) {
         mdebugf("processing errors (handler = %s)", sQuote(error_handling))
       }
