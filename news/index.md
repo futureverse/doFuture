@@ -6,6 +6,12 @@
 
 - Changed the package license to permissive Apache License (\>= 2).
 
+### Bug Fixes
+
+- `foreach(..., .verbose = TRUE) %dofuture% { ... }` and `%dopar%` left
+  R option `doFuture.debug` set to TRUE, resulting in debug output also
+  from subsequent calls.
+
 ## Version 1.2.2
 
 CRAN release: 2026-05-22
