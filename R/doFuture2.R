@@ -524,10 +524,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
         label <- f$label
         if (is.null(label)) label <- "<none>"
         chunk <- chunks[[idx]]
-        ordering <- attr(chunks, "ordering")
-        if (!is.null(ordering)) {
-          chunk <- ordering[chunk]
-        }
         if (length(chunk) == 1L) {
           iterations <- sprintf("Iteration %d", chunk)
         } else {
