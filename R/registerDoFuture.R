@@ -1,5 +1,6 @@
 #' Use the Foreach `%dopar%` Adapter with Futures
 #'
+#' @description
 #' The `registerDoFuture()` function makes the
 #' \code{\link[foreach:\%dopar\%]{\%dopar\%}} operator of the
 #' \pkg{foreach} package to process foreach iterations via any of
@@ -7,9 +8,17 @@
 #' includes various parallel and distributed backends.
 #' In other words, _if a computational backend is supported via
 #' the Future API, it'll be automatically available for all functions
-#' and packages making using the \pkg{foreach} framework._
+#' and packages making use of the \pkg{foreach} framework._
 #' Neither the developer nor the end user has to change any code.
 #'
+#' _**Recommendation**: If you have the option, use [`%dofuture%`] instead
+#' of `%dopar%`, for all the benefits explained in its help page._
+#'
+#' @param flavor Control how the adapter should behave.
+#' If `"%dopar%"`, it behaves as a classical foreach adapter.
+#' If `"%dofuture%"`, it behaves as if [`%dofuture%`] would have
+#' been used instead of `%dopar%`.
+#' 
 #' @section Parallel backends:
 #' To use futures with the \pkg{foreach} package and its
 #' \code{\link[foreach:\%dopar\%]{\%dopar\%}} operator, use
@@ -41,10 +50,10 @@
 #'
 #' @section Global variables and packages:
 #' Unless running locally in the global environment (= at the \R prompt),
-#' the \pkg{foreach} package requires you do specify what global variables
+#' the \pkg{foreach} package requires you to specify what global variables
 #' and packages need to be available and attached in order for the
 #' "foreach" expression to be evaluated properly.  It is not uncommon to
-#' get errors on one or missing variables when moving from running a
+#' get errors on one or more missing variables when moving from running a
 #' \code{res <- foreach() \%dopar\% { ... }} statement on the local machine
 #' to, say, another machine on the same network.  The solution to the
 #' problem is to explicitly export those variables by specifying them in
@@ -58,12 +67,13 @@
 #' all packages automatically (via static code inspection).  This is done
 #' exactly the same way regardless of future backend.
 #' This automatic identification of globals and packages is illustrated
-#' by the below example, which does _not_ specify
+#' by the below example, which does _not_ have to specify
 #' `.export = c("my_stat")`.  This works because the future framework
 #' detects that function `my_stat()` is needed and makes sure it is
 #' exported.  If you would use, say, `cl <- parallel::makeCluster(2)`
 #' and `doParallel::registerDoParallel(cl)`, you would get a run-time
-#' error on \code{Error in \{ : task 1 failed - \"could not find function "my_stat" ...}.
+#' error on \code{Error in \{ : task 1 failed - \"could not find function
+#' "my_stat" ...}.
 #'
 #' Having said this, note that, in order for your "foreach" code to work
 #' everywhere and with other types of foreach adapters as well, you may
@@ -84,7 +94,7 @@
 #' The value `scheduling` specifies the average number of futures
 #' ("chunks") that each worker processes.
 #' If `0.0`, then a single future is used to process all iterations;
-#' none of the other workers are not used.
+#' none of the other workers are used.
 #' If `1.0` or `TRUE`, then one future per worker is used.
 #' If `2.0`, then each worker will process two futures (if there are
 #' enough iterations).
@@ -141,16 +151,15 @@
 #'
 #' However, if you think it necessary to register the \pkg{doFuture} backend
 #' in a function, please make sure to undo your changes when exiting the
-#' function. This can be done using:
+#' function. This can be achieved by:
 #'
 #' \preformatted{
-#'   oldDoPar <- registerDoFuture()
-#'   on.exit(with(oldDoPar, foreach::setDoPar(fun=fun, data=data, info=info)), add = TRUE)
-#'   [...]
+#'   with(registerDoFuture(), local = TRUE)
+#'   ...
 #' }
 #'
 #' This is important, because the end-user might have already registered a
-#' foreach backend elsewhere for other purposes and will most likely not known
+#' foreach backend elsewhere for other purposes and will most likely not know
 #' that calling your function will break their setup.
 #' _Remember, your package and its functions might be used in a greater
 #' context where multiple packages and functions are involved and those might
@@ -165,15 +174,15 @@
 #'
 #' When using **doFuture**, and the Futureverse in general, for
 #' processing, the **progressr** package can be used to signal progress
-#' updates in a near-live fashion.  There is special argument related to
-#' `foreach()` or **doFuture** to achieve this. Instead, one calls a
-#' a, so called, "progressor" function within each iteration.  See
+#' updates in a near-live fashion.  There is no special argument related to
+#' `foreach()` or **doFuture** to achieve this. Instead, one calls a,
+#' so called, "progressor" function within each iteration.  See
 #' the [**progressr**](https://cran.r-project.org/package=progressr)
 #' package and its `vignette(package = "progressr")` for examples.
 #'
 #' (*) The legacy **doSNOW** package uses a special `foreach()` argument
 #' `.options.doSNOW$progress` that can be used to make a progress update
-#' each time results from a parallel workers is returned. This approach
+#' each time results from a parallel worker are returned. This approach
 #' is limited by how chunking works, requires the developer to set that
 #' argument, and the code becomes incompatible with foreach adaptors
 #' registered by other **doNnn** packages.
@@ -189,10 +198,23 @@
 #' @importFrom utils packageVersion
 #' @export
 #' @keywords utilities
-registerDoFuture <- function() {  #nolint
+registerDoFuture <- function(flavor = c("%dopar%", "%dofuture%")) {  #nolint
+  flavor <- match.arg(flavor, several.ok = FALSE)
+
+  if (flavor == "%dopar%") {
+    name <- "doFuture"
+    doFcn <- doFuture
+  } else if (flavor == "%dofuture%") {
+    name <- "doFuture2"
+    doFcn <- function(obj, expr, envir, data) {
+      obj$useForeachArguments <- TRUE
+      doFuture2(obj, expr = expr, envir = envir, data = NULL)
+    }
+  }
+
   info <- function(data, item) {
     switch(item,
-      name = "doFuture",
+      name = name,
       version = packageVersion("doFuture"),
       workers = nbrOfWorkers(),
     )
@@ -217,26 +239,29 @@ registerDoFuture <- function() {  #nolint
   ## is supported. /HB 2020-12-28
   oldDoPar <- .getDoPar()
 
-  setDoPar(doFuture, info = info)
+  setDoPar(doFcn, info = info)
 
   invisible(oldDoPar)
 }
 
 
+#' @importFrom foreach registerDoSEQ
 .getDoPar <- function() {
   ns <- getNamespace("foreach")
   .foreachGlobals <- get(".foreachGlobals", envir = ns)
   if (exists("fun", envir = .foreachGlobals, inherits = FALSE)) {
-    structure(list(
+    res <- structure(list(
       fun  = .foreachGlobals$fun,
-      data = .foreachGlobals$data, 
+      data = .foreachGlobals$data,
       info = .foreachGlobals$info
     ), class = "DoPar")
+    if (is.null(res[["info"]])) res[["info"]] <- NULL
   } else {
-    structure(list(
+    res <- structure(list(
       fun  = get("doSEQ", mode = "function", envir = ns),
       data = NULL,
-      info = NULL
+      info = environment(registerDoSEQ)[["info"]]
     ), class = c("DoPar", "DoSeq"))
   }
+  res
 }

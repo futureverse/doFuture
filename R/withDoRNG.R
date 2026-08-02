@@ -17,7 +17,7 @@
 #' foreach adapter.  If neither is done, then there is a risk that the
 #' random numbers are not statistically sound, e.g. they might be correlated.
 #' For what it is worth, the **doFuture** adapter, which is set by
-#' [`registerDoFuture()`], detects when **doRNG** is forgotten, and produced
+#' [`registerDoFuture()`], detects when **doRNG** is forgotten, and produces
 #' an informative warning reminding us to use **doRNG**.
 #'
 #' If you do not have control over the foreach code, you can use
@@ -49,8 +49,8 @@
 #' risk that those random numbers are not statistically sound and the overall
 #' results might be invalid. To fix this, use '%dorng%' from the 'doRNG'
 #' package instead of '%dopar%'. This ensures that proper, parallel-safe
-#' random numbers are produced via the L'Ecuyer-CMRG method. To disable this
-#' check, set option 'doFuture.rng.onMisuse' to "ignore".
+#' random numbers are produced. To disable this check, set option
+#' 'doFuture.rng.onMisuse' to "ignore".
 #' >
 #' ```
 #'
@@ -69,8 +69,12 @@ withDoRNG <- function(expr, substitute = TRUE, envir = parent.frame()) {
   }
   
   oldDoPar <- .getDoPar()
-  doRNG::registerDoRNG()
-  on.exit(with(oldDoPar, setDoPar(fun=fun, data=data, info=info)))
+  on.exit(setDoPar(
+     fun = oldDoPar[["fun"]],
+    data = oldDoPar[["data"]],
+    info = oldDoPar[["info"]]
+  ))
 
+  doRNG::registerDoRNG()
   eval(expr, envir = envir, enclos = baseenv())
 }

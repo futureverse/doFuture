@@ -1,31 +1,3 @@
-now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
-  ## format(x, format = format) ## slower
-  format(as.POSIXlt(x, tz = ""), format = format)
-}
-
-mdebug <- function(..., debug = getOption("doFuture.debug", FALSE)) {
-  if (!debug) return()
-  message(now(), ...)
-}
-
-mdebugf <- function(..., appendLF = TRUE,
-                    debug = getOption("doFuture.debug", FALSE)) {
-  if (!debug) return()
-  message(now(), sprintf(...), appendLF = appendLF)
-}
-
-#' @importFrom utils capture.output str
-mstr <- function(..., debug = getOption("doFuture.debug", FALSE)) {
-  if (!debug) return()
-  message(paste(now(), capture.output(str(...)), sep = "", collapse = "\n"))
-}
-
-#' @importFrom utils capture.output
-mprint <- function(..., debug = getOption("doFuture.debug", FALSE)) {
-  if (!debug) return()
-  message(paste(now(), capture.output(print(...)), sep = "", collapse = "\n"))
-}
-
 stop_if_not <- function(...) {
   res <- list(...)
   n <- length(res)

@@ -8,7 +8,7 @@ foreach \%dofuture\% expr
 }
 \arguments{
 \item{foreach}{A \code{foreach} object created by \code{\link[foreach:foreach]{foreach::foreach()}}
-and \code{\link[foreach:foreach]{foreach::times()}}.}
+and \code{\link[foreach:times]{foreach::times()}}.}
 
 \item{expr}{An R expression.}
 }
@@ -19,7 +19,7 @@ The value of the foreach call.
 Loop over a Foreach Expression using Futures
 }
 \details{
-This is a replacement for \code{\link{\%dopar\%}} of the \pkg{foreach} package
+This is a replacement for \verb{\%dopar\%} of the \pkg{foreach} package
 that leverages the \pkg{future} framework.
 
 When using \verb{\%dofuture\%}:
@@ -30,7 +30,8 @@ When using \verb{\%dofuture\%}:
 whenever using random numbers in the \code{expr} expression)
 \item global variables and packages are identified automatically by
 the \pkg{future} framework
-\item errors are relayed as-is (with \verb{\%dopar\%} they captured and modified)
+\item errors are relayed as-is with the default \code{.errorhandling = "stop"},
+whereas with \verb{\%dopar\%} they are captured and modified.
 }
 }
 \section{Global variables and packages}{
@@ -55,7 +56,7 @@ For further details and instructions, see \code{\link[future:future]{future::fut
 
 \section{Random Number Generation (RNG)}{
 
-The \verb{\%dofuture\%} uses the future ecosystem to generate proper random
+The \verb{\%dofuture\%} operator uses the future ecosystem to generate proper random
 numbers in parallel in the same way they are generated in, for instance,
 \pkg{future.apply}. For this to work, you need to specify
 \code{.options.future = list(seed = TRUE)}.  For example,
@@ -66,30 +67,30 @@ numbers in parallel in the same way they are generated in, for instance,
 }\if{html}{\out{</div>}}
 
 Unless \code{seed} is \code{FALSE} or \code{NULL}, this guarantees that the exact same
-sequence of random numbers are generated \emph{given the same initial
+sequence of random numbers is generated \emph{given the same initial
 seed / RNG state} - this regardless of type of future backend, number of
 workers, and scheduling ("chunking") strategy.
 
 RNG reproducibility is achieved by pregenerating the random seeds for all
-iterations by using L'Ecuyer-CMRG RNG streams.  In each
+iterations by parallel RNG streams.  In each
 iteration, these seeds are set before evaluating the foreach expression.
 \emph{Note, for large number of iterations this may introduce a large overhead.}
 
 If \code{seed = TRUE}, then \code{\link[base:Random]{.Random.seed}}
-is used if it holds a L'Ecuyer-CMRG RNG seed, otherwise one is created
+is used if it holds a parallel RNG seed, otherwise one is created
 randomly.
 
 If \code{seed = FALSE}, it is expected that none of the foreach iterations
 use random number generation.
-If they do, then an informative warning or error is produces depending
+If they do, then an informative warning or error is produced depending
 on settings. See \link[future:future]{future::future} for more details.
-Using \code{seed = NULL}, is like \code{seed = FALSE} but without the check
+Using \code{seed = NULL} is like \code{seed = FALSE} but without the check
 whether random numbers were generated or not.
 
 As input, \code{seed} may also take a fixed initial seed (integer),
-either as a full L'Ecuyer-CMRG RNG seed (vector of 1+6 integers), or
-as a seed generating such a full L'Ecuyer-CMRG seed. This seed will
-be used to generated one L'Ecuyer-CMRG RNG stream for each iteration.
+either as a full parallel RNG seed (vector of 1+6 integers), or
+as a seed generating such a full seed. This seed will
+be used to generate one parallel RNG stream for each iteration.
 
 An alternative to specifying the \code{seed} option via \code{.options.future},
 is to use the \code{\link[future:\%seed\%]{\%seed\%}} operator.  See
@@ -114,7 +115,7 @@ If \code{NULL}, then argument \code{future.scheduling} is used.
 The value \code{scheduling} specifies the average number of futures
 ("chunks") that each worker processes.
 If \code{0.0}, then a single future is used to process all iterations;
-none of the other workers are not used.
+none of the other workers are used.
 If \code{1.0} or \code{TRUE}, then one future per worker is used.
 If \code{2.0}, then each worker will process two futures (if there are
 enough iterations).
@@ -128,7 +129,7 @@ For further details and instructions, see
 \section{Control processing order of iterations}{
 
 Attribute \code{ordering} of \code{chunk.size} or \code{scheduling} can be used to
-control the ordering the elements are iterated over, which only affects
+control the ordering of the elements are iterated over, which only affects
 the processing order and \emph{not} the order values are returned.
 This attribute can take the following values:
 \itemize{
@@ -162,15 +163,15 @@ reporting(*).
 
 When using \strong{doFuture}, and the Futureverse in general, for
 processing, the \strong{progressr} package can be used to signal progress
-updates in a near-live fashion.  There is special argument related to
-\code{foreach()} or \strong{doFuture} to achieve this. Instead, one calls a
-a, so called, "progressor" function within each iteration.  See
+updates in a near-live fashion.  There is no special argument related to
+\code{foreach()} or \strong{doFuture} to achieve this. Instead, one calls a,
+so called, "progressor" function within each iteration.  See
 the \href{https://cran.r-project.org/package=progressr}{\strong{progressr}}
 package and its \code{vignette(package = "progressr")} for examples.
 
 (*) The legacy \strong{doSNOW} package uses a special \code{foreach()} argument
 \code{.options.doSNOW$progress} that can be used to make a progress update
-each time results from a parallel workers is returned. This approach
+each time results from a parallel worker are returned. This approach
 is limited by how chunking works, requires the developer to set that
 argument, and the code becomes incompatible with foreach adaptors
 registered by other \strong{doNnn} packages.

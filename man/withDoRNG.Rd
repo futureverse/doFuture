@@ -27,7 +27,7 @@ and second best, is if the code would temporarily register the \strong{doRNG}
 foreach adapter.  If neither is done, then there is a risk that the
 random numbers are not statistically sound, e.g. they might be correlated.
 For what it is worth, the \strong{doFuture} adapter, which is set by
-\code{\link[=registerDoFuture]{registerDoFuture()}}, detects when \strong{doRNG} is forgotten, and produced
+\code{\link[=registerDoFuture]{registerDoFuture()}}, detects when \strong{doRNG} is forgotten, and produces
 an informative warning reminding us to use \strong{doRNG}.
 
 If you do not have control over the foreach code, you can use
@@ -58,8 +58,8 @@ unexpectedly generated random numbers without declaring so. There is a
 risk that those random numbers are not statistically sound and the overall
 results might be invalid. To fix this, use '\%dorng\%' from the 'doRNG'
 package instead of '\%dopar\%'. This ensures that proper, parallel-safe
-random numbers are produced via the L'Ecuyer-CMRG method. To disable this
-check, set option 'doFuture.rng.onMisuse' to "ignore".
+random numbers are produced. To disable this check, set option
+'doFuture.rng.onMisuse' to "ignore".
 >
 }\if{html}{\out{</div>}}
 

@@ -1,5 +1,114 @@
 # Version (development version)
 
+## Significant Changes
+
+ * Changed the package license to permissive Apache License (>= 2).
+
+
+# Version 1.2.2 (2026-05-21)
+
+## Bug Fixes
+
+ * Attribute `ordering` of `foreach()` argument `.options.future =
+   list(scheduling = ...)` was ignored. Same for `chunk.size`.
+
+ * `foreach()` argument `.options.future = list(label = ...)` was
+   ignored.
+
+
+# Version 1.2.1 (2026-02-19)
+
+## Bug Fixes
+
+ * `with(registerDoFuture(), expr, local = FALSE)` would not respect
+   visibility of the evaluated expression `expr`.
+ 
+
+# Version 1.2.0 (2026-01-14)
+
+## Significant Changes
+
+ * `with(..., expr, local = FALSE)` for `DoPar` now returns invisibly
+   if `expr` does so, otherwise not.
+
+
+# Version 1.1.3 (2025-12-08)
+
+## Bug Fixes
+
+ * Attempts to add or ignore globals via `foreach()` argument
+   `.options.future = list(globals = ...)` were silently ignored.
+ 
+
+# Version 1.1.2 (2025-07-14)
+
+## Bug Fixes
+
+ * `with(registerDoFuture(), local = TRUE)` produced error on
+   'argument "expr" is missing, with no default'.
+
+ * Environment variable `R_DOFUTURE_DEBUG` did not set R option
+   `doFuture.debug` as documented.
+
+
+# Version 1.1.1 (2025-06-06)
+
+## Bug Fixes
+
+ * `foreach(...) %dofuture% { ... }` would signal errors, despite
+   using `.errorhandling = "pass"` or `.errorhandling = "remove"`.
+   This was originally by design, because "all errors should be
+   errors", but I have since reconsidered and concluded it was a
+   design mistake. Now `.errorhandling` works also with `%dofuture%`.
+ 
+
+# Version 1.1.0 (2025-05-19)
+
+## New Features
+
+ * `foreach()` with `%dofuture%` or `%dopar%` will now exit early as
+   soon as it detects an error in one of the iterations. It will also
+   exit early if it detects a user interrupt (e.g. Ctrl-C). Remaining
+   iterations are canceled and interrupted if the future backend
+   supports it, releasing compute resources sooner and avoiding having
+   to wait for remaining futures to be resolved.
+
+ * Add support for `foreach(..., .verbose = TRUE)`, which is part of
+   the official `foreach()` API. When set, detailed debugging
+   information useful for troubleshooting is outputted to standard
+   error through R's message condition mechanism.
+
+ * Add support for `with(registerDoFuture(), { ... })` to temporarily
+   use the doFuture adapter. Can also be used as
+   `with(registerDoFuture(), local = TRUE)` to temporarily register it
+   within a function.
+   
+ * Add `registerDoFuture(flavor = "%dofuture%")`, which makes the
+   `%dopar%` infix operator behave as if `%dofuture%` would have been
+   used. This makes it possible for you to use `%dofuture%`, even if
+   you do not have the option to update the code that uses
+   `%dopar%`. For instance, if you use one of the many packages that
+   uses `foreach(...) %dopar% { ... }` internally, this flavor allows
+   you to effectively make that the same as `foreach(...)  %dofuture%
+   { ... }`.
+
+## Bug Fixes
+
+ * `registerDoFuture()` would return an invalid `DoPar` object if
+   there was no `%dopar%` registered. Now it returns an `DoPar` object
+   as if `foreach::registerDoSEQ()` had been called before.
+
+
+# Version 1.0.2 (2025-03-15)
+
+## Miscellaneous
+
+ * Prepare for upcoming changes in the **future** package affecting
+   how globals are identified by **doFuture**.
+ 
+
+# Version 1.0.1 (2023-12-19)
+
 ## Bug Fixes
 
  * Using `.options.future = list(conditions = NULL)` would be ignored
@@ -61,7 +170,7 @@
 ## New Features
 
  * Now `registerDoFuture()` returns the previously set foreach
-   backend, making it possible to reset the the foreach backend to the
+   backend, making it possible to reset the foreach backend to the
    previous settings.
 
  * Now **doFuture** recognizes when it is called via the
@@ -321,7 +430,7 @@
    should take place or not, and if so, how granular it should be.
    This is specified as `foreach(..., .options.future =
    list(scheduling = <value>))`.  With `scheduling = 1.0` (or
-   equivalently `scheduling = TRUE`), the the elements (iterations)
+   equivalently `scheduling = TRUE`), the elements (iterations)
    will be split up in equally sized chunks such that each backend
    worker will process exactly one chunk.  With `scheduling = Inf` (or
    equivalently `scheduling = FALSE`), chunking is disabled, i.e. each
@@ -354,7 +463,7 @@
    `foreach()` as a global variable.
 
  * If a `foreach()` call would result in an error, the error thrown
-   would report on "object 'expr' not found" and not the actually
+   would report on "object 'expr' not found" and not the actual
    error message.
 
 
@@ -366,7 +475,7 @@
    processes all elements in chunks such that each backend worker will
    process a subset of data at once (and only once).  This
    significantly speeds up processing time when iterating over a large
-   number of elements that each has short a processing time.
+   number of elements that each has a short processing time.
   
 ## Globals
 
