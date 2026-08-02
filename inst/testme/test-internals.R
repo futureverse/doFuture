@@ -130,8 +130,15 @@ stopifnot(inherits(res, "error"))
 res <- tryCatch(stop_if_not(c(TRUE, TRUE)), error = identity)
 stopifnot(inherits(res, "error"))
 
-res <- tryCatch(stop_if_not(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE), error = identity)
+res <- tryCatch(stop_if_not(FALSE, FALSE, FALSE), error = identity)
 stopifnot(inherits(res, "error"))
+
+## A call that deparses to more than one line is abbreviated
+res <- tryCatch({
+  stop_if_not(is.numeric("a_very_long_variable_name_here") && is.character(42L) && is.list(NULL) && is.environment(1))
+}, error = identity)
+stopifnot(inherits(res, "error"), grepl("...", conditionMessage(res), fixed = TRUE))
+message("Caught expected error: ", conditionMessage(res))
 
 message("*** stop_if_not() ... DONE")
 
@@ -147,6 +154,33 @@ stopifnot(trim(" a b c ") == "a b c")
 message("*** trim() ... DONE")
 
 
+message("*** seq_to_intervals() ...")
+
+res <- seq_to_intervals(integer(0))
+print(res)
+stopifnot(is.matrix(res), nrow(res) == 0L,
+          identical(colnames(res), c("from", "to")))
+
+res <- seq_to_intervals(1:3)
+print(res)
+stopifnot(nrow(res) == 1L, res[1, "from"] == 1L, res[1, "to"] == 3L)
+
+## Unsorted and duplicated indices are cleaned up
+res <- seq_to_intervals(c(4L, 1L, 3L, 1L, 2L))
+print(res)
+stopifnot(nrow(res) == 1L, res[1, "from"] == 1L, res[1, "to"] == 4L)
+
+res <- seq_to_intervals(c(1L, 2L, 5L, 6L, 9L))
+print(res)
+stopifnot(
+  nrow(res) == 3L,
+  identical(res[, "from"], c(1L, 5L, 9L)),
+  identical(res[, "to"], c(2L, 6L, 9L))
+)
+
+message("*** seq_to_intervals() ... DONE")
+
+
 message("*** seq_to_human() ...")
 
 stopifnot(seq_to_human(1:3) == "1-3")
@@ -157,6 +191,12 @@ stopifnot(seq_to_human(integer(0)) == "")
 # Test with tau
 stopifnot(seq_to_human(c(1, 2), tau = 2) == "1, 2")
 stopifnot(seq_to_human(c(1, 2, 3), tau = 5) == "1, 2, 3")
+stopifnot(seq_to_human(c(1, 2, 5, 6, 7, 8, 9), tau = 2) == "1, 2, 5-9")
+stopifnot(seq_to_human(42L) == "42")
+
+# Test with custom delimiter and collapse
+stopifnot(seq_to_human(c(1, 2, 3, 7), delimiter = ":") == "1:3, 7")
+stopifnot(seq_to_human(c(1, 2, 3, 7), collapse = "; ") == "1-3; 7")
 
 message("*** seq_to_human() ... DONE")
 
