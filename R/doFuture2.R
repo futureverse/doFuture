@@ -157,8 +157,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   globals.maxSize <- getOption("future.globals.maxSize")
   if (nchunks > 1 && !is.null(globals.maxSize) && globals.maxSize < +Inf) {
     globals.maxSize.default <- globals.maxSize
-    if (is.null(globals.maxSize.default)) globals.maxSize.default <- 500 * 1024^2
-
     globals.maxSize.adjusted <- nchunks * globals.maxSize.default
     options(future.globals.maxSize = globals.maxSize.adjusted)
     on.exit(options(future.globals.maxSize = globals.maxSize), add = TRUE)
