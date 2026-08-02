@@ -6,9 +6,9 @@
 
 ## Bug Fixes
 
- * `foreach(..., .verbose = TRUE) %dofuture% { ... }` left R option
-   `doFuture.debug` set to TRUE, resulting in debug output also from
-   subsequent calls.
+ * `foreach(..., .verbose = TRUE) %dofuture% { ... }` and `%dopar%` left
+   R option `doFuture.debug` set to TRUE, resulting in debug output also
+   from subsequent calls.
 
 
 # Version 1.2.2 (2026-05-21)
