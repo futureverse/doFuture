@@ -416,8 +416,10 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
       if (length(globals_X) > 0L) {
         reserved <- intersect(c("...future.FUN", "...future.x_ii"), names(globals_X))
         if (length(reserved) > 0) {
-          mdebugf_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
-          mdebugf_pop() ## "Chunk #%d of %d ..."
+          if (debug) {
+            mdebugf_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
+            mdebugf_pop() ## "Chunk #%d of %d ..."
+          }
           stop("Detected globals in 'args_list' using reserved variable names: ",
                paste(sQuote(reserved), collapse = ", "))
         }
