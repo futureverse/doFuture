@@ -245,7 +245,6 @@ function(obj, expr, envir, data) {   #nolint
 
 
   nchunks <- length(chunks)
-  fs <- vector("list", length = nchunks)
   if (debug) mdebugf("Number of futures (= number of chunks): %d", nchunks)
 
   ## Adjust option 'future.globals.maxSize' to account for the fact that more
@@ -257,8 +256,6 @@ function(obj, expr, envir, data) {   #nolint
   globals.maxSize <- getOption("future.globals.maxSize")
   if (nchunks > 1 && !is.null(globals.maxSize) && globals.maxSize < +Inf) {
     globals.maxSize.default <- globals.maxSize
-    if (is.null(globals.maxSize.default)) globals.maxSize.default <- 500 * 1024^2
-
     globals.maxSize.adjusted <- nchunks * globals.maxSize.default
     options(future.globals.maxSize = globals.maxSize.adjusted)
     on.exit(options(future.globals.maxSize = globals.maxSize), add = TRUE)
@@ -325,81 +322,82 @@ function(obj, expr, envir, data) {   #nolint
     stopifnot(length(label) == 1L, is.character(label))
   }
   labels <- sprintf(label, seq_len(nchunks))
-  fs <- tryCatch({
+  fs <- local({
     if (debug) {
       mdebugf_push("Launching %d futures (chunks) ...", nchunks)
       on.exit(mdebugf_pop())
     }
 
     fs <- vector("list", length = nchunks)
-
-    for (ii in seq_along(chunks)) {
-      chunk <- chunks[[ii]]
-      if (debug) mdebugf_push("Chunk #%d of %d ...", ii, length(chunks))
+    tryCatch({
+      for (ii in seq_along(chunks)) {
+        chunk <- chunks[[ii]]
+        if (debug) mdebugf_push("Chunk #%d of %d ...", ii, length(chunks))
   
-      ## Subsetting outside future is more efficient
-      globals_ii <- globals
-      packages_ii <- packages
-      args_list_ii <- args_list[chunk]
-      globals_ii[["...future.x_ii"]] <- args_list_ii
+        ## Subsetting outside future is more efficient
+        globals_ii <- globals
+        packages_ii <- packages
+        args_list_ii <- args_list[chunk]
+        globals_ii[["...future.x_ii"]] <- args_list_ii
   
-      if (scanForGlobals) {
-        if (debug) mdebugf_push("Finding globals in 'args_list' chunk #%d ...", ii)
-        ## Search for globals in 'args_list_ii':
-        gp <- getGlobalsAndPackages(args_list_ii, envir = envir, globals = TRUE)
-        globals_X <- gp$globals
-        packages_X <- gp$packages
-        gp <- NULL
+        if (scanForGlobals) {
+          if (debug) mdebugf_push("Finding globals in 'args_list' chunk #%d ...", ii)
+          ## Search for globals in 'args_list_ii':
+          gp <- getGlobalsAndPackages(args_list_ii, envir = envir, globals = TRUE)
+          globals_X <- gp$globals
+          packages_X <- gp$packages
+          gp <- NULL
   
-        if (debug) {
-          info <- if (length(globals_X) == 0) "" else hpaste(sQuote(names(globals_X)))
-          mdebugf("Globals: [n=%d] %s", length(globals_X), info)
-          info <- if (length(packages_X) == 0) "" else hpaste(sQuote(names(packages_X)))
-          mdebugf("Package: [n=%d] %s", length(packages_X), info)
-        }
-      
-        ## Export also globals found in 'args_list_ii'
-        if (length(globals_X) > 0L) {
-          reserved <- intersect(c("...future.FUN", "...future.x_ii"), names(globals_X))
-          if (length(reserved) > 0) {
-            stop("Detected globals in 'args_list' using reserved variables names: ",
-                 paste(sQuote(reserved), collapse = ", "))
+          if (debug) {
+            info <- if (length(globals_X) == 0) "" else hpaste(sQuote(names(globals_X)))
+            mdebugf("Globals: [n=%d] %s", length(globals_X), info)
+            info <- if (length(packages_X) == 0) "" else hpaste(sQuote(names(packages_X)))
+            mdebugf("Package: [n=%d] %s", length(packages_X), info)
           }
-          globals_ii <- unique(c(globals_ii, globals_X))
-  
-          ## Packages needed due to globals in 'args_list_ii'?
-          if (length(packages_X) > 0L)
-            packages_ii <- unique(c(packages_ii, packages_X))
-        }
-        
-        rm(list = c("globals_X", "packages_X"))
-      }
-  
-      rm(list = "args_list_ii")
-
-      if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
-      if (!is.null(globals.maxSize.adjusted)) {
-        globals_ii <- c(globals_ii, ...future.globals.maxSize = globals.maxSize)
-      }
       
-      fs[[ii]] <- future(expr, substitute = FALSE, envir = envir,
-                         globals = globals_ii, packages = packages_ii,
-                         seed = seed,
-                         stdout = stdout, conditions = conditions,
-                         label = labels[ii])
+          ## Export also globals found in 'args_list_ii'
+          if (length(globals_X) > 0L) {
+            reserved <- intersect(c("...future.FUN", "...future.x_ii"), names(globals_X))
+            if (length(reserved) > 0) {
+              stop("Detected globals in 'args_list' using reserved variables names: ",
+                   paste(sQuote(reserved), collapse = ", "))
+            }
+            globals_ii <- unique(c(globals_ii, globals_X))
   
-      ## Not needed anymore
-      rm(list = c("chunk", "globals_ii", "packages_ii"))
+            ## Packages needed due to globals in 'args_list_ii'?
+            if (length(packages_X) > 0L)
+              packages_ii <- unique(c(packages_ii, packages_X))
+          }
+        
+          rm(list = c("globals_X", "packages_X"))
+        }
   
-      if (debug) mdebug_pop() ## "Chunk #%d of %d ..."
-    } ## for (ii ...)
+        rm(list = "args_list_ii")
+
+        if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
+        if (!is.null(globals.maxSize.adjusted)) {
+          globals_ii <- c(globals_ii, ...future.globals.maxSize = globals.maxSize)
+        }
+      
+        fs[[ii]] <- future(expr, substitute = FALSE, envir = envir,
+                           globals = globals_ii, packages = packages_ii,
+                           seed = seed,
+                           stdout = stdout, conditions = conditions,
+                           label = labels[ii])
+  
+        ## Not needed anymore
+        rm(list = c("chunk", "globals_ii", "packages_ii"))
+  
+        if (debug) mdebug_pop() ## "Chunk #%d of %d ..."
+      } ## for (ii ...)
+    }, interrupt = function(int) {
+      onInterrupt(int, op_name = "%dopar%", debug = debug)
+    }, error = function(e) {
+      onError(e, futures = fs, debug = debug)
+    }) ## tryCatch()
 
     fs
-  }, interrupt = function(int) {
-    onInterrupt(int, op_name = "%dopar%", debug = debug)
-  }, error = function(e) {
-    onError(e, futures = fs, debug = debug)
-  }) ## tryCatch()
+  }) ## local()
   rm(list = c("chunks", "globals", "packages", "labels"))
   stop_if_not(length(fs) == nchunks)
 
@@ -408,7 +406,7 @@ function(obj, expr, envir, data) {   #nolint
   ## 9. Resolve futures, gather their values, and reduce
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Resolve futures
-  tryCatch({
+  tryCatch(local({
     if (debug) {
       mdebugf_push("Resolving %d futures (chunks) ...", nchunks)
       mdebug("Gathering results & relaying conditions (except errors)")
@@ -465,7 +463,7 @@ function(obj, expr, envir, data) {   #nolint
     } else {
       resolve(fs, result = TRUE, stdout = TRUE, signal = TRUE)
     }
-  }, interrupt = function(int) {
+  }), interrupt = function(int) {
     onInterrupt(int, op_name = "%dopar%", debug = debug)
   }, error = function(e) {
     onError(e, futures = fs, debug = debug)
@@ -535,7 +533,9 @@ function(obj, expr, envir, data) {   #nolint
   ## 10. Accumulate results
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Combine results (and identify errors)
-  ## NOTE: This is adopted from foreach:::doSEQ()
+  ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+  ## which is licensed under the Apache License 2.0
+  ## (copyright holder: Microsoft; author: Steve Weston)
   if (debug) mdebug_push("Accumulating results ...")
   tryCatch({
     if (verbose) {
@@ -561,7 +561,9 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   if (debug) mdebug_push("Handling errors ...")
   ## throw an error or return the combined results
-  ## NOTE: This is adopted from foreach:::doSEQ()
+  ## NOTE: This code is adapted from doSEQ() of the 'foreach' package,
+  ## which is licensed under the Apache License 2.0
+  ## (copyright holder: Microsoft; author: Steve Weston)
   error_handling <- obj$errorHandling
   if (debug) {
     mdebugf("Processing errors (handler = %s)", sQuote(error_handling))

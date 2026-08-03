@@ -120,7 +120,7 @@ for (strategy in strategies) {
   
   message("- foreach(f = X, ...) - 'f' containing globals ...")
   ## From https://github.com/futureverse/future.apply/issues/12
-  z1 <- foreach(f = F, g = G) %do% list(f(), g())
+  z1 <- foreach(f = F, g = G) %dopar% list(f(), g())
   str(z1)
   stopifnot(identical(z1, z0))
 

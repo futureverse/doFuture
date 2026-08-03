@@ -1,4 +1,17 @@
-# Version 1.2.2 (2026-05-21)
+# Version 1.3.0 [2026-08-02]
+
+## Significant Changes
+
+ * Changed the package license to permissive Apache License (>= 2).
+
+## Bug Fixes
+
+ * `foreach(..., .verbose = TRUE) %dofuture% { ... }` and `%dopar%` left
+   R option `doFuture.debug` set to TRUE, resulting in debug output also
+   from subsequent calls.
+
+
+# Version 1.2.2 [2026-05-21]
 
 ## Bug Fixes
 
@@ -9,7 +22,7 @@
    ignored.
 
 
-# Version 1.2.1 (2026-02-19)
+# Version 1.2.1 [2026-02-19]
 
 ## Bug Fixes
 
@@ -17,7 +30,7 @@
    visibility of the evaluated expression `expr`.
  
 
-# Version 1.2.0 (2026-01-14)
+# Version 1.2.0 [2026-01-14]
 
 ## Significant Changes
 
@@ -25,7 +38,7 @@
    if `expr` does so, otherwise not.
 
 
-# Version 1.1.3 (2025-12-08)
+# Version 1.1.3 [2025-12-08]
 
 ## Bug Fixes
 
@@ -33,7 +46,7 @@
    `.options.future = list(globals = ...)` were silently ignored.
  
 
-# Version 1.1.2 (2025-07-14)
+# Version 1.1.2 [2025-07-14]
 
 ## Bug Fixes
 
@@ -44,7 +57,7 @@
    `doFuture.debug` as documented.
 
 
-# Version 1.1.1 (2025-06-06)
+# Version 1.1.1 [2025-06-06]
 
 ## Bug Fixes
 
@@ -55,7 +68,7 @@
    design mistake. Now `.errorhandling` works also with `%dofuture%`.
  
 
-# Version 1.1.0 (2025-05-19)
+# Version 1.1.0 [2025-05-19]
 
 ## New Features
 
@@ -92,7 +105,7 @@
    as if `foreach::registerDoSEQ()` had been called before.
 
 
-# Version 1.0.2 (2025-03-15)
+# Version 1.0.2 [2025-03-15]
 
 ## Miscellaneous
 
@@ -100,7 +113,7 @@
    how globals are identified by **doFuture**.
  
 
-# Version 1.0.1 (2023-12-19)
+# Version 1.0.1 [2023-12-19]
 
 ## Bug Fixes
 
@@ -108,7 +121,7 @@
    as if it would never had been specified.
 
 
-# Version 1.0.0 (2023-03-23)
+# Version 1.0.0 [2023-03-23]
 
 ## New Features
 
