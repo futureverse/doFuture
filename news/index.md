@@ -4,8 +4,19 @@
 
 ### Bug Fixes
 
+- `foreach(..., .options.future = list(globals = list(a = 42)) %dofuture% { ... }`,
+  which has named globals, would throw an obscure internal error instead
+  of exporting the global.
+
+- `foreach(i = integer(0)) %dopar% { ... }` and `%dofuture%` would
+  launch one future to process an empty set of elements, instead of
+  none.
+
 - `foreach(...) %dopar% { ... }` used future labels of the form
   `"doFuture2-<chunk>"` instead of `"doFuture-<chunk>"`.
+
+- `foreach(..., .verbose = TRUE) %dopar% { ... }` and `%dofuture%`
+  produced some corrupt debug messages.
 
 ## Version 1.3.0
 
