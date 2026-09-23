@@ -457,7 +457,7 @@ function(obj, expr, envir, data) {   #nolint
           workarounds <- getOption("doFuture.workarounds")
           if ("BiocParallel.DoParam.errors" %in% workarounds) {
             cond$message <- sprintf('task %d failed - "%s"',
-                                    kk, conditionMessage(cond))
+                                    idx, conditionMessage(cond))
           }
           stop(cond)
         }
