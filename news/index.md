@@ -1,5 +1,12 @@
 # Changelog
 
+## Version (development version)
+
+### Bug Fixes
+
+- `foreach(...) %dopar% { ... }` used future labels of the form
+  `"doFuture2-<chunk>"` instead of `"doFuture-<chunk>"`.
+
 ## Version 1.3.0
 
 CRAN release: 2026-08-03
@@ -539,10 +546,8 @@ CRAN release: 2017-03-14
 
 - Now the package tests **future.batchtools** with **foreach** by
   itself, in combination with **plyr** (`parallel = TRUE`) as well as
-  with
-  [`BiocParallel::bplapply()`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html)
-  and friends. Similar tests are already done using
-  **future.BatchJobs**.
+  with `BiocParallel::bplapply()` and friends. Similar tests are already
+  done using **future.BatchJobs**.
 
 - Added test for `foreach::times() %dopar% { ... }`. Especially, it is
   now tested that global variables are properly identified. Note that
