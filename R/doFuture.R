@@ -76,7 +76,7 @@ function(obj, expr, envir, data) {   #nolint
     out <- capture.output({
       args_list <- as.list(it)
     })
-    mdebug(paste(out, collapse = "\n"), debug = verbose)
+    mdebug(paste(out, collapse = "\n"))
   } else {
     args_list <- as.list(it)
   }
@@ -542,7 +542,7 @@ function(obj, expr, envir, data) {   #nolint
       out <- capture.output({
         res <- accumulator(results, tags = seq_along(results))
       })
-      void <- lapply(out, FUN = mdebug, debug = verbose)
+      void <- lapply(out, FUN = mdebug)
       res
     } else {
       accumulator(results, tags = seq_along(results))

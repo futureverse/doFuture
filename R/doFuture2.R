@@ -39,7 +39,7 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     out <- capture.output({
       args_list <- as.list(it)
     })
-    mdebug(paste(out, collapse = "\n"), debug = verbose)
+    mdebug(paste(out, collapse = "\n"))
   } else {
     args_list <- as.list(it)
   }
@@ -626,7 +626,7 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
       out <- capture.output({
         res <- accumulator(results2, tags = seq_along(results2))
       })
-      void <- lapply(out, FUN = mdebug, debug = verbose)
+      void <- lapply(out, FUN = mdebug)
       res
     } else {
       accumulator(results2, tags = seq_along(results2))

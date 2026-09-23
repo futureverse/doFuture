@@ -5,6 +5,9 @@
  * `foreach(...) %dopar% { ... }` used future labels of the form
    `"doFuture2-<chunk>"` instead of `"doFuture-<chunk>"`.
 
+ * `foreach(..., .verbose = TRUE) %dopar% { ... }` and `%dofuture%`
+   produced some corrupted debug messages.
+
 
 # Version 1.3.0 [2026-08-02]
 
