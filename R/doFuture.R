@@ -351,7 +351,7 @@ function(obj, expr, envir, data) {   #nolint
           if (debug) {
             info <- if (length(globals_X) == 0) "" else hpaste(sQuote(names(globals_X)))
             mdebugf("Globals: [n=%d] %s", length(globals_X), info)
-            info <- if (length(packages_X) == 0) "" else hpaste(sQuote(names(packages_X)))
+            info <- if (length(packages_X) == 0) "" else hpaste(sQuote(packages_X))
             mdebugf("Package: [n=%d] %s", length(packages_X), info)
           }
       
