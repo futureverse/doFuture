@@ -300,6 +300,12 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
 
   if (is.character(globals)) {
      globals <- setdiff(unique(c(globals, add)), ignore)
+  } else if (is.list(globals)) {
+    globals <- globals[setdiff(names(globals), ignore)]
+    missing <- setdiff(add, names(globals))
+    if (length(missing) > 0) {
+      globals[missing] <- mget(missing, envir = globals_envir, inherits = TRUE)
+    }
   } else {
     attr(globals, "add") <- add
     attr(globals, "ignore") <- ignore
