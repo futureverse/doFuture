@@ -5,26 +5,32 @@ export("%dofuture%")
 export(registerDoFuture)
 export(withDoRNG)
 import(future.apply)
-importFrom(foreach,getErrorIndex)
-importFrom(foreach,getErrorValue)
-importFrom(foreach,getResult)
-importFrom(foreach,makeAccum)
-importFrom(foreach,registerDoSEQ)
-importFrom(foreach,setDoPar)
-importFrom(future,Future)
-importFrom(future,FutureError)
-importFrom(future,FutureInterruptError)
-importFrom(future,cancel)
-importFrom(future,future)
-importFrom(future,getGlobalsAndPackages)
-importFrom(future,nbrOfWorkers)
-importFrom(future,resolve)
-importFrom(future,value)
+importFrom(foreach,
+  getErrorIndex,
+  getErrorValue,
+  getResult,
+  makeAccum,
+  registerDoSEQ,
+  setDoPar
+)
+importFrom(future,
+  Future,
+  FutureError,
+  FutureInterruptError,
+  cancel,
+  future,
+  getGlobalsAndPackages,
+  nbrOfWorkers,
+  resolve,
+  value
+)
 importFrom(globals,globalsByName)
 importFrom(iterators,iter)
 importFrom(parallel,splitIndices)
-importFrom(utils,capture.output)
-importFrom(utils,globalVariables)
-importFrom(utils,head)
-importFrom(utils,packageVersion)
-importFrom(utils,str)
+importFrom(utils,
+  capture.output,
+  globalVariables,
+  head,
+  packageVersion,
+  str
+)
