@@ -4,6 +4,21 @@ makeChunks <- doFuture:::makeChunks
 
 message("*** makeChunks() ...")
 
+message("- nbrOfElements = 0")
+
+for (nbrOfWorkers in 1:4) {
+  chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers)
+  stopifnot(identical(chunks, list()))
+
+  chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers, future.chunk.size = 2L)
+  stopifnot(identical(chunks, list()))
+
+  for (future.scheduling in list(FALSE, TRUE, 0, 0.5, 1.0, 2.0)) {
+    chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers, future.scheduling = future.scheduling)
+    stopifnot(identical(chunks, list()))
+  }
+}
+
 for (nbrOfElements in c(1L, 2L, 8L)) {
   for (nbrOfWorkers in seq_len(nbrOfElements + 1L)) {
     ## Defaults
@@ -78,6 +93,26 @@ res <- tryCatch({
 }, error = identity)
 str(res)
 stopifnot(inherits(res, "error"))
+
+message("- foreach() over an empty iterator launches zero futures")
+
+registerDoFuture()
+plan(sequential)
+
+backend <- plan("backend")
+for (op in c("%dofuture%", "%dopar%")) {
+  n_before <- backend[["counters"]]["created"]
+
+  res <- if (op == "%dofuture%") {
+    foreach(i = integer(0)) %dofuture% { i }
+  } else {
+    foreach(i = integer(0)) %dopar% { i }
+  }
+  stopifnot(identical(res, list()))
+
+  n_after <- backend[["counters"]]["created"]
+  stopifnot(n_after - n_before == 0L)
+}
 
 message("*** makeChunks() ... DONE")
 

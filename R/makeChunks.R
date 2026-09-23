@@ -38,6 +38,8 @@ makeChunks <- function(nbrOfElements, nbrOfWorkers,
                        future.scheduling = 1.0, future.chunk.size = NULL) {
   stop_if_not(nbrOfElements >= 0L, nbrOfWorkers >= 1L)
 
+  if (nbrOfElements == 0L) return(list())
+
   ## 'future.chunk.size != NULL' takes precedence over 'future.scheduling'
   if (!is.null(future.chunk.size)) {
     stop_if_not(length(future.chunk.size) == 1L, !is.na(future.chunk.size),

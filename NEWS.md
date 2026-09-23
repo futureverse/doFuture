@@ -8,6 +8,10 @@
  * `foreach(..., .verbose = TRUE) %dopar% { ... }` and `%dofuture%`
    produced some corrupted debug messages.
 
+ * `foreach(i = integer(0)) %dopar% { ... }` and `%dofuture%` would
+   launch one future to process an empty set of elements, instead of
+   none.
+
 
 # Version 1.3.0 [2026-08-02]
 
