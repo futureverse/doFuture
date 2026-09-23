@@ -28,6 +28,12 @@ mdebugf_push <- function(...) {
   invisible(msg)
 }
 
+# Get or set current stack
+mdebug_stack <- function(stack = NULL) {
+  if (!is.null(stack)) .debug$stack <- stack
+  invisible(.debug$stack)
+}
+
 mdebug_pop <- function(...) {
   n <- length(.debug$stack)
   msg <- c(...)

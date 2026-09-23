@@ -58,7 +58,9 @@ function(obj, expr, envir, data) {   #nolint
   }
   if (debug) {
     mdebug_push("doFuture() used by %dopar% ...")
+    debug_stack <- mdebug_stack()
     on.exit({
+      mdebug_stack(debug_stack)
       mdebug_pop()
       options(doFuture.debug = debug0)
     })
