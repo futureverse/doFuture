@@ -317,7 +317,7 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   label <- options[["label"]]
   if (is.null(label)) {
-    label <- "doFuture2-%s"
+    label <- "doFuture-%s"
   } else {
     stopifnot(length(label) == 1L, is.character(label))
   }

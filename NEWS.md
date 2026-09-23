@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * `foreach(...) %dopar% { ... }` used future labels of the form
+   `"doFuture2-<chunk>"` instead of `"doFuture-<chunk>"`.
 
 
 # Version 1.3.0 [2026-08-02]
