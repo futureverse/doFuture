@@ -579,25 +579,21 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   if (length(results2) != length(args_list)) {
     chunk_sizes <- sapply(results, FUN = length)
     chunk_sizes <- table(chunk_sizes)
-    chunk_summary <- sprintf("%d chunks with %s elements", 
-        chunk_sizes, names(chunk_sizes))
+    chunk_summary <- sprintf("%d chunks with %s elements",
+                             chunk_sizes, names(chunk_sizes))
     chunk_summary <- paste(chunk_summary, collapse = ", ")
-    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results 
- %d chunks into a list, the total number of elements (= %d) does not match the number of input
-elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", 
-        nchunks, length(results2), length(args_list), nchunks, 
-        sum(chunk_sizes), chunk_summary)
+    msg <- sprintf("Unexpected error in doFuture2(): After gathering and merging the results from %d chunks into a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(chunk_sizes), chunk_summary)
     if (debug) {
-        mdebug(msg)
-        mprint(chunk_sizes)
-        mdebug("Results before merge chunks:")
-        mstr(results)
-        mdebug("Results after merge chunks:")
-        mstr(results2)
+      mdebug(msg)
+      mprint(chunk_sizes)
+      mdebug("Results before merge chunks:")
+      mstr(results)
+      mdebug("Results after merge chunks:")
+      mstr(results2)
     }
-    msg <- sprintf("%s. Example of the first few values: %s", 
-        msg, paste(capture.output(str(head(results2, 3L))), 
-            collapse = "\\n"))
+    msg <- sprintf("%s. Example of the first few values: %s",
+        msg, paste(capture.output(str(head(results2, 3L))),
+                         collapse = "\\n"))
     ex <- FutureError(msg)
     stop(ex)
   }
