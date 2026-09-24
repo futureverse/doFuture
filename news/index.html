@@ -51,6 +51,7 @@
     <li><a class="external-link dropdown-item" href="https://future.p2p.futureverse.org">future.p2p (experimental)</a></li>
     <li><a class="external-link dropdown-item" href="https://future.tools.futureverse.org">future.tools (experimental)</a></li>
     <li><a class="external-link dropdown-item" href="https://marshal.futureverse.org">marshal (experimental)</a></li>
+    <li><a class="external-link dropdown-item" href="https://rw.futureverse.org">rw (experimental)</a></li>
   </ul></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://cloud.r-project.org/package=doFuture"><span class="fa fab fa-r-project"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/futureverse/doFuture/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -377,7 +378,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="software-quality-0-4-0">Software Quality<a class="anchor" aria-label="anchor" href="#software-quality-0-4-0"></a></h3>
-<ul><li><p>Now the package tests <strong>future.batchtools</strong> with <strong>foreach</strong> by itself, in combination with <strong>plyr</strong> (<code>parallel = TRUE</code>) as well as with <code>BiocParallel::bplapply()</code> and friends. Similar tests are already done using <strong>future.BatchJobs</strong>.</p></li>
+<ul><li><p>Now the package tests <strong>future.batchtools</strong> with <strong>foreach</strong> by itself, in combination with <strong>plyr</strong> (<code>parallel = TRUE</code>) as well as with <code><a href="https://rdrr.io/pkg/BiocParallel/man/bplapply.html" class="external-link">BiocParallel::bplapply()</a></code> and friends. Similar tests are already done using <strong>future.BatchJobs</strong>.</p></li>
 <li><p>Added test for <code>foreach::times() %dopar% { ... }</code>. Especially, it is now tested that global variables are properly identified. Note that <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> does not allow you to specify neither <code>.export</code> nor <code>.packages</code> so it is not really designed for processing in external R process. Having said this, <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">times()</a></code> does indeed work also in those cases when used with <strong>doFuture</strong> because it internally handles this automatically.</p></li>
 <li><p>ROBUSTNESS: The package redundancy tests (not run by <code>R CMD check</code>; needed to be run manually for now) that run 89 <strong>plyr</strong> examples with the <strong>doFuture</strong> <strong>foreach</strong> adapter, now forces testing of <code>.parallel = TRUE</code> for all <strong>plyr</strong> functions that support that argument. Each example is run across various future strategies, including ‘sequential’, ‘multicore’, ‘multisession’, and ‘cluster’, as well as ‘batchjobs_local’ and ‘batchtools_local’, if installed. See <strong>doFuture</strong> 0.2.0 notes below for how to run these tests.</p></li>
 </ul></div>
