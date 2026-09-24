@@ -5,8 +5,6 @@
 ^revdep/
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
-^CONDUCT[.]md$
-^CONTRIBUTING[.]md$
 ^LICENSE[.]md$
 ^README.*[.]md$
 ^Makefile$
