@@ -91,6 +91,26 @@ for (cores in 1:availCores) {
       stopifnot(is.null(getOption("future.disposable")))
     } ## for (chunk.size ...)
 
+    ## The %seed% operator of 'future' sets 'seed' via 'future.disposable'
+    message("  - %seed% ...")
+    set.seed(42)
+    y <- foreach(x = xs) %dofuture% { runif(1) } %seed% TRUE
+    stopifnot(identical(y, truth_TRUE))
+
+    y <- foreach(x = xs) %dofuture% { runif(1) } %seed% 42L
+    stopifnot(identical(y, truth_42))
+
+    with(registerDoFuture(flavor = "%dofuture%"), local({
+      set.seed(42)
+      y <- foreach(x = xs) %dopar% { runif(1) } %seed% TRUE
+      stopifnot(identical(y, truth_TRUE))
+
+      y <- foreach(x = xs) %dopar% { runif(1) } %seed% 42L
+      stopifnot(identical(y, truth_42))
+    }))
+
+    stopifnot(is.null(getOption("future.disposable")))
+
     plan(sequential)
     message(sprintf("- plan('%s') ... DONE", strategy))
   } ## for (strategy ...)
