@@ -300,7 +300,7 @@ function(obj, expr, envir, data) {   #nolint
              "BiocParallel" %in% loadedNamespaces() &&
              inherits(envir[["BPPARAM"]], "DoparParam") &&
              is.list(envir[["BPREDO"]])) {
-    ## Taken care of by the BiocParallel package
+    ## Only reached and needed for BiocParallel (< 1.32.0) [Bioconductor 3.16, 2022-11-01]
     seed <- NULL
   }
 
