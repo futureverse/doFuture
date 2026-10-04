@@ -18,7 +18,7 @@
 
 |package      |old    |new        |Δ  |
 |:------------|:------|:----------|:--|
-|doFuture     |1.3.0  |1.3.0-9015 |*  |
+|doFuture     |1.3.0  |1.3.0-9016 |*  |
 |codetools    |0.2-20 |0.2-20     |   |
 |digest       |0.6.39 |0.6.39     |   |
 |foreach      |1.5.2  |1.5.2      |   |
@@ -31,11 +31,10 @@
 
 # Revdeps
 
-## Failed to check (3)
+## Failed to check (2)
 
 |package         |version |error |warning |note |
 |:---------------|:-------|:-----|:-------|:----|
-|flexFitR        |?       |      |        |     |
 |STARRS          |?       |      |        |     |
 |WeightedCluster |?       |      |        |     |
 
@@ -61,7 +60,7 @@
 |fastml            |0.7.10  |      |        |     |
 |fdid              |1.0.2   |      |        |     |
 |fect              |2.4.5   |      |        |     |
-|flexFitR          |?       |      |        |     |
+|flexFitR          |1.2.4   |      |        |     |
 |forestsearch      |0.1.0   |      |        |     |
 |funGp             |1.0.0   |      |        |     |
 |futureverse       |0.3.0   |      |        |     |

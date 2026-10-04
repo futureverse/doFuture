@@ -59,29 +59,29 @@ Run `revdepcheck::revdep_details(, "progressify")` for more info
 *   checking tests ...
      ```
      ...
-       [15:01:16.261] |  :  .  local({
-       [15:01:16.261] |  :  .      design <- Design
-       [15:01:16.261] |  :  .      replications <- 5L
-       [15:01:16.261] |  :  .      .progressr_steps <- if (length(replications) == 1L) 
-       [15:01:16.261] |  :  .          replications * nrow(design)
-       [15:01:16.261] |  :  .      else sum(replications)
-       [15:01:16.261] |  :  .      .progressr_progressor <- progressr::progressor(steps = .progressr_steps)
-       [15:01:16.261] |  :  .      .progressr_analyse <- Analyse
-       [15:01:16.261] |  :  .      runSimulation(design = design, replications = replications, 
-       [15:01:16.261] |  :  .          generate = Generate, analyse = function(condition, dat, 
-       [15:01:16.261] |  :  .              fixed_objects = NULL, ...) {
-       [15:01:16.261] |  :  .              on.exit(.progressr_progressor())
-       [15:01:16.261] |  :  .              .progressr_analyse(condition = condition, dat = dat, 
-       [15:01:16.261] |  :  .                  fixed_objects = fixed_objects, ...)
-       [15:01:16.261] |  :  .          }, summarise = Summarise, verbose = FALSE, progress = FALSE)
-       [15:01:16.261] |  :  .  })
-       [15:01:16.262] |  :  Transpile call expression ... done
-       [15:01:16.263] |  :  Evaluate transpiled call expression
+       [16:06:55.585] |  :  .  local({
+       [16:06:55.585] |  :  .      design <- Design
+       [16:06:55.585] |  :  .      replications <- 5L
+       [16:06:55.585] |  :  .      .progressr_steps <- if (length(replications) == 1L) 
+       [16:06:55.585] |  :  .          replications * nrow(design)
+       [16:06:55.585] |  :  .      else sum(replications)
+       [16:06:55.585] |  :  .      .progressr_progressor <- progressr::progressor(steps = .progressr_steps)
+       [16:06:55.585] |  :  .      .progressr_analyse <- Analyse
+       [16:06:55.585] |  :  .      runSimulation(design = design, replications = replications, 
+       [16:06:55.585] |  :  .          generate = Generate, analyse = function(condition, dat, 
+       [16:06:55.585] |  :  .              fixed_objects = NULL, ...) {
+       [16:06:55.585] |  :  .              on.exit(.progressr_progressor())
+       [16:06:55.585] |  :  .              .progressr_analyse(condition = condition, dat = dat, 
+       [16:06:55.585] |  :  .                  fixed_objects = fixed_objects, ...)
+       [16:06:55.585] |  :  .          }, summarise = Summarise, verbose = FALSE, progress = FALSE)
+       [16:06:55.585] |  :  .  })
+       [16:06:55.586] |  :  Transpile call expression ... done
+       [16:06:55.586] |  :  Evaluate transpiled call expression
        
-       Simulation complete. Total execution time: 0.01s
+       Simulation complete. Total execution time: 0.03s
        
-       [15:01:17.619] |  transpile() ... done
-       [15:01:17.619] progressify() ... done
+       [16:06:57.117] |  transpile() ... done
+       [16:06:57.118] progressify() ... done
        Error: length(output) == 0L is not TRUE
        Execution halted
      ```
