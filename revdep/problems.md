@@ -14,6 +14,21 @@ Run `revdepcheck::revdep_details(, "baskexact")` for more info
        All declared Imports should be used.
      ```
 
+# CrcBiomeScreen (1.0.0)
+
+* GitHub: <https://github.com/omicsForestry/CrcBiomeScreen>
+* Email: <mailto:ngzh5554@leeds.ac.uk>
+
+Run `revdepcheck::revdep_details(, "CrcBiomeScreen")` for more info
+
+## In both
+
+*   checking for non-standard things in the check directory ... NOTE
+     ```
+     Found the following files/directories:
+       ‘roc.curve.rf.RF_TSS_toydata_Validation.pdf’
+     ```
+
 # envi (1.0.1)
 
 * GitHub: <https://github.com/lance-waller-lab/envi>
@@ -28,40 +43,68 @@ Run `revdepcheck::revdep_details(, "envi")` for more info
      ```
      Found the following significant warnings:
        Warning: no DISPLAY variable so Tk is not available
-     See ‘/scratch/henrik/revdep/doFuture/checks/envi/new/envi.Rcheck/00install.out’ for details.
+     See ‘/scratch/hb/revdepcheck/doFuture/checks/envi/new/envi.Rcheck/00install.out’ for details.
      ```
 
-# GeDS (0.3.3)
+# progressify (0.2.0)
 
-* GitHub: <https://github.com/emilioluissaenzguillen/GeDS>
-* Email: <mailto:Emilio.Saenz-Guillen@citystgeorges.ac.uk>
-* GitHub mirror: <https://github.com/cran/GeDS>
+* GitHub: <https://github.com/futureverse/progressify>
+* Email: <mailto:henrikb@braju.com>
+* GitHub mirror: <https://github.com/cran/progressify>
 
-Run `revdepcheck::revdep_details(, "GeDS")` for more info
+Run `revdepcheck::revdep_details(, "progressify")` for more info
 
 ## In both
 
-*   checking whether package ‘GeDS’ can be installed ... WARNING
+*   checking tests ...
      ```
-     Found the following significant warnings:
-       Warning: no DISPLAY variable so Tk is not available
-     See ‘/scratch/henrik/revdep/doFuture/checks/GeDS/new/GeDS.Rcheck/00install.out’ for details.
+     ...
+       [15:01:16.261] |  :  .  local({
+       [15:01:16.261] |  :  .      design <- Design
+       [15:01:16.261] |  :  .      replications <- 5L
+       [15:01:16.261] |  :  .      .progressr_steps <- if (length(replications) == 1L) 
+       [15:01:16.261] |  :  .          replications * nrow(design)
+       [15:01:16.261] |  :  .      else sum(replications)
+       [15:01:16.261] |  :  .      .progressr_progressor <- progressr::progressor(steps = .progressr_steps)
+       [15:01:16.261] |  :  .      .progressr_analyse <- Analyse
+       [15:01:16.261] |  :  .      runSimulation(design = design, replications = replications, 
+       [15:01:16.261] |  :  .          generate = Generate, analyse = function(condition, dat, 
+       [15:01:16.261] |  :  .              fixed_objects = NULL, ...) {
+       [15:01:16.261] |  :  .              on.exit(.progressr_progressor())
+       [15:01:16.261] |  :  .              .progressr_analyse(condition = condition, dat = dat, 
+       [15:01:16.261] |  :  .                  fixed_objects = fixed_objects, ...)
+       [15:01:16.261] |  :  .          }, summarise = Summarise, verbose = FALSE, progress = FALSE)
+       [15:01:16.261] |  :  .  })
+       [15:01:16.262] |  :  Transpile call expression ... done
+       [15:01:16.263] |  :  Evaluate transpiled call expression
+       
+       Simulation complete. Total execution time: 0.01s
+       
+       [15:01:17.619] |  transpile() ... done
+       [15:01:17.619] progressify() ... done
+       Error: length(output) == 0L is not TRUE
+       Execution halted
      ```
 
-# mikropml (1.7.0)
+# remiod (1.0.2)
 
-* GitHub: <https://github.com/SchlossLab/mikropml>
-* Email: <mailto:sovacool@umich.edu>
-* GitHub mirror: <https://github.com/cran/mikropml>
+* GitHub: <https://github.com/xsswang/remiod>
+* Email: <mailto:xwang@imedacs.com>
+* GitHub mirror: <https://github.com/cran/remiod>
 
-Run `revdepcheck::revdep_details(, "mikropml")` for more info
+Run `revdepcheck::revdep_details(, "remiod")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking S3 generic/method consistency ... NOTE
      ```
-     Namespace in Imports field not imported from: ‘methods’
-       All declared Imports should be used.
+     Mismatches for apparent methods not registered:
+     rep:
+       function(x, ...)
+     rep.data.frame:
+       function(x, times)
+     See section ‘Registering S3 methods’ in the ‘Writing R Extensions’
+     manual.
      ```
 
 # sparrpowR (0.2.9)
@@ -78,10 +121,10 @@ Run `revdepcheck::revdep_details(, "sparrpowR")` for more info
      ```
      Found the following significant warnings:
        Warning: no DISPLAY variable so Tk is not available
-     See ‘/scratch/henrik/revdep/doFuture/checks/sparrpowR/new/sparrpowR.Rcheck/00install.out’ for details.
+     See ‘/scratch/hb/revdepcheck/doFuture/checks/sparrpowR/new/sparrpowR.Rcheck/00install.out’ for details.
      ```
 
-# sRACIPE (2.2.0)
+# sRACIPE (2.4.0)
 
 * GitHub: <https://github.com/lusystemsbio/sRACIPE>
 * Email: <mailto:m.lu@northeastern.edu>
@@ -92,7 +135,7 @@ Run `revdepcheck::revdep_details(, "sRACIPE")` for more info
 
 *   checking C++ specification ... NOTE
      ```
-       Specified C++11: please drop specification unless essential
+       Obsolete C++11 standard request will be ignored
      ```
 
 *   checking DESCRIPTION meta-information ... NOTE
@@ -102,19 +145,11 @@ Run `revdepcheck::revdep_details(, "sRACIPE")` for more info
 
 *   checking R code for possible problems ... NOTE
      ```
-     sracipeSimulate: no visible binding for global variable
-       ‘configurationTmp’
-     sracipeSimulate: no visible binding for global variable ‘outFileGETmp’
-     sracipeSimulate: no visible binding for global variable
-       ‘outFileParamsTmp’
-     sracipeSimulate: no visible binding for global variable ‘outFileICTmp’
-     sracipeSimulate: no visible binding for global variable
-       ‘outFileConvergeTmp’
      sracipeConvergeDist,RacipeSE: no visible global function definition for
        ‘polygon’
+       (/scratch/hb/revdepcheck/doFuture/checks/sRACIPE/new/sRACIPE.Rcheck/00_pkg_src/sRACIPE/R/methods.R:1085-1087)
      Undefined global functions or variables:
-       configurationTmp outFileConvergeTmp outFileGETmp outFileICTmp
-       outFileParamsTmp polygon
+       polygon
      Consider adding
        importFrom("graphics", "polygon")
      to your NAMESPACE file.
@@ -160,45 +195,6 @@ Run `revdepcheck::revdep_details(, "vmeasur")` for more info
      ```
      Found the following significant warnings:
        Warning: no DISPLAY variable so Tk is not available
-     See ‘/scratch/henrik/revdep/doFuture/checks/vmeasur/new/vmeasur.Rcheck/00install.out’ for details.
-     ```
-
-# WeightedCluster (2.0)
-
-* Email: <mailto:matthias.studer@unige.ch>
-* GitHub mirror: <https://github.com/cran/WeightedCluster>
-
-Run `revdepcheck::revdep_details(, "WeightedCluster")` for more info
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-     ```
-     ...
-     
-     --- re-building ‘WeightedClusterPreview.Rnw’ using knitr
-     Warning in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  :
-       texi2dvi script/program not available, using emulation
-     Error: processing vignette 'WeightedClusterPreview.Rnw' failed with diagnostics:
-     unable to run pdflatex on 'WeightedClusterPreview.tex'
-     LaTeX errors:
-     ! LaTeX Error: File `textpos.sty' not found.
-     
-     Type X to quit or <RETURN> to proceed,
-     or enter new name. (Default extension: sty)
-     
-     ! Emergency stop.
-     <read *> 
-              
-     l.85 \usepackage
-                     {tikz}^^M
-     !  ==> Fatal error occurred, no output PDF file produced!
-     --- failed re-building ‘WeightedClusterPreview.Rnw’
-     
-     SUMMARY: processing the following files failed:
-       ‘WeightedClusterFR.Rnw’ ‘WeightedClusterPreview.Rnw’
-     
-     Error: Vignette re-building failed.
-     Execution halted
+     See ‘/scratch/hb/revdepcheck/doFuture/checks/vmeasur/new/vmeasur.Rcheck/00install.out’ for details.
      ```
 
