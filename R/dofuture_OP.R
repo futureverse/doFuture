@@ -143,6 +143,19 @@
 #' For further details and instructions, see
 #' [future.apply::future_lapply()].
 #'
+#' @section Future labels:
+#' Each future created is assigned a label, which can be used to identify
+#' it, e.g. in error messages and when monitoring futures. The label can
+#' be controlled via `.options.future = list(label = <format>)`, where
+#' `<format>` is a [base::sprintf()] format string. Each future is
+#' labelled `sprintf(<format>, chunk_idx)`, where `chunk_idx` is the
+#' index of the chunk processed by that future. For example,
+#' `.options.future = list(label = "my-label-%d")` results in labels
+#' `"my-label-1"`, `"my-label-2"`, and so on.
+#' If the label has no format specifier, then `-%d` is appended, e.g.
+#' `.options.future = list(label = "my-label")` gives the same labels.
+#' The default is `label = "doFuture2-%d"`.
+#'
 #' @section Reporting on progress:
 #' How to report on progress is a frequently asked question, especially
 #' in long-running tasks and parallel processing.  The **foreach**

@@ -135,6 +135,21 @@ Argument \code{.options.future} takes precedence over argument
 when it comes to chunking.
 }
 
+\section{Future labels}{
+
+Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can
+be controlled via \verb{.options.future = list(label = <format>)}, where
+\verb{<format>} is a \code{\link[base:sprintf]{base::sprintf()}} format string. Each future is
+labelled \verb{sprintf(<format>, chunk_idx)}, where \code{chunk_idx} is the
+index of the chunk processed by that future. For example,
+\code{.options.future = list(label = "my-label-\%d")} results in labels
+\code{"my-label-1"}, \code{"my-label-2"}, and so on.
+If the label has no format specifier, then \verb{-\%d} is appended, e.g.
+\code{.options.future = list(label = "my-label")} gives the same labels.
+The default is \code{label = "doFuture-\%d"}.
+}
+
 \section{Random Number Generation (RNG)}{
 
 The doFuture adapter registered by \code{registerDoFuture()} does \emph{not} itself

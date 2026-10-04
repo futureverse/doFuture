@@ -1,5 +1,13 @@
 # Version (development version)
 
+## New Features
+
+ * If the label specified via `foreach(..., .options.future =
+   list(label = ...))` has no format specifier, such as `%d`, then
+   `-%d` is appended, e.g. `label = "my-label"` gives future labels
+   `"my-label-1"`, `"my-label-2"`, and so on. Previously, such labels
+   produced a warning 'one argument not used by format'.
+
 ## Bug Fixes
 
  * `foreach(..., .options.future = list(globals = list(a = 42))

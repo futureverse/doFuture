@@ -1,5 +1,5 @@
 Package: doFuture
-Version: 1.3.0-9013
+Version: 1.3.0-9014
 Title: Use Foreach to Parallelize via the Future Framework
 Depends:
     foreach (>= 1.5.0),

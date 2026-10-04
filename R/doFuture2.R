@@ -385,6 +385,10 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     stopifnot(length(label) == 1L, is.character(label))
     ## WORKAROUND: futurize (== 0.3.0) tweak
     if (label == "fz:foreach::%:%-%d") label <- "fz:foreach::%%:%%-%d"
+    ## Append a format specifier, if missing, e.g. "my" -> "my-%d"
+    if (!grepl("%", gsub("%%", "", label, fixed = TRUE), fixed = TRUE)) {
+      label <- paste(label, "-%d", sep = "")
+    }
   }
   labels <- sprintf(label, seq_len(nchunks))
   fs <- local({

@@ -22,6 +22,14 @@ res <- foreach(i = 1:2,
 }
 stopifnot(identical(res, list(1L, 2L)))
 
+## Custom labels without a format specifier
+res <- withCallingHandlers({
+  foreach(i = 1:2, .options.future = list(label = "my-label")) %dofuture% { i }
+}, warning = function(w) {
+  stop("Unexpected warning: ", conditionMessage(w))
+})
+stopifnot(identical(res, list(1L, 2L)))
+
 ## WORKAROUND for futurize (<= 0.3.0), which passes a label that is not
 ## a valid sprintf() format
 res <- foreach(i = 1:2,
@@ -50,6 +58,14 @@ message("- %dopar% ...")
 
 res <- foreach(i = 1:2,
                .options.future = list(label = "my-label-%d")) %dopar% { i }
+stopifnot(identical(res, list(1L, 2L)))
+
+## Custom labels without a format specifier
+res <- withCallingHandlers({
+  foreach(i = 1:2, .options.future = list(label = "my-label")) %dopar% { i }
+}, warning = function(w) {
+  stop("Unexpected warning: ", conditionMessage(w))
+})
 stopifnot(identical(res, list(1L, 2L)))
 
 res <- tryCatch({
