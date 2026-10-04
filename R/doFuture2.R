@@ -1,6 +1,6 @@
 #' @importFrom foreach getErrorIndex getErrorValue getResult makeAccum
 #' @importFrom iterators iter
-#' @importFrom future future resolve value Future getGlobalsAndPackages FutureError
+#' @importFrom future future resolve resolved result value Future getGlobalsAndPackages FutureError
 #' @importFrom parallel splitIndices
 #' @importFrom utils head capture.output
 #' @importFrom globals globalsByName
@@ -400,8 +400,31 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     }
 
     fs <- vector("list", length = nchunks)
+
+    ## Futures already launched that are known to have resolved without
+    ## errors, so they need not be checked again
+    checked <- logical(nchunks)
+
     tryCatch({
       for (ii in seq_along(chunks)) {
+        ## Exit early, if an already launched future fails.
+        ## RNG-misuse errors are left to later, because they need
+        ## to be reported separately
+        if (errors == "future") {
+          for (kk in which(!checked[seq_len(ii - 1L)])) {
+            f <- fs[[kk]]
+            if (!resolved(f)) next
+            for (cond in result(f)[["conditions"]]) {
+              cond <- cond[["condition"]]
+              if (inherits(cond, "error") &&
+                  !inherits(cond, "RngFutureCondition")) {
+                stop(cond)
+              }
+            }
+            checked[kk] <- TRUE
+          }
+        }
+
         chunk <- chunks[[ii]]
         if (debug) {
           mdebugf_push("Chunk #%d of %d ...", ii, length(chunks))

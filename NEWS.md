@@ -2,6 +2,12 @@
 
 ## New Features
 
+ * `foreach()` with `%dofuture%` now exits early also when an error
+   occurs while futures are still being launched. Previously, when
+   there were more chunks than parallel workers, errors were not
+   detected until all futures had been launched, which required
+   waiting for slow iterations to finish first.
+
  * If the label specified via `foreach(..., .options.future =
    list(label = ...))` has no sprintf-like format specifier, such as
    `%d`, then `-%d` is appended, e.g. `label = "my-label"` gives

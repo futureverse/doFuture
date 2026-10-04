@@ -22,6 +22,8 @@ importFrom(future,
   getGlobalsAndPackages,
   nbrOfWorkers,
   resolve,
+  resolved,
+  result,
   value
 )
 importFrom(globals,globalsByName)
