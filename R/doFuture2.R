@@ -296,10 +296,12 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   add <- attr(globals, "add", exact = TRUE)
 
   assign("...future.x_ii", 42, envir = globals_envir, inherits = FALSE)
-  add <- c(add, "...future.x_ii")
+  ## Also foreach(..., .export = ...), if used by registerDoFuture()
+  add <- c(add, obj$export, "...future.x_ii")
 
   ignore <- attr(globals, "ignore", exact = TRUE)
-  ignore <- c(ignore, argnames)
+  ## Also foreach(..., .noexport = ...), if used by registerDoFuture()
+  ignore <- c(ignore, obj$noexport, argnames)
 
   if (is.character(globals)) {
      globals <- setdiff(unique(c(globals, add)), ignore)

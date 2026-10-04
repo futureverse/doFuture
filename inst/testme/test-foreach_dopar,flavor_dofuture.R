@@ -39,6 +39,20 @@ str(y5)
 stopifnot(identical(y5, y_truth))
 
 
+## Globals that cannot be detected automatically must be exported
+## via '.export'
+y6 <- foreach(1:2, .export = c("a", "b")) %dopar% { get("b") * get("a") }
+str(y6)
+stopifnot(identical(y6, y_truth))
+
+## Globals specified via '.noexport' must not be exported
+y7 <- foreach(1:2, .noexport = "a") %dopar% {
+  if (exists("a", inherits = TRUE)) a else NA_real_
+}
+str(y7)
+stopifnot(identical(y7, list(NA_real_, NA_real_)))
+
+
 # Shutdown current plan
 plan(sequential)
 

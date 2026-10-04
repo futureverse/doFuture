@@ -3,10 +3,11 @@
 ## New Features
 
  * If the label specified via `foreach(..., .options.future =
-   list(label = ...))` has no format specifier, such as `%d`, then
-   `-%d` is appended, e.g. `label = "my-label"` gives future labels
-   `"my-label-1"`, `"my-label-2"`, and so on. Previously, such labels
-   produced a warning 'one argument not used by format'.
+   list(label = ...))` has no sprintf-like format specifier, such as
+   `%d`, then `-%d` is appended, e.g. `label = "my-label"` gives
+   future labels `"my-label-1"`, `"my-label-2"`, and so
+   on. Previously, such labels produced a warning 'one argument not
+   used by format'.
 
 ## Bug Fixes
 
@@ -32,6 +33,11 @@
  * `withDoRNG()` and `with(registerDoFuture(), ...)` would leave the
    `doSEQ` foreach adapter registered afterward, if and only if no
    adapter was registered when starting out.
+
+ * Using `registerDoFuture(flavor = "%dofuture%")`, `foreach()`
+   arguments `.export` and `.noexport` were silently ignored. This
+   could result in 'object not found' errors on parallel workers for
+   globals that could not be detected automatically, e.g. `get("a")`.
 
 
 # Version 1.3.0 [2026-08-02]
