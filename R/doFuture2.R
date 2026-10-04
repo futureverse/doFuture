@@ -11,6 +11,9 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   stop_if_not(inherits(obj, "foreach"))
   stop_if_not(inherits(envir, "environment"))
 
+  ## The original foreach expression, used for reporting errors
+  expr_org <- expr
+
   debug <- debug0 <- getOption("doFuture.debug")
   verbose <- isTRUE(obj[["verbose"]])
   if (verbose) {
@@ -672,11 +675,11 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
         msg <- sprintf('task %d failed - "%s"', error_index,
                        conditionMessage(error_value))
         if (debug) mdebug_pop() ## "Handling errors ..."
-        stop(simpleError(msg, call = expr))
+        stop(simpleError(msg, call = expr_org))
       }
     }
   }
-  rm(list = c("expr"))
+  rm(list = c("expr", "expr_org"))
   if (debug) mdebug_pop() ## "Handling errors ..."
 
 

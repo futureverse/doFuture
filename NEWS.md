@@ -15,6 +15,11 @@
 
  * `foreach(..., .verbose = TRUE) %dopar% { ... }` and `%dofuture%`
    produced some corrupt debug messages.
+
+ * When a `foreach(..., .errorhandling = "stop") %dopar% { ... }`
+   iteration failed, the error call was the internal map-reduce
+   expression rather than the `foreach()` expression.  Same for
+   `%dofuture%` with `.options.future = list(errors = "foreach")`.
    
 
 # Version 1.3.0 [2026-08-02]
