@@ -61,7 +61,6 @@
 #' [1] 0.535326
 #' ```
 #'
-#' @importFrom foreach setDoPar
 #' @export
 withDoRNG <- function(expr, substitute = TRUE, envir = parent.frame()) {
   if (substitute) {
@@ -69,11 +68,7 @@ withDoRNG <- function(expr, substitute = TRUE, envir = parent.frame()) {
   }
   
   oldDoPar <- .getDoPar()
-  on.exit(setDoPar(
-     fun = oldDoPar[["fun"]],
-    data = oldDoPar[["data"]],
-    info = oldDoPar[["info"]]
-  ))
+  on.exit(.setDoPar(oldDoPar))
 
   doRNG::registerDoRNG()
   eval(expr, envir = envir, enclos = baseenv())

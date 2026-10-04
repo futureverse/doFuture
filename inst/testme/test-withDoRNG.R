@@ -50,6 +50,19 @@ if (require("doRNG")) {
     message(sprintf("- plan('%s') ... DONE", strategy))
   } ## for (strategy ...)
 
+  message("- withDoRNG() when no adapter was registered ...")
+
+  ## Unregister any foreach adapter
+  .foreachGlobals <- get(".foreachGlobals", envir = getNamespace("foreach"))
+  names <- intersect(c("fun", "data", "info"), names(.foreachGlobals))
+  rm(list = names, envir = .foreachGlobals)
+  stopifnot(!foreach::getDoParRegistered())
+
+  res <- suppressWarnings(withDoRNG(my_fcn_dopar()))
+  stopifnot(!foreach::getDoParRegistered())
+
+  message("- withDoRNG() when no adapter was registered ... DONE")
+
   message("*** withDoRNG() ... DONE")
 
 } ## if (require("doRNG"))

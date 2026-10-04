@@ -20,7 +20,11 @@
    iteration failed, the error call was the internal map-reduce
    expression rather than the `foreach()` expression.  Same for
    `%dofuture%` with `.options.future = list(errors = "foreach")`.
-   
+
+ * `withDoRNG()` and `with(registerDoFuture(), ...)` would leave the
+   `doSEQ` foreach adapter registered afterward, if and only if no
+   adapter was registered when starting out.
+
 
 # Version 1.3.0 [2026-08-02]
 

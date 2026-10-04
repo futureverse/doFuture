@@ -90,3 +90,29 @@ stopifnot(inherits(res, "error"))
 message("Caught expected error when 'expr' is missing: ", res$message)
 
 message("*** with() for 'DoPar' without 'expr' ... DONE")
+
+
+message("*** with() for 'DoPar' when no adapter was registered ...")
+
+## Unregister any foreach adapter
+unregisterDoPar <- function() {
+  .foreachGlobals <- get(".foreachGlobals", envir = getNamespace("foreach"))
+  names <- intersect(c("fun", "data", "info"), names(.foreachGlobals))
+  rm(list = names, envir = .foreachGlobals)
+}
+
+unregisterDoPar()
+stopifnot(!foreach::getDoParRegistered())
+
+with(registerDoFuture(), {
+  stopifnot(foreach::getDoParName() == "doFuture")
+})
+stopifnot(!foreach::getDoParRegistered())
+
+local({
+  with(registerDoFuture(), local = TRUE)
+  stopifnot(foreach::getDoParName() == "doFuture")
+})
+stopifnot(!foreach::getDoParRegistered())
+
+message("*** with() for 'DoPar' when no adapter was registered ... DONE")

@@ -265,3 +265,21 @@ registerDoFuture <- function(flavor = c("%dopar%", "%dofuture%")) {  #nolint
   }
   res
 }
+
+
+## Restore a foreach adapter as returned by .getDoPar(). If no adapter
+## was registered at the time, then unregister the current one, instead
+## of registering 'doSEQ'
+#' @importFrom foreach setDoPar
+.setDoPar <- function(doPar) {
+  stop_if_not(inherits(doPar, "DoPar"))
+  if (inherits(doPar, "DoSeq")) {
+    ns <- getNamespace("foreach")
+    .foreachGlobals <- get(".foreachGlobals", envir = ns)
+    names <- intersect(c("fun", "data", "info"), names(.foreachGlobals))
+    rm(list = names, envir = .foreachGlobals)
+  } else {
+    do.call(setDoPar, args = unclass(doPar))
+  }
+  invisible(doPar)
+}
