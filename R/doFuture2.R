@@ -547,7 +547,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
           warning(cond)
           invokeRestart("muffleWarning")
         } else if (inherits(cond, "error")) {
-          mdebugf_pop() ## "Resolving %d futures (chunks) ..."
           stop(cond)
         }
       }) ## withCallingHandlers()
