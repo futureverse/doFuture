@@ -45,6 +45,12 @@
    could result in 'object not found' errors on parallel workers for
    globals that could not be detected automatically, e.g. `get("a")`.
 
+ * `foreach(..., .options.future = list(chunk.size = ...))` with a
+   chunk size less than one would launch futures that processed no
+   elements. Combined with `seed = TRUE`, it would produce an
+   obscure internal error. Now such chunk sizes result in one element
+   per future.
+
 
 # Version 1.3.0 [2026-08-02]
 

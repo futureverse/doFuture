@@ -78,6 +78,24 @@ for (nbrOfElements in c(1L, 2L, 8L)) {
 }
 
 
+message("- future.chunk.size < 1 gives no empty chunks")
+
+for (nbrOfElements in c(1L, 2L, 8L)) {
+  for (future.chunk.size in c(0.01, 0.5, 0.99)) {
+    chunks <- makeChunks(nbrOfElements, nbrOfWorkers = 2L,
+                         future.chunk.size = future.chunk.size)
+    str(chunks)
+    stopifnot(length(chunks) == nbrOfElements)
+    nidxs <- vapply(chunks, FUN = length, FUN.VALUE = 0L)
+    stopifnot(all(nidxs == 1L))
+  }
+}
+
+plan(sequential)
+res <- foreach(i = 1:3, .options.future = list(chunk.size = 0.5, seed = TRUE)) %dofuture% { i }
+stopifnot(identical(res, as.list(1:3)))
+
+
 message("- Exceptions")
 
 opt <- TRUE
