@@ -103,22 +103,35 @@
 #'
 #' The name of `foreach()` argument `.options.future` follows the naming
 #' conventions of the \pkg{doMC}, \pkg{doSNOW}, and \pkg{doParallel} packages,
-#. i.e. `.options.multicore` and `.options.snow`.
+#' i.e. `.options.multicore` and `.options.snow`.
 #' _This argument should not be mistaken for the \R
 #' \link[future:future.options]{options of the future package}_.
 #'
 #' For backward-compatibility reasons with existing foreach code, one may
 #' also use arguments `.options.multicore = list(preschedule = <logical>)` and
 #' `.options.snow = list(preschedule = <logical>)` when using \pkg{doFuture}.
-#" Using the latter corresponds to the following `.options.future` settings:
+#' Using the latter corresponds to the following `.options.future` settings:
 #' `.options.multicore = list(preschedule = TRUE)` is equivalent to
 #' `.options.future = list(scheduling = 1.0)` and
 #' `.options.multicore = list(preschedule = FALSE)` is equivalent to
-#' `.options.future = list(scheduling = +Inf)`.
+#' `.options.future = list(scheduling = +Inf)`,
 #' and analogously for `.options.snow`.
-#' Argument `.options.future` takes precedence over argument 
-#' `.option.multicore` which takes precedence over argument `.option.snow`,
+#' Argument `.options.future` takes precedence over argument
+#' `.options.multicore` which takes precedence over argument `.options.snow`,
 #' when it comes to chunking.
+#'
+#' @section Future labels:
+#' Each future created is assigned a label, which can be used to identify
+#' it, e.g. in error messages and when monitoring futures. The label can
+#' be controlled via `.options.future = list(label = <format>)`, where
+#' `<format>` is a [base::sprintf()] format string. Each future is
+#' labeled `sprintf(<format>, chunk_idx)`, where `chunk_idx` is the
+#' index of the chunk processed by that future. For example,
+#' `.options.future = list(label = "my-label-%d")` results in labels
+#' `"my-label-1"`, `"my-label-2"`, and so on.
+#' If the label has no format specifier, then `-%d` is appended, e.g.
+#' `.options.future = list(label = "my-label")` gives the same labels.
+#' The default is `label = "doFuture-%d"`.
 #'
 #' @section Random Number Generation (RNG):
 #' The doFuture adapter registered by `registerDoFuture()` does _not_ itself 
@@ -264,4 +277,22 @@ registerDoFuture <- function(flavor = c("%dopar%", "%dofuture%")) {  #nolint
     ), class = c("DoPar", "DoSeq"))
   }
   res
+}
+
+
+## Restore a foreach adapter as returned by .getDoPar(). If no adapter
+## was registered at the time, then unregister the current one, instead
+## of registering 'doSEQ'
+#' @importFrom foreach setDoPar
+.setDoPar <- function(doPar) {
+  stop_if_not(inherits(doPar, "DoPar"))
+  if (inherits(doPar, "DoSeq")) {
+    ns <- getNamespace("foreach")
+    .foreachGlobals <- get(".foreachGlobals", envir = ns)
+    names <- intersect(c("fun", "data", "info"), names(.foreachGlobals))
+    rm(list = names, envir = .foreachGlobals)
+  } else {
+    do.call(setDoPar, args = unclass(doPar))
+  }
+  invisible(doPar)
 }

@@ -129,12 +129,13 @@ For further details and instructions, see
 \section{Control processing order of iterations}{
 
 Attribute \code{ordering} of \code{chunk.size} or \code{scheduling} can be used to
-control the ordering of the elements are iterated over, which only affects
-the processing order and \emph{not} the order values are returned.
+control the order in which the elements are iterated over, which only
+affects the processing order and \emph{not} the order in which values are
+returned.
 This attribute can take the following values:
 \itemize{
-\item index vector - an numeric vector of length \code{nX}.
-\item function     - an function taking one argument which is called as
+\item index vector - a numeric vector of length \code{nX}.
+\item function     - a function taking one argument which is called as
 \code{ordering(nX)} and which must return an
 index vector of length \code{nX}, e.g.
 \code{function(n) rev(seq_len(n))} for reverse ordering.
@@ -152,6 +153,21 @@ output and conditions are also relayed in that order, that is, out of order.
 
 For further details and instructions, see
 \code{\link[future.apply:future_lapply]{future.apply::future_lapply()}}.
+}
+
+\section{Future labels}{
+
+Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can
+be controlled via \verb{.options.future = list(label = <format>)}, where
+\verb{<format>} is a \code{\link[base:sprintf]{base::sprintf()}} format string. Each future is
+labeled \verb{sprintf(<format>, chunk_idx)}, where \code{chunk_idx} is the
+index of the chunk processed by that future. For example,
+\code{.options.future = list(label = "my-label-\%d")} results in labels
+\code{"my-label-1"}, \code{"my-label-2"}, and so on.
+If the label has no format specifier, then \verb{-\%d} is appended, e.g.
+\code{.options.future = list(label = "my-label")} gives the same labels.
+The default is \code{label = "doFuture2-\%d"}.
 }
 
 \section{Reporting on progress}{

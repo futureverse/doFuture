@@ -1,6 +1,6 @@
 #' @importFrom foreach getErrorIndex getErrorValue getResult makeAccum
 #' @importFrom iterators iter
-#' @importFrom future future resolve value Future getGlobalsAndPackages FutureError
+#' @importFrom future future resolve resolved result value Future getGlobalsAndPackages FutureError
 #' @importFrom parallel splitIndices
 #' @importFrom utils head capture.output
 #' @importFrom globals globalsByName
@@ -10,6 +10,9 @@
 doFuture2 <- function(obj, expr, envir, data) {   #nolint
   stop_if_not(inherits(obj, "foreach"))
   stop_if_not(inherits(envir, "environment"))
+
+  ## The original foreach expression, used for reporting errors
+  expr_org <- expr
 
   debug <- debug0 <- getOption("doFuture.debug")
   verbose <- isTRUE(obj[["verbose"]])
@@ -21,7 +24,9 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   }
   if (debug) {
     mdebug_push("doFuture2() used by %dofuture% ...")
+    debug_stack <- mdebug_stack()
     on.exit({
+      mdebug_stack(debug_stack)
       mdebug_pop()
       options(doFuture.debug = debug0)
     })
@@ -39,7 +44,7 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     out <- capture.output({
       args_list <- as.list(it)
     })
-    mdebug(paste(out, collapse = "\n"), debug = verbose)
+    mdebug(paste(out, collapse = "\n"))
   } else {
     args_list <- as.list(it)
   }
@@ -291,13 +296,21 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   add <- attr(globals, "add", exact = TRUE)
 
   assign("...future.x_ii", 42, envir = globals_envir, inherits = FALSE)
-  add <- c(add, "...future.x_ii")
+  ## Also foreach(..., .export = ...), if used by registerDoFuture()
+  add <- c(add, obj$export, "...future.x_ii")
 
   ignore <- attr(globals, "ignore", exact = TRUE)
-  ignore <- c(ignore, argnames)
+  ## Also foreach(..., .noexport = ...), if used by registerDoFuture()
+  ignore <- c(ignore, obj$noexport, argnames)
 
   if (is.character(globals)) {
      globals <- setdiff(unique(c(globals, add)), ignore)
+  } else if (is.list(globals)) {
+    globals <- globals[setdiff(names(globals), ignore)]
+    missing <- setdiff(add, names(globals))
+    if (length(missing) > 0) {
+      globals[missing] <- mget(missing, envir = globals_envir, inherits = TRUE)
+    }
   } else {
     attr(globals, "add") <- add
     attr(globals, "ignore") <- ignore
@@ -374,6 +387,10 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     stopifnot(length(label) == 1L, is.character(label))
     ## WORKAROUND: futurize (== 0.3.0) tweak
     if (label == "fz:foreach::%:%-%d") label <- "fz:foreach::%%:%%-%d"
+    ## Append a format specifier, if missing, e.g. "my" -> "my-%d"
+    if (!grepl("%", gsub("%%", "", label, fixed = TRUE), fixed = TRUE)) {
+      label <- paste(label, "-%d", sep = "")
+    }
   }
   labels <- sprintf(label, seq_len(nchunks))
   fs <- local({
@@ -383,8 +400,31 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     }
 
     fs <- vector("list", length = nchunks)
+
+    ## Futures already launched that are known to have resolved without
+    ## errors, so they need not be checked again
+    checked <- logical(nchunks)
+
     tryCatch({
       for (ii in seq_along(chunks)) {
+        ## Exit early, if an already launched future fails.
+        ## RNG-misuse errors are left to later, because they need
+        ## to be reported separately
+        if (errors == "future") {
+          for (kk in which(!checked[seq_len(ii - 1L)])) {
+            f <- fs[[kk]]
+            if (!resolved(f)) next
+            for (cond in result(f)[["conditions"]]) {
+              cond <- cond[["condition"]]
+              if (inherits(cond, "error") &&
+                  !inherits(cond, "RngFutureCondition")) {
+                stop(cond)
+              }
+            }
+            checked[kk] <- TRUE
+          }
+        }
+
         chunk <- chunks[[ii]]
         if (debug) {
           mdebugf_push("Chunk #%d of %d ...", ii, length(chunks))
@@ -406,7 +446,7 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
         if (debug) {
           info <- if (length(globals_X) == 0) "" else hpaste(sQuote(names(globals_X)))
           mdebugf("Globals: [n=%d] %s", length(globals_X), info)
-          info <- if (length(packages_X) == 0) "" else hpaste(sQuote(packages))
+          info <- if (length(packages_X) == 0) "" else hpaste(sQuote(packages_X))
           mdebugf("Packages: [n=%d] %s", length(packages_X), info)
         }
       
@@ -536,7 +576,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
           warning(cond)
           invokeRestart("muffleWarning")
         } else if (inherits(cond, "error")) {
-          mdebugf_pop() ## "Resolving %d futures (chunks) ..."
           stop(cond)
         }
       }) ## withCallingHandlers()
@@ -577,29 +616,25 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   if (length(results2) != length(args_list)) {
     chunk_sizes <- sapply(results, FUN = length)
     chunk_sizes <- table(chunk_sizes)
-    chunk_summary <- sprintf("%d chunks with %s elements", 
-        chunk_sizes, names(chunk_sizes))
+    chunk_summary <- sprintf("%d chunks with %s elements",
+                             chunk_sizes, names(chunk_sizes))
     chunk_summary <- paste(chunk_summary, collapse = ", ")
-    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results 
- %d chunks into a list, the total number of elements (= %d) does not match the number of input
-elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", 
-        nchunks, length(results2), length(args_list), nchunks, 
-        sum(chunk_sizes), chunk_summary)
+    msg <- sprintf("Unexpected error in doFuture2(): After gathering and merging the results from %d chunks into a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(lengths(results)), chunk_summary)
     if (debug) {
-        mdebug(msg)
-        mprint(chunk_sizes)
-        mdebug("Results before merge chunks:")
-        mstr(results)
-        mdebug("Results after merge chunks:")
-        mstr(results2)
+      mdebug(msg)
+      mprint(chunk_sizes)
+      mdebug("Results before merge chunks:")
+      mstr(results)
+      mdebug("Results after merge chunks:")
+      mstr(results2)
     }
-    msg <- sprintf("%s. Example of the first few values: %s", 
-        msg, paste(capture.output(str(head(results2, 3L))), 
-            collapse = "\\n"))
+    msg <- sprintf("%s. Example of the first few values: %s",
+        msg, paste(capture.output(str(head(results2, 3L))),
+                         collapse = "\\n"))
     ex <- FutureError(msg)
     stop(ex)
   }
-  values <- values2 <- results <- NULL
+  values <- results <- NULL
 
   ## Were elements processed in a custom order?
   if (length(results2) > 1L && !is.null(ordering)) {
@@ -626,7 +661,7 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
       out <- capture.output({
         res <- accumulator(results2, tags = seq_along(results2))
       })
-      void <- lapply(out, FUN = mdebug, debug = verbose)
+      void <- lapply(out, FUN = mdebug)
       res
     } else {
       accumulator(results2, tags = seq_along(results2))
@@ -662,17 +697,16 @@ elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)",
       if (debug) {
         mdebugf("processing errors (handler = %s)", sQuote(error_handling))
       }
-      error_value <- getErrorValue(it)
       if (identical(error_handling, "stop")) {
         error_index <- getErrorIndex(it)
         msg <- sprintf('task %d failed - "%s"', error_index,
                        conditionMessage(error_value))
         if (debug) mdebug_pop() ## "Handling errors ..."
-        stop(simpleError(msg, call = expr))
+        stop(simpleError(msg, call = expr_org))
       }
     }
   }
-  rm(list = c("expr"))
+  rm(list = c("expr", "expr_org"))
   if (debug) mdebug_pop() ## "Handling errors ..."
 
 

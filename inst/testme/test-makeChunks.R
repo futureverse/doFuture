@@ -4,6 +4,21 @@ makeChunks <- doFuture:::makeChunks
 
 message("*** makeChunks() ...")
 
+message("- nbrOfElements = 0")
+
+for (nbrOfWorkers in 1:4) {
+  chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers)
+  stopifnot(identical(chunks, list()))
+
+  chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers, future.chunk.size = 2L)
+  stopifnot(identical(chunks, list()))
+
+  for (future.scheduling in list(FALSE, TRUE, 0, 0.5, 1.0, 2.0)) {
+    chunks <- makeChunks(0L, nbrOfWorkers = nbrOfWorkers, future.scheduling = future.scheduling)
+    stopifnot(identical(chunks, list()))
+  }
+}
+
 for (nbrOfElements in c(1L, 2L, 8L)) {
   for (nbrOfWorkers in seq_len(nbrOfElements + 1L)) {
     ## Defaults
@@ -63,6 +78,24 @@ for (nbrOfElements in c(1L, 2L, 8L)) {
 }
 
 
+message("- future.chunk.size < 1 gives no empty chunks")
+
+for (nbrOfElements in c(1L, 2L, 8L)) {
+  for (future.chunk.size in c(0.01, 0.5, 0.99)) {
+    chunks <- makeChunks(nbrOfElements, nbrOfWorkers = 2L,
+                         future.chunk.size = future.chunk.size)
+    str(chunks)
+    stopifnot(length(chunks) == nbrOfElements)
+    nidxs <- vapply(chunks, FUN = length, FUN.VALUE = 0L)
+    stopifnot(all(nidxs == 1L))
+  }
+}
+
+plan(sequential)
+res <- foreach(i = 1:3, .options.future = list(chunk.size = 0.5, seed = TRUE)) %dofuture% { i }
+stopifnot(identical(res, as.list(1:3)))
+
+
 message("- Exceptions")
 
 opt <- TRUE
@@ -78,6 +111,26 @@ res <- tryCatch({
 }, error = identity)
 str(res)
 stopifnot(inherits(res, "error"))
+
+message("- foreach() over an empty iterator launches zero futures")
+
+registerDoFuture()
+plan(sequential)
+
+backend <- plan("backend")
+for (op in c("%dofuture%", "%dopar%")) {
+  n_before <- backend[["counters"]]["created"]
+
+  res <- if (op == "%dofuture%") {
+    foreach(i = integer(0)) %dofuture% { i }
+  } else {
+    foreach(i = integer(0)) %dopar% { i }
+  }
+  stopifnot(identical(res, list()))
+
+  n_after <- backend[["counters"]]["created"]
+  stopifnot(n_after - n_before == 0L)
+}
 
 message("*** makeChunks() ... DONE")
 

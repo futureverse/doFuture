@@ -1,0 +1,60 @@
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# ------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "doFuture" in publications use:'
+type: software
+license: Apache-2.0
+title: 'doFuture: Use Foreach to Parallelize via the Future Framework'
+doi: 10.32614/CRAN.package.doFuture
+abstract: The 'future' package provides a unifying parallelization framework for R
+  that supports many parallel and distributed backends <https://doi.org/10.32614/RJ-2021-048>.
+  The 'foreach' package provides a powerful API for iterating over an R expression
+  in parallel. The 'doFuture' package brings the best of the two together. There are
+  three ways to use this package. The recommended approach is to use 'y <- foreach(...)
+  %do% ... |> futurize()' via the 'futurize' package (<https://doi.org/10.48550/arXiv.2601.17578>).
+  The second alternative, which was formerly recommended, is to use 'y <- foreach(...)
+  %dofuture% ... ', which does not require using 'registerDoFuture()' and has many
+  advantages over '%dopar%'. The third alternative is the traditional 'foreach' approach
+  by registering the 'foreach' adapter 'registerDoFuture()' and so that 'y <- foreach(...)
+  %dopar% ... ' parallelizes with the 'future' framework.
+authors:
+- family-names: Bengtsson
+  given-names: Henrik
+  email: henrikb@braju.com
+  orcid: https://orcid.org/0000-0002-7579-5165
+preferred-citation:
+  type: generic
+  title: A Unified Approach to Concurrent, Parallel Map-Reduce in R using Futures
+  authors:
+  - family-names: Bengtsson
+    given-names: Henrik
+    email: henrikb@braju.com
+    orcid: https://orcid.org/0000-0002-7579-5165
+  year: '2026'
+  url: https://arxiv.org/abs/2601.17578
+repository: https://CRAN.R-project.org/package=doFuture
+repository-code: https://github.com/futureverse/doFuture
+url: https://doFuture.futureverse.org
+contact:
+- family-names: Bengtsson
+  given-names: Henrik
+  email: henrikb@braju.com
+  orcid: https://orcid.org/0000-0002-7579-5165
+references:
+- type: article
+  title: A Unifying Framework for Parallel and Distributed Processing in R using Futures
+  authors:
+  - family-names: Bengtsson
+    given-names: Henrik
+  year: '2021'
+  journal: The R Journal
+  doi: 10.32614/RJ-2021-048
+  url: https://doi.org/10.32614/RJ-2021-048
+  volume: '13'
+  issue: '2'
+  start: '208'
+  end: '227'
+

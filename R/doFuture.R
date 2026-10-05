@@ -47,6 +47,9 @@ doFuture <- local({
 function(obj, expr, envir, data) {   #nolint
   stop_if_not(inherits(obj, "foreach"))
   stop_if_not(inherits(envir, "environment"))
+
+  ## The original foreach expression, used for reporting errors
+  expr_org <- expr
   
   debug <- debug0 <- getOption("doFuture.debug")
   verbose <- isTRUE(obj[["verbose"]])
@@ -58,7 +61,9 @@ function(obj, expr, envir, data) {   #nolint
   }
   if (debug) {
     mdebug_push("doFuture() used by %dopar% ...")
+    debug_stack <- mdebug_stack()
     on.exit({
+      mdebug_stack(debug_stack)
       mdebug_pop()
       options(doFuture.debug = debug0)
     })
@@ -76,7 +81,7 @@ function(obj, expr, envir, data) {   #nolint
     out <- capture.output({
       args_list <- as.list(it)
     })
-    mdebug(paste(out, collapse = "\n"), debug = verbose)
+    mdebug(paste(out, collapse = "\n"))
   } else {
     args_list <- as.list(it)
   }
@@ -271,7 +276,7 @@ function(obj, expr, envir, data) {   #nolint
       mdebugf("globals.maxSize (adjusted): %.0f bytes", globals.maxSize.adjusted)
       mdebug("R expression (adjusted):")
       mprint(expr)
-      mdebug_pop()
+      mdebug_pop(NA)
     }
   } else {
     globals.maxSize.adjusted <- NULL
@@ -295,7 +300,7 @@ function(obj, expr, envir, data) {   #nolint
              "BiocParallel" %in% loadedNamespaces() &&
              inherits(envir[["BPPARAM"]], "DoparParam") &&
              is.list(envir[["BPREDO"]])) {
-    ## Taken care of by the BiocParallel package
+    ## Only reached and needed for BiocParallel (< 1.32.0) [Bioconductor 3.16, 2022-11-01]
     seed <- NULL
   }
 
@@ -317,9 +322,13 @@ function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   label <- options[["label"]]
   if (is.null(label)) {
-    label <- "doFuture2-%s"
+    label <- "doFuture-%s"
   } else {
     stopifnot(length(label) == 1L, is.character(label))
+    ## Append a format specifier, if missing, e.g. "my" -> "my-%d"
+    if (!grepl("%", gsub("%%", "", label, fixed = TRUE), fixed = TRUE)) {
+      label <- paste(label, "-%d", sep = "")
+    }
   }
   labels <- sprintf(label, seq_len(nchunks))
   fs <- local({
@@ -351,7 +360,7 @@ function(obj, expr, envir, data) {   #nolint
           if (debug) {
             info <- if (length(globals_X) == 0) "" else hpaste(sQuote(names(globals_X)))
             mdebugf("Globals: [n=%d] %s", length(globals_X), info)
-            info <- if (length(packages_X) == 0) "" else hpaste(sQuote(names(packages_X)))
+            info <- if (length(packages_X) == 0) "" else hpaste(sQuote(packages_X))
             mdebugf("Package: [n=%d] %s", length(packages_X), info)
           }
       
@@ -370,11 +379,12 @@ function(obj, expr, envir, data) {   #nolint
           }
         
           rm(list = c("globals_X", "packages_X"))
+
+          if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
         }
   
         rm(list = "args_list_ii")
 
-        if (debug) mdebug_pop() ## "Finding globals in 'args_list' for chunk #%d ..."
         if (!is.null(globals.maxSize.adjusted)) {
           globals_ii <- c(globals_ii, ...future.globals.maxSize = globals.maxSize)
         }
@@ -455,7 +465,7 @@ function(obj, expr, envir, data) {   #nolint
           workarounds <- getOption("doFuture.workarounds")
           if ("BiocParallel.DoParam.errors" %in% workarounds) {
             cond$message <- sprintf('task %d failed - "%s"',
-                                    kk, conditionMessage(cond))
+                                    idx, conditionMessage(cond))
           }
           stop(cond)
         }
@@ -498,7 +508,7 @@ function(obj, expr, envir, data) {   #nolint
     chunk_summary <- sprintf("%d chunks with %s elements",
                              chunk_sizes, names(chunk_sizes))
     chunk_summary <- paste(chunk_summary, collapse = ", ")
-    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results from %d chunks into a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(chunk_sizes), chunk_summary)
+    msg <- sprintf("Unexpected error in doFuture(): After gathering and merging the results from %d chunks into a list, the total number of elements (= %d) does not match the number of input elements in 'X' (= %d). There were in total %d chunks and %d elements (%s)", nchunks, length(results2), length(args_list), nchunks, sum(lengths(results)), chunk_summary)
     if (debug) {
       mdebug(msg)
       mprint(chunk_sizes)
@@ -542,7 +552,7 @@ function(obj, expr, envir, data) {   #nolint
       out <- capture.output({
         res <- accumulator(results, tags = seq_along(results))
       })
-      void <- lapply(out, FUN = mdebug, debug = verbose)
+      void <- lapply(out, FUN = mdebug)
       res
     } else {
       accumulator(results, tags = seq_along(results))
@@ -574,9 +584,9 @@ function(obj, expr, envir, data) {   #nolint
     msg <- sprintf('task %d failed - "%s"', error_index,
                    conditionMessage(error_value))
     if (debug) mdebug_pop() ## "Handling errors ..."
-    stop(simpleError(msg, call = expr))
+    stop(simpleError(msg, call = expr_org))
   }
-  rm(list = c("expr"))
+  rm(list = c("expr", "expr_org"))
   if (debug) mdebug_pop() ## "Handling errors ..."
 
 

@@ -5,11 +5,10 @@
 ^revdep/
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
-^CONDUCT[.]md$
-^CONTRIBUTING[.]md$
 ^LICENSE[.]md$
 ^README.*[.]md$
 ^Makefile$
 ^.*[.]tar[.]gz$
 ^[.]pre-commit-config.yaml$
 
+^CITATION\.cff$

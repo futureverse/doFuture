@@ -13,9 +13,6 @@ debug_indent <- local({
   }
 })
 
-if (!exists(".debug", inherits = FALSE)) .debug <- new.env(parent = emptyenv())
-if (!"stack" %in% names(".debug")) .debug$stack <- list()
-
 mdebug_push <- function(...) {
   msg <- mdebug(...)
   .debug$stack <- c(.debug$stack, msg)
@@ -26,6 +23,12 @@ mdebugf_push <- function(...) {
   msg <- mdebugf(...)
   .debug$stack <- c(.debug$stack, msg)
   invisible(msg)
+}
+
+# Get or set current stack
+mdebug_stack <- function(stack = NULL) {
+  if (!is.null(stack)) .debug$stack <- stack
+  invisible(.debug$stack)
 }
 
 mdebug_pop <- function(...) {

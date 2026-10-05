@@ -86,7 +86,7 @@ examples on this approach.
 
 ### Alternative 2: `%dofuture%`
 
-The _second alternative_ (formely recommended), which uses
+The _second alternative_ (formerly recommended), which uses
 `%dofuture%`, avoids having to use `registerDoFuture()`.  The
 `%dofuture%` operator provides a more consistent behavior than
 `%dopar%`, e.g. there is a unique set of foreach arguments instead of
@@ -170,9 +170,3 @@ remotes::install_github("futureverse/doFuture", ref="develop")
 This will install the package from source.  
 
 <!-- pkgdown-drop-below -->
-
-
-## Contributing
-
-To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
-

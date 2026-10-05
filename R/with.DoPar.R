@@ -20,7 +20,6 @@
 #'
 #' @example incl/with.R
 #'
-#' @importFrom foreach setDoPar
 #' @export
 with.DoPar <- function(data, expr, ..., local = FALSE, envir = parent.frame()) {
   ## The registerDoFuture() function has already been called when we get here
@@ -29,7 +28,7 @@ with.DoPar <- function(data, expr, ..., local = FALSE, envir = parent.frame()) {
   oldDoPar <- data
 
   undoDoPar <- function() {
-    do.call(setDoPar, args = oldDoPar)
+    .setDoPar(oldDoPar)
   }
 
   if (local) {

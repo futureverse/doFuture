@@ -119,20 +119,37 @@ The default value is \code{scheduling = 1.0}.
 
 The name of \code{foreach()} argument \code{.options.future} follows the naming
 conventions of the \pkg{doMC}, \pkg{doSNOW}, and \pkg{doParallel} packages,
+i.e. \code{.options.multicore} and \code{.options.snow}.
 \emph{This argument should not be mistaken for the \R
 \link[future:future.options]{options of the future package}}.
 
 For backward-compatibility reasons with existing foreach code, one may
 also use arguments \verb{.options.multicore = list(preschedule = <logical>)} and
 \verb{.options.snow = list(preschedule = <logical>)} when using \pkg{doFuture}.
+Using the latter corresponds to the following \code{.options.future} settings:
 \code{.options.multicore = list(preschedule = TRUE)} is equivalent to
 \code{.options.future = list(scheduling = 1.0)} and
 \code{.options.multicore = list(preschedule = FALSE)} is equivalent to
-\code{.options.future = list(scheduling = +Inf)}.
+\code{.options.future = list(scheduling = +Inf)},
 and analogously for \code{.options.snow}.
 Argument \code{.options.future} takes precedence over argument
-\code{.option.multicore} which takes precedence over argument \code{.option.snow},
+\code{.options.multicore} which takes precedence over argument \code{.options.snow},
 when it comes to chunking.
+}
+
+\section{Future labels}{
+
+Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can
+be controlled via \verb{.options.future = list(label = <format>)}, where
+\verb{<format>} is a \code{\link[base:sprintf]{base::sprintf()}} format string. Each future is
+labeled \verb{sprintf(<format>, chunk_idx)}, where \code{chunk_idx} is the
+index of the chunk processed by that future. For example,
+\code{.options.future = list(label = "my-label-\%d")} results in labels
+\code{"my-label-1"}, \code{"my-label-2"}, and so on.
+If the label has no format specifier, then \verb{-\%d} is appended, e.g.
+\code{.options.future = list(label = "my-label")} gives the same labels.
+The default is \code{label = "doFuture-\%d"}.
 }
 
 \section{Random Number Generation (RNG)}{

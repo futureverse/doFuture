@@ -173,6 +173,15 @@ for (strategy in strategies) {
     inherits(y, "error") || inherits(plan("next"), c("sequential", "multicore"))
   )
 
+  message("- foreach() - globals can be a named list ...")
+  y <- foreach(i = 1:2, .options.future = list(globals = list(k = 100))) %dofuture% {
+    i + k
+  }
+  stopifnot(identical(y, list(101, 102)))
+
+  y <- (foreach(i = 1:2) %dofuture% { i + k }) %globals% list(k = 100)
+  stopifnot(identical(y, list(101, 102)))
+
   # Shutdown current plan
   plan(sequential)
 } ## for (strategy ...)

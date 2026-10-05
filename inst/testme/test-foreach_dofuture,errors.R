@@ -153,3 +153,25 @@ stopifnot(
 )
 
 message("*** doFuture() - invalid accumulator ... DONE")
+
+
+message("*** doFuture() - early exit while launching futures ...")
+
+## When there are more chunks than workers, an error in an already
+## launched future should be detected before all futures are launched
+plan(multisession, workers = 2L)
+res <- tryCatch({
+  foreach(i = 1:6, .options.future = list(chunk.size = 1L)) %dofuture% {
+    if (i == 1L) stop("boom")
+    Sys.sleep(1.0)
+    i
+  }
+}, error = identity)
+print(res)
+stopifnot(
+  inherits(res, "error"),
+  conditionMessage(res) == "boom"
+)
+plan(sequential)
+
+message("*** doFuture() - early exit while launching futures ... DONE")

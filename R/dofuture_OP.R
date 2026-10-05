@@ -118,13 +118,14 @@
 #'
 #' @section Control processing order of iterations:
 #' Attribute `ordering` of `chunk.size` or `scheduling` can be used to
-#' control the ordering of the elements are iterated over, which only affects
-#' the processing order and _not_ the order values are returned.
+#' control the order in which the elements are iterated over, which only
+#' affects the processing order and _not_ the order in which values are
+#' returned.
 #' This attribute can take the following values:
 #'
-#' * index vector - an numeric vector of length `nX`.
+#' * index vector - a numeric vector of length `nX`.
 #'
-#' * function     - an function taking one argument which is called as
+#' * function     - a function taking one argument which is called as
 #'                  `ordering(nX)` and which must return an
 #'                  index vector of length `nX`, e.g.
 #'                  `function(n) rev(seq_len(n))` for reverse ordering.
@@ -142,6 +143,19 @@
 #'
 #' For further details and instructions, see
 #' [future.apply::future_lapply()].
+#'
+#' @section Future labels:
+#' Each future created is assigned a label, which can be used to identify
+#' it, e.g. in error messages and when monitoring futures. The label can
+#' be controlled via `.options.future = list(label = <format>)`, where
+#' `<format>` is a [base::sprintf()] format string. Each future is
+#' labeled `sprintf(<format>, chunk_idx)`, where `chunk_idx` is the
+#' index of the chunk processed by that future. For example,
+#' `.options.future = list(label = "my-label-%d")` results in labels
+#' `"my-label-1"`, `"my-label-2"`, and so on.
+#' If the label has no format specifier, then `-%d` is appended, e.g.
+#' `.options.future = list(label = "my-label")` gives the same labels.
+#' The default is `label = "doFuture2-%d"`.
 #'
 #' @section Reporting on progress:
 #' How to report on progress is a frequently asked question, especially
