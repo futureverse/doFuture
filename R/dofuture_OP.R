@@ -118,8 +118,9 @@
 #'
 #' @section Control processing order of iterations:
 #' Attribute `ordering` of `chunk.size` or `scheduling` can be used to
-#' control the ordering of the elements are iterated over, which only affects
-#' the processing order and _not_ the order values are returned.
+#' control the order in which the elements are iterated over, which only
+#' affects the processing order and _not_ the order in which values are
+#' returned.
 #' This attribute can take the following values:
 #'
 #' * index vector - an numeric vector of length `nX`.

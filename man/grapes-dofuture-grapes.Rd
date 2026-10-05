@@ -129,8 +129,9 @@ For further details and instructions, see
 \section{Control processing order of iterations}{
 
 Attribute \code{ordering} of \code{chunk.size} or \code{scheduling} can be used to
-control the ordering of the elements are iterated over, which only affects
-the processing order and \emph{not} the order values are returned.
+control the order in which the elements are iterated over, which only
+affects the processing order and \emph{not} the order in which values are
+returned.
 This attribute can take the following values:
 \itemize{
 \item index vector - an numeric vector of length \code{nX}.
