@@ -634,7 +634,7 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
     ex <- FutureError(msg)
     stop(ex)
   }
-  values <- values2 <- results <- NULL
+  values <- results <- NULL
 
   ## Were elements processed in a custom order?
   if (length(results2) > 1L && !is.null(ordering)) {
@@ -697,7 +697,6 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
       if (debug) {
         mdebugf("processing errors (handler = %s)", sQuote(error_handling))
       }
-      error_value <- getErrorValue(it)
       if (identical(error_handling, "stop")) {
         error_index <- getErrorIndex(it)
         msg <- sprintf('task %d failed - "%s"', error_index,
