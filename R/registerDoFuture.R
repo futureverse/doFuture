@@ -125,7 +125,7 @@
 #' it, e.g. in error messages and when monitoring futures. The label can
 #' be controlled via `.options.future = list(label = <format>)`, where
 #' `<format>` is a [base::sprintf()] format string. Each future is
-#' labelled `sprintf(<format>, chunk_idx)`, where `chunk_idx` is the
+#' labeled `sprintf(<format>, chunk_idx)`, where `chunk_idx` is the
 #' index of the chunk processed by that future. For example,
 #' `.options.future = list(label = "my-label-%d")` results in labels
 #' `"my-label-1"`, `"my-label-2"`, and so on.

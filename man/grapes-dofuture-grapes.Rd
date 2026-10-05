@@ -161,7 +161,7 @@ Each future created is assigned a label, which can be used to identify
 it, e.g. in error messages and when monitoring futures. The label can
 be controlled via \verb{.options.future = list(label = <format>)}, where
 \verb{<format>} is a \code{\link[base:sprintf]{base::sprintf()}} format string. Each future is
-labelled \verb{sprintf(<format>, chunk_idx)}, where \code{chunk_idx} is the
+labeled \verb{sprintf(<format>, chunk_idx)}, where \code{chunk_idx} is the
 index of the chunk processed by that future. For example,
 \code{.options.future = list(label = "my-label-\%d")} results in labels
 \code{"my-label-1"}, \code{"my-label-2"}, and so on.
