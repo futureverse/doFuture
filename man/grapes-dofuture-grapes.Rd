@@ -134,8 +134,8 @@ affects the processing order and \emph{not} the order in which values are
 returned.
 This attribute can take the following values:
 \itemize{
-\item index vector - an numeric vector of length \code{nX}.
-\item function     - an function taking one argument which is called as
+\item index vector - a numeric vector of length \code{nX}.
+\item function     - a function taking one argument which is called as
 \code{ordering(nX)} and which must return an
 index vector of length \code{nX}, e.g.
 \code{function(n) rev(seq_len(n))} for reverse ordering.

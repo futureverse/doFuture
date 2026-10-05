@@ -86,7 +86,7 @@ examples on this approach.
 
 ### Alternative 2: `%dofuture%`
 
-The _second alternative_ (formely recommended), which uses
+The _second alternative_ (formerly recommended), which uses
 `%dofuture%`, avoids having to use `registerDoFuture()`.  The
 `%dofuture%` operator provides a more consistent behavior than
 `%dopar%`, e.g. there is a unique set of foreach arguments instead of
