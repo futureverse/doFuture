@@ -11,14 +11,14 @@
 |ctype    |en_US.UTF-8                                                              |
 |tz       |America/Los_Angeles                                                      |
 |date     |2026-10-04                                                               |
-|pandoc   |3.11                                                                     |
+|pandoc   |3.11 @                                                                   |
 |quarto   |1.10.18                                                                  |
 
 # Dependencies
 
 |package      |old    |new        |Δ  |
 |:------------|:------|:----------|:--|
-|doFuture     |1.3.0  |1.3.0-9016 |*  |
+|doFuture     |1.3.0  |1.3.0-9017 |*  |
 |codetools    |0.2-20 |0.2-20     |   |
 |digest       |0.6.39 |0.6.39     |   |
 |foreach      |1.5.2  |1.5.2      |   |
@@ -30,13 +30,6 @@
 |parallelly   |1.48.0 |1.48.0     |   |
 
 # Revdeps
-
-## Failed to check (2)
-
-|package         |version |error |warning |note |
-|:---------------|:-------|:-----|:-------|:----|
-|STARRS          |?       |      |        |     |
-|WeightedCluster |?       |      |        |     |
 
 ## All (74)
 
@@ -106,7 +99,7 @@
 |[sparrpowR](problems.md#sparrpowr)|0.2.9   |      |1       |     |
 |sphunif           |1.4.4   |      |        |     |
 |[sRACIPE](problems.md#sracipe)|2.4.0   |      |        |4    |
-|STARRS            |?       |      |        |     |
+|[STARRS](problems.md#starrs)|1.0     |1     |        |     |
 |[survstan](problems.md#survstan)|0.0.7.1 |      |        |1    |
 |TAD               |1.0.1   |      |        |     |
 |tglkmeans         |0.6.1   |      |        |     |
@@ -114,6 +107,6 @@
 |vecmatch          |1.4.0   |      |        |     |
 |[vmeasur](problems.md#vmeasur)|0.1.4   |      |1       |     |
 |WARDEN            |2.0.6   |      |        |     |
-|WeightedCluster   |?       |      |        |     |
+|WeightedCluster   |2.0     |      |        |     |
 |xiacf             |0.6.5   |      |        |     |
 

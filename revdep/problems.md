@@ -59,29 +59,29 @@ Run `revdepcheck::revdep_details(, "progressify")` for more info
 *   checking tests ...
      ```
      ...
-       [16:06:55.585] |  :  .  local({
-       [16:06:55.585] |  :  .      design <- Design
-       [16:06:55.585] |  :  .      replications <- 5L
-       [16:06:55.585] |  :  .      .progressr_steps <- if (length(replications) == 1L) 
-       [16:06:55.585] |  :  .          replications * nrow(design)
-       [16:06:55.585] |  :  .      else sum(replications)
-       [16:06:55.585] |  :  .      .progressr_progressor <- progressr::progressor(steps = .progressr_steps)
-       [16:06:55.585] |  :  .      .progressr_analyse <- Analyse
-       [16:06:55.585] |  :  .      runSimulation(design = design, replications = replications, 
-       [16:06:55.585] |  :  .          generate = Generate, analyse = function(condition, dat, 
-       [16:06:55.585] |  :  .              fixed_objects = NULL, ...) {
-       [16:06:55.585] |  :  .              on.exit(.progressr_progressor())
-       [16:06:55.585] |  :  .              .progressr_analyse(condition = condition, dat = dat, 
-       [16:06:55.585] |  :  .                  fixed_objects = fixed_objects, ...)
-       [16:06:55.585] |  :  .          }, summarise = Summarise, verbose = FALSE, progress = FALSE)
-       [16:06:55.585] |  :  .  })
-       [16:06:55.586] |  :  Transpile call expression ... done
-       [16:06:55.586] |  :  Evaluate transpiled call expression
+       [22:12:56.520] |  :  .  local({
+       [22:12:56.520] |  :  .      design <- Design
+       [22:12:56.520] |  :  .      replications <- 5L
+       [22:12:56.520] |  :  .      .progressr_steps <- if (length(replications) == 1L) 
+       [22:12:56.520] |  :  .          replications * nrow(design)
+       [22:12:56.520] |  :  .      else sum(replications)
+       [22:12:56.520] |  :  .      .progressr_progressor <- progressr::progressor(steps = .progressr_steps)
+       [22:12:56.520] |  :  .      .progressr_analyse <- Analyse
+       [22:12:56.520] |  :  .      runSimulation(design = design, replications = replications, 
+       [22:12:56.520] |  :  .          generate = Generate, analyse = function(condition, dat, 
+       [22:12:56.520] |  :  .              fixed_objects = NULL, ...) {
+       [22:12:56.520] |  :  .              on.exit(.progressr_progressor())
+       [22:12:56.520] |  :  .              .progressr_analyse(condition = condition, dat = dat, 
+       [22:12:56.520] |  :  .                  fixed_objects = fixed_objects, ...)
+       [22:12:56.520] |  :  .          }, summarise = Summarise, verbose = FALSE, progress = FALSE)
+       [22:12:56.520] |  :  .  })
+       [22:12:56.522] |  :  Transpile call expression ... done
+       [22:12:56.523] |  :  Evaluate transpiled call expression
        
-       Simulation complete. Total execution time: 0.03s
+       Simulation complete. Total execution time: 0.01s
        
-       [16:06:57.117] |  transpile() ... done
-       [16:06:57.118] progressify() ... done
+       [22:12:57.788] |  transpile() ... done
+       [22:12:57.788] progressify() ... done
        Error: length(output) == 0L is not TRUE
        Execution halted
      ```
@@ -163,6 +163,45 @@ Run `revdepcheck::revdep_details(, "sRACIPE")` for more info
      checkRd: (-1) sracipeHeatmapSimilarity.Rd:32: Lost braces
          32 | and /code{distance  = (1-cor(x, method = "spear"))/2} will be used to 
             |          ^
+     ```
+
+# STARRS (1.0)
+
+* Email: <mailto:daphne.giorgi@sorbonne-universite.fr>
+* GitHub mirror: <https://github.com/cran/STARRS>
+
+Run `revdepcheck::revdep_details(, "STARRS")` for more info
+
+## In both
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+     Error: processing vignette 'STARRS-clustering.Rmd' failed with diagnostics:
+     Attempting to set up 72 localhost parallel workers with only 2 CPU cores available for this R process (per 'N/A'), which could result in a 3600% load. The hard limit is set to 300%. Overusing the CPUs has negative impact on the current R process, but also on all other processes of yours and others running on the same machine. See help("parallelly.maxWorkers.localhost", package = "parallelly") for further explanations and how to override the hard limit that triggered this error. By the way, was parallel::detectCores() used, because the number of workers (72) equals detectCores()? If so, please use parallelly::availableCores() instead
+     --- failed re-building ‘STARRS-clustering.Rmd’
+     
+     --- re-building ‘STARRS-intro.Rmd’ using rmarkdown
+     [WARNING] Deprecated: --mathjax. Use --math-method=mathjax[:URL] instead.
+     --- finished re-building ‘STARRS-intro.Rmd’
+     
+     --- re-building ‘STARRS-median-mcm.Rmd’ using rmarkdown
+     [WARNING] Deprecated: --mathjax. Use --math-method=mathjax[:URL] instead.
+     --- finished re-building ‘STARRS-median-mcm.Rmd’
+     
+     --- re-building ‘STARRS-regression.Rmd’ using rmarkdown
+     [WARNING] Deprecated: --mathjax. Use --math-method=mathjax[:URL] instead.
+     --- finished re-building ‘STARRS-regression.Rmd’
+     
+     --- re-building ‘STARRS-robust-variance.Rmd’ using rmarkdown
+     [WARNING] Deprecated: --mathjax. Use --math-method=mathjax[:URL] instead.
+     --- finished re-building ‘STARRS-robust-variance.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘STARRS-clustering.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
      ```
 
 # survstan (0.0.7.1)
