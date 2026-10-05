@@ -12,18 +12,16 @@ Below is an example showing how to make `%dopar%` work with
 *multisession* futures. A multisession future will be evaluated in
 parallel using background R process.
 
-``` r
-
-library("doFuture")
-registerDoFuture()
-plan(multisession)
-
-cutoff <- 0.10
-y <- foreach(x = mtcars, .export = c("cutoff")) %dopar% {
-  mean(x, trim = cutoff)
-}
-names(y) <- colnames(mtcars)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``, .export ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"cutoff"``)``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`  `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`}`\
+[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`
 
 ## Futures bring foreach to the HPC cluster
 
@@ -33,18 +31,16 @@ package can be used. Assuming batchtools has been configured correctly,
 then the following foreach iterations will be submitted to the HPC job
 scheduler and distributed for evaluation on the compute nodes.
 
-``` r
-
-library("doFuture")
-registerDoFuture()
-plan(future.batchtools::batchtools_slurm)
-
-cutoff <- 0.10
-y <- foreach(x = mtcars, .export = c("cutoff")) %dopar% {
-  mean(x, trim = cutoff)
-}
-names(y) <- colnames(mtcars)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.html)`)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``, .export ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"cutoff"``)``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`  `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`}`\
+[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`
 
 ## Futures for plyr
 
@@ -56,27 +52,25 @@ futures can be used for asynchronous (and synchronous) **plyr**
 processing including multicore, multisession, MPI, ad hoc clusters and
 HPC job schedulers. For example,
 
-``` r
-
-library("doFuture")
-registerDoFuture()
-plan(multisession)
-library("plyr")
-
-cutoff <- 0.10
-y <- llply(mtcars, mean, trim = cutoff, .parallel = TRUE)
-## $a
-##  25%  50%  75%
-## 3.25 5.50 7.75
-##
-## $beta
-##       25%       50%       75%
-## 0.2516074 1.0000000 5.0536690
-##
-## $logic
-## 25% 50% 75%
-## 0.0 0.5 1.0
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"plyr"`](http://had.co.nz/plyr)`)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`y`` ``<-`` `[`llply`](https://rdrr.io/pkg/plyr/man/llply.html)`(``mtcars``, ``mean``, trim ``=`` ``cutoff``, .parallel ``=`` ``TRUE``)`\
+`## $a`\
+`##  25%  50%  75%`\
+`## 3.25 5.50 7.75`\
+`##`\
+`## $beta`\
+`##       25%       50%       75%`\
+`## 0.2516074 1.0000000 5.0536690`\
+`##`\
+`## $logic`\
+`## 25% 50% 75%`\
+`## 0.0 0.5 1.0`
 
 ## Futures and BiocParallel
 
@@ -86,17 +80,15 @@ package supports any `%dopar%` adapter as a parallel backend. This means
 that with **[doFuture](https://cran.r-project.org/package=doFuture)**,
 **BiocParallel** supports any type of future. For example,
 
-``` r
-
-library("doFuture")
-registerDoFuture()
-plan(multisession)
-library("BiocParallel")
-register(DoparParam(), default = TRUE)
-
-cutoff <- 0.10
-x <- bplapply(mtcars, mean, trim = cutoff)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+[`library`](https://rdrr.io/r/base/library.html)`(``"BiocParallel"``)`\
+`register``(``DoparParam``(``)``, default ``=`` ``TRUE``)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`x`` ``<-`` ``bplapply``(``mtcars``, ``mean``, trim ``=`` ``cutoff``)`
 
 ## doFuture takes care of exports and packages automatically
 
@@ -107,69 +99,61 @@ Specifically, if
 from within a function, you do need to export globals explicitly. For
 example, although global `cutoff` is properly exported when we do
 
-``` r
-
-library("doParallel")
-registerDoParallel(parallel::makeCluster(2))
-
-cutoff <- 0.10
-y <- foreach(x = mtcars) %dopar% {
-  mean(x, trim = cutoff)
-}
-names(y) <- colnames(mtcars)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doParallel"`](https://github.com/RevolutionAnalytics/doparallel)`)`\
+[`registerDoParallel`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html)`(``parallel``::`[`makeCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``2``)``)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`  `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`}`\
+[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`
 
 it falls short as soon as we try to do the same from within a function:
 
-``` r
-
-my_mean <- function() {
-  y <- foreach(x = mtcars) %dopar% {
-    mean(x, trim = cutoff)
-  }
-  names(y) <- colnames(mtcars)
-  y
-}
-
-x <- my_mean()
-## Error in { : task 1 failed - "object 'cutoff' not found"
-```
+\
+`my_mean`` ``<-`` ``function``(``)`` ``{`\
+`  ``y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`    `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`  ``}`\
+`  `[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`\
+`  ``y`\
+`}`\
+\
+`x`` ``<-`` ``my_mean``(``)`\
+`## Error in { : task 1 failed - "object 'cutoff' not found"`
 
 The solution is to explicitly export global variables, e.g.
 
-``` r
-
-my_mean <- function() {
-  y <- foreach(x = mtcars, .export = "cutoff") %dopar% {
-    mean(x, trim = cutoff)
-  }
-  names(y) <- colnames(mtcars)
-  y
-}
-
-y <- my_mean()
-```
+\
+`my_mean`` ``<-`` ``function``(``)`` ``{`\
+`  ``y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``, .export ``=`` ``"cutoff"``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`    `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`  ``}`\
+`  `[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`\
+`  ``y`\
+`}`\
+\
+`y`` ``<-`` ``my_mean``(``)`
 
 In contrast, when using the `%dopar%` adapter of **doFuture**, all of
 the **[future](https://cran.r-project.org/package=future)** machinery
 comes into play including automatic handling of global variables, e.g.
 
-``` r
-
-library("doFuture")
-registerDoFuture()
-plan(multisession, workers = 2)
-
-my_mean <- function() {
-  y <- foreach(x = mtcars) %dopar% {
-    mean(x, trim = cutoff)
-  }
-  names(y) <- colnames(mtcars)
-  y
-}
-
-x <- my_mean()
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``, workers ``=`` ``2``)`\
+\
+`my_mean`` ``<-`` ``function``(``)`` ``{`\
+`  ``y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`    `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`  ``}`\
+`  `[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`\
+`  ``y`\
+`}`\
+\
+`x`` ``<-`` ``my_mean``(``)`
 
 will indeed work.
 
@@ -177,25 +161,21 @@ Another advantage with **doFuture** is that, contrary to **doParallel**,
 packages that need to be attached are also automatically taken care of,
 e.g.
 
-``` r
-
-registerDoFuture()
-library("tools")
-ext <- foreach(file = c("abc.txt", "def.log")) %dopar% file_ext(file)
-unlist(ext)
-## [1] "txt" "log"
-```
+\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`library`](https://rdrr.io/r/base/library.html)`(``"tools"``)`\
+`ext`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``file ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"abc.txt"``, ``"def.log"``)``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` `[`file_ext`](https://rdrr.io/r/tools/fileutils.html)`(``file``)`\
+[`unlist`](https://rdrr.io/r/base/unlist.html)`(``ext``)`\
+`## [1] "txt" "log"`
 
 whereas
 
-``` r
-
-registerDoParallel(parallel::makeCluster(2))
-library("tools")
-ext <- foreach(file = c("abc.txt", "def.log")) %dopar% file_ext(file)
-## Error in file_ext(file) : 
-##   task 1 failed - "could not find function "file_ext""
-```
+\
+[`registerDoParallel`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html)`(``parallel``::`[`makeCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``2``)``)`\
+[`library`](https://rdrr.io/r/base/library.html)`(``"tools"``)`\
+`ext`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``file ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"abc.txt"``, ``"def.log"``)``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` `[`file_ext`](https://rdrr.io/r/tools/fileutils.html)`(``file``)`\
+`## Error in file_ext(file) : `\
+`##   task 1 failed - "could not find function "file_ext""`
 
 Having said all this, in order to write foreach code that works
 everywhere, it is better to be conservative and not assume that all end

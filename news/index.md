@@ -1,6 +1,21 @@
 # Changelog
 
-## Version (development version)
+## Version 1.4.0
+
+### New Features
+
+- [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) with
+  `%dofuture%` now exits early also when an error occurs while futures
+  are still being launched. Previously, when there were more chunks than
+  parallel workers, errors were not detected until all futures had been
+  launched, which required waiting for slow iterations to finish first.
+
+- If the label specified via
+  `foreach(..., .options.future = list(label = ...))` has no
+  sprintf-like format specifier, such as `%d`, then `-%d` is appended,
+  e.g. `label = "my-label"` gives future labels `"my-label-1"`,
+  `"my-label-2"`, and so on. Previously, such labels produced a warning
+  ‘one argument not used by format’.
 
 ### Bug Fixes
 
@@ -17,6 +32,29 @@
 
 - `foreach(..., .verbose = TRUE) %dopar% { ... }` and `%dofuture%`
   produced some corrupt debug messages.
+
+- When a `foreach(..., .errorhandling = "stop") %dopar% { ... }`
+  iteration failed, the error call was the internal map-reduce
+  expression rather than the
+  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
+  expression. Same for `%dofuture%` with
+  `.options.future = list(errors = "foreach")`.
+
+- [`withDoRNG()`](https://doFuture.futureverse.org/reference/withDoRNG.md)
+  and `with(registerDoFuture(), ...)` would leave the `doSEQ` foreach
+  adapter registered afterward, if and only if no adapter was registered
+  when starting out.
+
+- Using `registerDoFuture(flavor = "%dofuture%")`,
+  [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) arguments
+  `.export` and `.noexport` were silently ignored. This could result in
+  ‘object not found’ errors on parallel workers for globals that could
+  not be detected automatically, e.g. `get("a")`.
+
+- `foreach(..., .options.future = list(chunk.size = ...))` with a chunk
+  size less than one would launch futures that processed no elements.
+  Combined with `seed = TRUE`, it would produce an obscure internal
+  error. Now such chunk sizes result in one element per future.
 
 ## Version 1.3.0
 
@@ -557,10 +595,8 @@ CRAN release: 2017-03-14
 
 - Now the package tests **future.batchtools** with **foreach** by
   itself, in combination with **plyr** (`parallel = TRUE`) as well as
-  with
-  [`BiocParallel::bplapply()`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html)
-  and friends. Similar tests are already done using
-  **future.BatchJobs**.
+  with `BiocParallel::bplapply()` and friends. Similar tests are already
+  done using **future.BatchJobs**.
 
 - Added test for `foreach::times() %dopar% { ... }`. Especially, it is
   now tested that global variables are properly identified. Note that

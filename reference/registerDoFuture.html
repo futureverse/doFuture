@@ -33,7 +33,7 @@ of %dopar%, for all the benefits explained in its help page."><!-- Global site t
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -215,19 +215,37 @@ If <code>+Inf</code> or <code>FALSE</code>, then one future per iteration is use
 The default value is <code>scheduling = 1.0</code>.</p>
 <p>The name of <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach()</a></code> argument <code>.options.future</code> follows the naming
 conventions of the <span class="pkg">doMC</span>, <span class="pkg">doSNOW</span>, and <span class="pkg">doParallel</span> packages,
+i.e. <code>.options.multicore</code> and <code>.options.snow</code>.
 <em>This argument should not be mistaken for the <span style="R">R</span>
 <a href="https://future.futureverse.org/reference/zzz-future.options.html" class="external-link">options of the future package</a></em>.</p>
 <p>For backward-compatibility reasons with existing foreach code, one may
 also use arguments <code>.options.multicore = list(preschedule = &lt;logical&gt;)</code> and
 <code>.options.snow = list(preschedule = &lt;logical&gt;)</code> when using <span class="pkg">doFuture</span>.
+Using the latter corresponds to the following <code>.options.future</code> settings:
 <code>.options.multicore = list(preschedule = TRUE)</code> is equivalent to
 <code>.options.future = list(scheduling = 1.0)</code> and
 <code>.options.multicore = list(preschedule = FALSE)</code> is equivalent to
-<code>.options.future = list(scheduling = +Inf)</code>.
+<code>.options.future = list(scheduling = +Inf)</code>,
 and analogously for <code>.options.snow</code>.
 Argument <code>.options.future</code> takes precedence over argument
-<code>.option.multicore</code> which takes precedence over argument <code>.option.snow</code>,
+<code>.options.multicore</code> which takes precedence over argument <code>.options.snow</code>,
 when it comes to chunking.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="future-labels">Future labels<a class="anchor" aria-label="anchor" href="#future-labels"></a></h2>
+
+
+<p>Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can
+be controlled via <code>.options.future = list(label = &lt;format&gt;)</code>, where
+<code>&lt;format&gt;</code> is a <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">base::sprintf()</a></code> format string. Each future is
+labeled <code>sprintf(&lt;format&gt;, chunk_idx)</code>, where <code>chunk_idx</code> is the
+index of the chunk processed by that future. For example,
+<code>.options.future = list(label = "my-label-%d")</code> results in labels
+<code>"my-label-1"</code>, <code>"my-label-2"</code>, and so on.
+If the label has no format specifier, then <code>-%d</code> is appended, e.g.
+<code>.options.future = list(label = "my-label")</code> gives the same labels.
+The default is <code>label = "doFuture-%d"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="random-number-generation-rng-">Random Number Generation (RNG)<a class="anchor" aria-label="anchor" href="#random-number-generation-rng-"></a></h2>

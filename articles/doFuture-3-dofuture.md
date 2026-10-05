@@ -10,17 +10,15 @@ called `%dofuture%` that ties more directly into the
 **[future](https://cran.r-project.org/package=future)** framework. For
 example,
 
-``` r
-
-library(doFuture)
-plan(multisession)
-
-cutoff <- 0.10
-y <- foreach(x = mtcars, .export = c("cutoff")) %dofuture% {
-  mean(x, trim = cutoff)
-}
-names(y) <- colnames(mtcars)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`doFuture`](https://doFuture.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`cutoff`` ``<-`` ``0.10`\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``mtcars``, .export ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"cutoff"``)``)`` `[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)` ``{`\
+`  `[`mean`](https://rdrr.io/r/base/mean.html)`(``x``, trim ``=`` ``cutoff``)`\
+`}`\
+[`names`](https://rdrr.io/r/base/names.html)`(``y``)`` ``<-`` `[`colnames`](https://rdrr.io/r/base/colnames.html)`(``mtcars``)`
 
 There are several advantages of using `%dofuture%` instead of `%dopar%`.
 When you use `%dofuture%`,
@@ -69,22 +67,18 @@ numbers in parallel in the same way they are generated in, for instance,
 **future.apply** and **furrr**. For this to work, you need to specify
 `.options.future = list(seed = TRUE)`. For example,
 
-``` r
-
-y <- foreach(i = 1:3, .options.future = list(seed = TRUE)) %dofuture% {
-  rnorm(1)
-}
-```
+\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``i ``=`` ``1``:``3``, .options.future ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``seed ``=`` ``TRUE``)``)`` `[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)` ``{`\
+`  `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``1``)`\
+`}`
 
 An alternative to specifying the `seed` option via `.options.future`, is
 to use the `%seed%` operator.
 
-``` r
-
-y <- foreach(i = 1:3) %dofuture% {
-  rnorm(1)
-} %seed% TRUE
-```
+\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``i ``=`` ``1``:``3``)`` `[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)` ``{`\
+`  `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``1``)`\
+`}`` `[`%seed%`](https://future.futureverse.org/reference/futureAssign.html)` ``TRUE`
 
 For further details and instructions, see
 [`help("future", package = "future")`](https://future.futureverse.org/reference/future.html).
@@ -98,12 +92,10 @@ controlled by specifying either argument
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html). For
 example,
 
-``` r
-
-y <- foreach(x = 1:10, .options.future = list(scheduling = 2.0)) %dofuture% {
-  slow_fcn(x)
-}
-```
+\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``1``:``10``, .options.future ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``scheduling ``=`` ``2.0``)``)`` `[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)` ``{`\
+`  ``slow_fcn``(``x``)`\
+`}`
 
 For further details and instructions, see
 [`help("future_lapply", package = "future.apply")`](https://future.apply.futureverse.org/reference/future_lapply.html).

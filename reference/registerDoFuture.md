@@ -122,20 +122,36 @@ value is `scheduling = 1.0`.
 
 The name of [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html)
 argument `.options.future` follows the naming conventions of the doMC,
-doSNOW, and doParallel packages, *This argument should not be mistaken
-for the R [options of the future
+doSNOW, and doParallel packages, i.e. `.options.multicore` and
+`.options.snow`. *This argument should not be mistaken for the R
+[options of the future
 package](https://future.futureverse.org/reference/zzz-future.options.html)*.
 
 For backward-compatibility reasons with existing foreach code, one may
 also use arguments `.options.multicore = list(preschedule = <logical>)`
 and `.options.snow = list(preschedule = <logical>)` when using doFuture.
-`.options.multicore = list(preschedule = TRUE)` is equivalent to
-`.options.future = list(scheduling = 1.0)` and
+Using the latter corresponds to the following `.options.future`
+settings: `.options.multicore = list(preschedule = TRUE)` is equivalent
+to `.options.future = list(scheduling = 1.0)` and
 `.options.multicore = list(preschedule = FALSE)` is equivalent to
-`.options.future = list(scheduling = +Inf)`. and analogously for
+`.options.future = list(scheduling = +Inf)`, and analogously for
 `.options.snow`. Argument `.options.future` takes precedence over
-argument `.option.multicore` which takes precedence over argument
-`.option.snow`, when it comes to chunking.
+argument `.options.multicore` which takes precedence over argument
+`.options.snow`, when it comes to chunking.
+
+## Future labels
+
+Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can be
+controlled via `.options.future = list(label = <format>)`, where
+`<format>` is a [`base::sprintf()`](https://rdrr.io/r/base/sprintf.html)
+format string. Each future is labeled `sprintf(<format>, chunk_idx)`,
+where `chunk_idx` is the index of the chunk processed by that future.
+For example, `.options.future = list(label = "my-label-%d")` results in
+labels `"my-label-1"`, `"my-label-2"`, and so on. If the label has no
+format specifier, then `-%d` is appended, e.g.
+`.options.future = list(label = "my-label")` gives the same labels. The
+default is `label = "doFuture-%d"`.
 
 ## Random Number Generation (RNG)
 
@@ -170,7 +186,6 @@ part of the core philosophy of the foreach framework.
 However, if you think it necessary to register the doFuture backend in a
 function, please make sure to undo your changes when exiting the
 function. This can be achieved by:
-
 
       with(registerDoFuture(), local = TRUE)
       ...

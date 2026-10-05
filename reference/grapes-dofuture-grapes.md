@@ -140,13 +140,13 @@ For further details and instructions, see
 ## Control processing order of iterations
 
 Attribute `ordering` of `chunk.size` or `scheduling` can be used to
-control the ordering of the elements are iterated over, which only
-affects the processing order and *not* the order values are returned.
-This attribute can take the following values:
+control the order in which the elements are iterated over, which only
+affects the processing order and *not* the order in which values are
+returned. This attribute can take the following values:
 
-- index vector - an numeric vector of length `nX`.
+- index vector - a numeric vector of length `nX`.
 
-- function - an function taking one argument which is called as
+- function - a function taking one argument which is called as
   `ordering(nX)` and which must return an index vector of length `nX`,
   e.g. `function(n) rev(seq_len(n))` for reverse ordering.
 
@@ -164,6 +164,20 @@ order.
 
 For further details and instructions, see
 [`future.apply::future_lapply()`](https://future.apply.futureverse.org/reference/future_lapply.html).
+
+## Future labels
+
+Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can be
+controlled via `.options.future = list(label = <format>)`, where
+`<format>` is a [`base::sprintf()`](https://rdrr.io/r/base/sprintf.html)
+format string. Each future is labeled `sprintf(<format>, chunk_idx)`,
+where `chunk_idx` is the index of the chunk processed by that future.
+For example, `.options.future = list(label = "my-label-%d")` results in
+labels `"my-label-1"`, `"my-label-2"`, and so on. If the label has no
+format specifier, then `-%d` is appended, e.g.
+`.options.future = list(label = "my-label")` gives the same labels. The
+default is `label = "doFuture2-%d"`.
 
 ## Reporting on progress
 
@@ -200,16 +214,16 @@ y <- foreach(x = 1:10, .combine = rbind) %dofuture% {
 }
 print(y)
 #>     x        y     pid
-#> 1   1 1.000000 3705252
-#> 2   2 1.414214 3705252
-#> 3   3 1.732051 3705254
-#> 4   4 2.000000 3705247
-#> 5   5 2.236068 3705253
-#> 6   6 2.449490 3705249
-#> 7   7 2.645751 3705248
-#> 8   8 2.828427 3705251
-#> 9   9 3.000000 3705250
-#> 10 10 3.162278 3705250
+#> 1   1 1.000000 1211015
+#> 2   2 1.414214 1211015
+#> 3   3 1.732051 1211019
+#> 4   4 2.000000 1211022
+#> 5   5 2.236068 1211016
+#> 6   6 2.449490 1211017
+#> 7   7 2.645751 1211015
+#> 8   8 2.828427 1211019
+#> 9   9 3.000000 1211015
+#> 10 10 3.162278 1211015
 
 
 ## Random number generation

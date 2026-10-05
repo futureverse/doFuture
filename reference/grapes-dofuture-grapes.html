@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">doFuture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,10 +199,11 @@ The default value is <code>scheduling = 1.0</code>.</p>
 
 
 <p>Attribute <code>ordering</code> of <code>chunk.size</code> or <code>scheduling</code> can be used to
-control the ordering of the elements are iterated over, which only affects
-the processing order and <em>not</em> the order values are returned.
-This attribute can take the following values:</p><ul><li><p>index vector - an numeric vector of length <code>nX</code>.</p></li>
-<li><p>function     - an function taking one argument which is called as
+control the order in which the elements are iterated over, which only
+affects the processing order and <em>not</em> the order in which values are
+returned.
+This attribute can take the following values:</p><ul><li><p>index vector - a numeric vector of length <code>nX</code>.</p></li>
+<li><p>function     - a function taking one argument which is called as
 <code>ordering(nX)</code> and which must return an
 index vector of length <code>nX</code>, e.g.
 <code>function(n) rev(seq_len(n))</code> for reverse ordering.</p></li>
@@ -215,6 +216,22 @@ vector <code>sample.int(nX)</code>.</p></li>
 output and conditions are also relayed in that order, that is, out of order.</p>
 <p>For further details and instructions, see
 <code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="future-labels">Future labels<a class="anchor" aria-label="anchor" href="#future-labels"></a></h2>
+
+
+<p>Each future created is assigned a label, which can be used to identify
+it, e.g. in error messages and when monitoring futures. The label can
+be controlled via <code>.options.future = list(label = &lt;format&gt;)</code>, where
+<code>&lt;format&gt;</code> is a <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">base::sprintf()</a></code> format string. Each future is
+labeled <code>sprintf(&lt;format&gt;, chunk_idx)</code>, where <code>chunk_idx</code> is the
+index of the chunk processed by that future. For example,
+<code>.options.future = list(label = "my-label-%d")</code> results in labels
+<code>"my-label-1"</code>, <code>"my-label-2"</code>, and so on.
+If the label has no format specifier, then <code>-%d</code> is appended, e.g.
+<code>.options.future = list(label = "my-label")</code> gives the same labels.
+The default is <code>label = "doFuture2-%d"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="reporting-on-progress">Reporting on progress<a class="anchor" aria-label="anchor" href="#reporting-on-progress"></a></h2>
@@ -250,16 +267,16 @@ registered by other <strong>doNnn</strong> packages.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x        y     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 3705252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 3705252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 3705254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 3705247</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 3705253</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 3705249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 3705248</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 3705251</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 3705250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 3705250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 1.000000 1211015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 1.414214 1211015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 1.732051 1211019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 2.000000 1211022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 2.236068 1211016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 2.449490 1211017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 2.645751 1211015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 2.828427 1211019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 3.000000 1211015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.162278 1211015</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Random number generation</span></span></span>

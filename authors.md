@@ -13,28 +13,28 @@ Source:
 Henrik Bengtsson, A Unified Approach to Concurrent, Parallel Map-Reduce
 in R using Futures, arXiv (2026), https://arxiv.org/abs/2601.17578
 
-    @Misc{Bengtsson-Futurize,
-      author = {Henrik Bengtsson},
-      title = {A Unified Approach to Concurrent, Parallel Map-Reduce in R using Futures},
-      year = {2026},
-      eprint = {2601.17578},
-      archiveprefix = {arXiv},
-      primaryclass = {cs.DC},
-      url = {https://arxiv.org/abs/2601.17578},
-    }
+@Misc{Bengtsson-Futurize,\
+  author = {Henrik Bengtsson},\
+  title = {A Unified Approach to Concurrent, Parallel Map-Reduce in R using Futures},\
+  year = {2026},\
+  eprint = {2601.17578},\
+  archiveprefix = {arXiv},\
+  primaryclass = {cs.DC},\
+  url = {https://arxiv.org/abs/2601.17578},\
+}
 
 Henrik Bengtsson, A Unifying Framework for Parallel and Distributed
 Processing in R using Futures, The R Journal (2021) 13:2, pages 208-227,
 doi:10.32614/RJ-2021-048
 
-    @Article{RJ-2021-048,
-      author = {Henrik Bengtsson},
-      title = {A Unifying Framework for Parallel and Distributed Processing in R using Futures},
-      year = {2021},
-      journal = {The R Journal},
-      doi = {10.32614/RJ-2021-048},
-      url = {https://doi.org/10.32614/RJ-2021-048},
-      pages = {208--227},
-      volume = {13},
-      number = {2},
-    }
+@Article{RJ-2021-048,\
+  author = {Henrik Bengtsson},\
+  title = {A Unifying Framework for Parallel and Distributed Processing in R using Futures},\
+  year = {2021},\
+  journal = {The R Journal},\
+  doi = {10.32614/RJ-2021-048},\
+  url = {https://doi.org/10.32614/RJ-2021-048},\
+  pages = {208--227},\
+  volume = {13},\
+  number = {2},\
+}

@@ -7,16 +7,14 @@ parallel, install R packages
 **[doFuture](https://doFuture.futureverse.org)** and
 **[futurize](https://futurize.futureverse.org)**, and call:
 
-``` r
-
-library(futurize)
-plan(multisession)
-
-y <- foreach(x = 1:4, y = 1:10) %do% {
-  z <- x + y
-  slow_sqrt(z)
-} |> futurize()
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`futurize`](https://futurize.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`y`` ``<-`` ``foreach``(``x ``=`` ``1``:``4``, y ``=`` ``1``:``10``)`` ``%do%`` ``{`\
+`  ``z`` ``<-`` ``x`` ``+`` ``y`\
+`  ``slow_sqrt``(``z``)`\
+`}`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`
 
 That’s it - easy!
 
@@ -57,16 +55,14 @@ The *first alternative* (recommended) uses
 of the **[futurize](https://futurize.futureverse.org)** package. An
 example is:
 
-``` r
-
-library(futurize)
-plan(multisession)
-
-y <- foreach(x = 1:4, y = 1:10) %do% {
-  z <- x + y
-  slow_sqrt(z)
-} |> futurize()
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`futurize`](https://futurize.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`y`` ``<-`` ``foreach``(``x ``=`` ``1``:``4``, y ``=`` ``1``:``10``)`` ``%do%`` ``{`\
+`  ``z`` ``<-`` ``x`` ``+`` ``y`\
+`  ``slow_sqrt``(``z``)`\
+`}`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`
 
 This alternative is the recommended and most clean way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
@@ -95,23 +91,21 @@ for more details and examples on this approach.
 
 ### Alternative 2: `%dofuture%`
 
-The *second alternative* (formely recommended), which uses `%dofuture%`,
-avoids having to use
+The *second alternative* (formerly recommended), which uses
+`%dofuture%`, avoids having to use
 [`registerDoFuture()`](https://doFuture.futureverse.org/reference/registerDoFuture.md).
 The `%dofuture%` operator provides a more consistent behavior than
 `%dopar%`, e.g. there is a unique set of foreach arguments instead of
 one per possible adapter. An example is:
 
-``` r
-
-library(doFuture)
-plan(multisession)
-
-y <- foreach(x = 1:4, y = 1:10) %dofuture% {
-  z <- x + y
-  slow_sqrt(z)
-}
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`doFuture`](https://doFuture.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``1``:``4``, y ``=`` ``1``:``10``)`` `[`%dofuture%`](https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.md)` ``{`\
+`  ``z`` ``<-`` ``x`` ``+`` ``y`\
+`  ``slow_sqrt``(``z``)`\
+`}`
 
 This alternative was the recommended way to let
 [`foreach()`](https://rdrr.io/pkg/foreach/man/foreach.html) parallelize
@@ -137,17 +131,15 @@ future-compliant parallel backend can be used.
 
 An example is:
 
-``` r
-
-library(doFuture)
-registerDoFuture()
-plan(multisession)
-
-y <- foreach(x = 1:4, y = 1:10) %dopar% {
-  z <- x + y
-  slow_sqrt(z)
-}
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`doFuture`](https://doFuture.futureverse.org)`)`\
+[`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
+\
+`y`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``1``:``4``, y ``=`` ``1``:``10``)`` `[`%dopar%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``{`\
+`  ``z`` ``<-`` ``x`` ``+`` ``y`\
+`  ``slow_sqrt``(``z``)`\
+`}`
 
 This alternative is useful if you already have a lot of R code that uses
 `%dopar%` and you just want to switch to using the future framework for
@@ -170,19 +162,15 @@ R package doFuture is available on
 [CRAN](https://cran.r-project.org/package=doFuture) and can be installed
 in R as:
 
-``` r
-
-install.packages("doFuture")
-```
+\
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"doFuture"``)`
 
 ### Pre-release version
 
 To install the pre-release version that is available in Git branch
 `develop` on GitHub, use:
 
-``` r
-
-remotes::install_github("futureverse/doFuture", ref="develop")
-```
+\
+`remotes``::`[`install_github`](https://remotes.r-lib.org/reference/install_github.html)`(``"futureverse/doFuture"``, ref``=``"develop"``)`
 
 This will install the package from source.
