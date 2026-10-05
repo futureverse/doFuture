@@ -276,7 +276,7 @@ function(obj, expr, envir, data) {   #nolint
       mdebugf("globals.maxSize (adjusted): %.0f bytes", globals.maxSize.adjusted)
       mdebug("R expression (adjusted):")
       mprint(expr)
-      mdebug_pop()
+      mdebug_pop(NA)
     }
   } else {
     globals.maxSize.adjusted <- NULL
