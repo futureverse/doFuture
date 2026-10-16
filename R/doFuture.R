@@ -1,7 +1,6 @@
 #' @importFrom foreach getErrorIndex getErrorValue getResult makeAccum
 #' @importFrom iterators iter
 #' @importFrom future future resolve value Future FutureError getGlobalsAndPackages
-#' @importFrom parallel splitIndices
 #' @importFrom utils head capture.output
 #' @importFrom globals globalsByName
 doFuture <- local({

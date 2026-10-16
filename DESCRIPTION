@@ -1,14 +1,13 @@
 Package: doFuture
-Version: 1.4.0-9001
+Version: 1.4.0-9002
 Title: Use Foreach to Parallelize via the Future Framework
 Depends:
     foreach (>= 1.5.0),
     future (>= 1.49.0)
 Imports:
-    future.apply,
+    future.apply (>= 1.21.0),
     globals,
     iterators,
-    parallel,
     utils
 Suggests:
     doRNG (>= 1.8.2),

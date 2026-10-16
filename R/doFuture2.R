@@ -1,7 +1,6 @@
 #' @importFrom foreach getErrorIndex getErrorValue getResult makeAccum
 #' @importFrom iterators iter
 #' @importFrom future future resolve resolved result value Future getGlobalsAndPackages FutureError
-#' @importFrom parallel splitIndices
 #' @importFrom utils head capture.output
 #' @importFrom globals globalsByName
 #  ## Just a dummy import to please 'R CMD check'

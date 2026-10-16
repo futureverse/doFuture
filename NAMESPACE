@@ -28,7 +28,6 @@ importFrom(future,
 )
 importFrom(globals,globalsByName)
 importFrom(iterators,iter)
-importFrom(parallel,splitIndices)
 importFrom(utils,
   capture.output,
   globalVariables,
