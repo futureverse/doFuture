@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## New Features
+
+ * Interrupts on "Caught ... Canceling all iterations ..." are now
+   signaled as a message instead of a warning.
 
 
 # Version 1.4.0 [2026-10-04]
