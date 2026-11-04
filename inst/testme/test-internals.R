@@ -1,6 +1,5 @@
 library(doFuture)
 
-future_version <- doFuture:::future_version
 hpaste <- doFuture:::hpaste
 mdebug <- doFuture:::mdebug
 mdebugf <- doFuture:::mdebugf
@@ -14,14 +13,6 @@ trim <- doFuture:::trim
 printf <- function(...) cat(sprintf(...))
 
 message("*** internals ...")
-
-message("*** future_version() ...")
-
-ver <- future_version()
-print(ver)
-stopifnot(inherits(ver, "package_version"))
-
-message("*** future_version() ... DONE")
 
 message("*** hpaste() ...")
 

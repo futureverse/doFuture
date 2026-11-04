@@ -60,16 +60,6 @@ stealth_sample.int <- function(n, size = n, replace = FALSE, ...) {
 }
 
 
-#' @importFrom utils packageVersion
-future_version <- local({
-  ver <- NULL
-  function() {
-    if (is.null(ver)) ver <<- packageVersion("future")
-    ver
-  }
-})
-
-
 trim <- function(s) {
   sub("[\t\n\f\r ]+$", "", sub("^[\t\n\f\r ]+", "", s))
 }
