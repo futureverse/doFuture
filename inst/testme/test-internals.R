@@ -1,10 +1,6 @@
 library(doFuture)
 
 hpaste <- doFuture:::hpaste
-mdebug <- doFuture:::mdebug
-mdebugf <- doFuture:::mdebugf
-mprint <- doFuture:::mprint
-mstr <- doFuture:::mstr
 seq_to_human <- doFuture:::seq_to_human
 seq_to_intervals <- doFuture:::seq_to_intervals
 stealth_sample.int <- doFuture:::stealth_sample.int
@@ -61,18 +57,6 @@ stopifnot(identical(hpaste(character(0)), character(0)))
 
 message("*** hpaste() ... DONE")
 
-
-
-message("*** mdebug ...")
-
-for (debug in c(FALSE, TRUE)) {
-  mdebug("debug=", debug, debug = debug)
-  mdebugf("debug=%f\n", debug, debug = debug)
-  mprint(list(debug = debug), debug = debug)
-  mstr(list(debug = debug), debug = debug)
-}
-
-message("*** mdebug ... DONE")
 
 
 message("- stealth_sample.int() ...")
