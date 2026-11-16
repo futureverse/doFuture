@@ -122,4 +122,38 @@ stopifnot(inherits(res, "error"))
 message("Caught expected error: ", res$message)
 
 
+# Test seed = NULL, which is like seed = FALSE but without the RNG check
+message("- seed = NULL ...")
+options(doFuture.rng.onMisuse = NULL, future.rng.onMisuse = "error")
+
+res <- foreach(i = 1:3, .options.future = list(seed = NULL)) %dofuture% {
+  runif(1)
+}
+stopifnot(length(res) == 3L)
+
+## Same via %seed%
+res <- foreach(i = 1:3) %dofuture% {
+  runif(1)
+} %seed% NULL
+stopifnot(length(res) == 3L)
+
+## Sanity check: seed = FALSE still detects RNG misuse
+res <- tryCatch({
+  foreach(i = 1:3, .options.future = list(seed = FALSE)) %dofuture% {
+    runif(1)
+  }
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+## No 'seed' specified defaults to seed = FALSE
+res <- tryCatch({
+  foreach(i = 1:3) %dofuture% {
+    runif(1)
+  }
+}, error = identity)
+stopifnot(inherits(res, "error"))
+options(future.rng.onMisuse = "warning")
+message("- seed = NULL ... DONE")
+
+
 message("*** RNG misuse ... DONE")

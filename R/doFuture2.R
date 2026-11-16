@@ -72,7 +72,8 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   opts <- getOption("future.disposable", NULL)
   if (length(opts) > 0) {
     for (name in names(opts)) {
-      options[[name]] <- opts[[name]]
+      ## Use `[<-` so that NULL values, e.g. 'seed = NULL', are kept
+      options[name] <- list(opts[[name]])
     }
     if (!identical(attr(opts, "dispose"), FALSE)) {
       options(future.disposable = NULL)
@@ -186,8 +187,13 @@ doFuture2 <- function(obj, expr, envir, data) {   #nolint
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## 4. Reproducible RNG
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  seed <- options[["seed"]]
-  if (is.null(seed)) seed <- eval(formals(future)$seed)
+  ## Note, 'seed = NULL' means "no RNG streams and no RNG check", which
+  ## differs from not specifying 'seed' at all
+  if ("seed" %in% names(options)) {
+    seed <- options[["seed"]]
+  } else {
+    seed <- eval(formals(future)$seed)
+  }
   if (debug) mdebugf("seed = %s", deparse(seed))
 
   seeds <- make_rng_seeds(nX, seed = seed)

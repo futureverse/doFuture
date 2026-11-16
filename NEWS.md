@@ -5,6 +5,14 @@
  * Interrupts on "Caught ... Canceling all iterations ..." are now
    signaled as a message instead of a warning.
 
+## Bug Fixes
+
+ * `foreach(..., .options.future = list(seed = NULL)) %dofuture% { ... }`
+   and `foreach(...) %dofuture% { ... } %seed% NULL` did not disable
+   the check for RNG misuse, as documented. Instead, they behaved like
+   `seed = FALSE`, which produces RNG warnings or errors if random
+   numbers were generated.
+
 
 # Version 1.4.0 [2026-10-04]
 
