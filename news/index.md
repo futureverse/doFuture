@@ -1,6 +1,23 @@
 # Changelog
 
+## Version (development version)
+
+### New Features
+
+- Interrupts on “Caught … Canceling all iterations …” are now signaled
+  as a message instead of a warning.
+
+### Bug Fixes
+
+- `foreach(..., .options.future = list(seed = NULL)) %dofuture% { ... }`
+  and `foreach(...) %dofuture% { ... } %seed% NULL` did not disable the
+  check for RNG misuse, as documented. Instead, they behaved like
+  `seed = FALSE`, which produces RNG warnings or errors if random
+  numbers were generated.
+
 ## Version 1.4.0
+
+CRAN release: 2026-10-05
 
 ### New Features
 
@@ -595,8 +612,10 @@ CRAN release: 2017-03-14
 
 - Now the package tests **future.batchtools** with **foreach** by
   itself, in combination with **plyr** (`parallel = TRUE`) as well as
-  with `BiocParallel::bplapply()` and friends. Similar tests are already
-  done using **future.BatchJobs**.
+  with
+  [`BiocParallel::bplapply()`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html)
+  and friends. Similar tests are already done using
+  **future.BatchJobs**.
 
 - Added test for `foreach::times() %dopar% { ... }`. Especially, it is
   now tested that global variables are properly identified. Note that

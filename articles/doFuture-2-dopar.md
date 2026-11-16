@@ -84,11 +84,11 @@ that with **[doFuture](https://cran.r-project.org/package=doFuture)**,
 [`library`](https://rdrr.io/r/base/library.html)`(`[`"doFuture"`](https://doFuture.futureverse.org)`)`\
 [`registerDoFuture`](https://doFuture.futureverse.org/reference/registerDoFuture.md)`(``)`\
 [`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``)`\
-[`library`](https://rdrr.io/r/base/library.html)`(``"BiocParallel"``)`\
-`register``(``DoparParam``(``)``, default ``=`` ``TRUE``)`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"BiocParallel"`](https://github.com/Bioconductor/BiocParallel)`)`\
+[`register`](https://rdrr.io/pkg/BiocParallel/man/register.html)`(`[`DoparParam`](https://rdrr.io/pkg/BiocParallel/man/DoparParam-class.html)`(``)``, default ``=`` ``TRUE``)`\
 \
 `cutoff`` ``<-`` ``0.10`\
-`x`` ``<-`` ``bplapply``(``mtcars``, ``mean``, trim ``=`` ``cutoff``)`
+`x`` ``<-`` `[`bplapply`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html)`(``mtcars``, ``mean``, trim ``=`` ``cutoff``)`
 
 ## doFuture takes care of exports and packages automatically
 
