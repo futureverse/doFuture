@@ -3,7 +3,6 @@ library(doFuture)
 hpaste <- doFuture:::hpaste
 seq_to_human <- doFuture:::seq_to_human
 seq_to_intervals <- doFuture:::seq_to_intervals
-stealth_sample.int <- doFuture:::stealth_sample.int
 stop_if_not <- doFuture:::stop_if_not
 trim <- doFuture:::trim
 printf <- function(...) cat(sprintf(...))
@@ -58,38 +57,8 @@ stopifnot(identical(hpaste(character(0)), character(0)))
 message("*** hpaste() ... DONE")
 
 
-
-message("- stealth_sample.int() ...")
-
-if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
-  rm(".Random.seed", envir = globalenv(), inherits = FALSE)
-}
-
-stopifnot(!exists(".Random.seed", envir = globalenv(), inherits = FALSE))
-x <- stealth_sample.int(10L)
-str(x)
-stopifnot(!exists(".Random.seed", envir = globalenv(), inherits = FALSE))
-
-set.seed(42L)
-seed0 <- globalenv()[[".Random.seed"]]
-stopifnot(!is.null(seed0))
-x0 <- stealth_sample.int(10L)
-str(x0)
-seed <- globalenv()[[".Random.seed"]]
-stopifnot(!is.null(seed), identical(seed, seed0))
-
-x <- stealth_sample.int(10L)
-str(x)
-stopifnot(identical(x, x0))
-seed <- globalenv()[[".Random.seed"]]
-stopifnot(!is.null(seed), identical(seed, seed0))
-
-message("- stealth_sample.int() ... DONE")
-
-
 message("*** stop_if_not() ...")
 
-stop_if_not()
 stop_if_not(TRUE)
 stop_if_not(TRUE, TRUE)
 
